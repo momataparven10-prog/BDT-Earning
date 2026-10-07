@@ -7,80 +7,82 @@ const SUPABASE_URL =
 const SUPABASE_KEY =
   "sb_publishable_tLNKwPxwoceKvJG2DpR6jw_VE9KaExr";
 
-const supabaseClient =
-  window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_KEY,
-    {
-      auth: {
-        persistSession: true,
-        autoRefreshToken: true,
-        detectSessionInUrl: true
-      }
+const supabaseClient = supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY,
+  {
+    auth: {
+      persistSession: true,
+      autoRefreshToken: true,
+      detectSessionInUrl: true
     }
-  );
+  }
+);
 
 
 /* =========================
-   START ADMIN
+   START
 ========================= */
 
 async function startAdmin() {
 
   try {
 
-    /* Get current session */
+    console.log("Admin panel starting...");
+
+    /* Check login */
     const {
-      data: sessionData,
-      error: sessionError
-    } = await supabaseClient.auth.getSession();
+      data: userData,
+      error: userError
+    } = await supabaseClient.auth.getUser();
 
-    if (sessionError) {
-      console.error("Session Error:", sessionError);
-      showLogin();
+    console.log("User:", userData);
+    console.log("User error:", userError);
+
+    if (userError) {
+      showError("Login check error: " + userError.message);
       return;
     }
 
-    const session = sessionData?.session;
-
-    /* Login না থাকলে Login page */
-    if (!session) {
-      showLogin();
+    if (!userData.user) {
+      showError(
+        "আপনি Login করা অবস্থায় নেই। আগে Website-এ Login করুন।"
+      );
       return;
     }
 
-    console.log("Logged in user:", session.user.email);
 
-    /* Check Admin */
+    /* Check admin */
     const {
       data: isAdmin,
       error: adminError
-    } = await supabaseClient.rpc("admin_check");
+    } = await supabaseClient.rpc(
+      "admin_check"
+    );
 
-    console.log("Admin check:", isAdmin);
+    console.log("Admin:", isAdmin);
     console.log("Admin error:", adminError);
 
     if (adminError) {
-      console.error(adminError);
-
-      showMessage(
-        "Admin check error: " + adminError.message,
-        "error"
+      showError(
+        "Admin check error: " +
+        adminError.message
       );
-
       return;
     }
+
 
     if (isAdmin !== true) {
-
-      alert("আপনার Admin access নেই।");
-
-      window.location.href = "dashboard.html";
-
+      showError(
+        "এই Account-এর Admin Access নেই।"
+      );
       return;
     }
 
-    /* Admin হলে Dashboard load */
+
+    /* Admin panel */
+    document.body.style.display = "block";
+
     await loadDashboard();
     await loadUsers();
     await loadLinks();
@@ -89,54 +91,74 @@ async function startAdmin() {
 
   } catch (error) {
 
-    console.error("Admin Error:", error);
+    console.error(error);
 
-    showMessage(
-      error.message || "Admin panel load failed",
-      "error"
+    showError(
+      "Error: " +
+      (error.message || error)
     );
   }
 }
 
 
 /* =========================
-   LOGIN REDIRECT
+   ERROR
 ========================= */
 
-function showLogin() {
+function showError(message) {
 
-  window.location.href = "login.html";
+  document.body.innerHTML = `
+    <div style="
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background:#f3f6fb;
+      padding:20px;
+      font-family:Arial;
+    ">
+
+      <div style="
+        background:white;
+        max-width:500px;
+        width:100%;
+        padding:25px;
+        border-radius:15px;
+        box-shadow:0 5px 25px rgba(0,0,0,.1);
+      ">
+
+        <h2 style="color:#dc2626;margin-bottom:15px;">
+          ⚠️ Admin Panel Error
+        </h2>
+
+        <p style="
+          color:#374151;
+          line-height:1.6;
+          word-break:break-word;
+        ">
+          ${escapeHtml(message)}
+        </p>
+
+        <button
+          onclick="location.reload()"
+          style="
+            margin-top:20px;
+            padding:10px 18px;
+            border:0;
+            border-radius:7px;
+            background:#2563eb;
+            color:white;
+            font-weight:bold;
+          "
+        >
+          Reload
+        </button>
+
+      </div>
+
+    </div>
+  `;
 }
-
-
-/* =========================
-   AUTH STATE
-========================= */
-
-supabaseClient.auth.onAuthStateChange(
-  async (event, session) => {
-
-    console.log(
-      "Auth event:",
-      event
-    );
-
-    if (
-      event === "SIGNED_IN" &&
-      session
-    ) {
-
-      console.log(
-        "Signed in:",
-        session.user.email
-      );
-
-      await startAdmin();
-
-    }
-
-  }
-);
 
 
 /* =========================
@@ -153,37 +175,24 @@ async function loadDashboard() {
   );
 
   if (error) {
-
-    console.error(error);
+    console.error("Dashboard:", error);
     return;
   }
 
-  document.getElementById(
-    "statUsers"
-  ).textContent =
+  document.getElementById("statUsers").textContent =
     data?.users || 0;
 
-  document.getElementById(
-    "statLinks"
-  ).textContent =
+  document.getElementById("statLinks").textContent =
     data?.links || 0;
 
-  document.getElementById(
-    "statClicks"
-  ).textContent =
+  document.getElementById("statClicks").textContent =
     data?.clicks || 0;
 
-  document.getElementById(
-    "statBalance"
-  ).textContent =
+  document.getElementById("statBalance").textContent =
     "৳" +
-    Number(
-      data?.balance || 0
-    ).toFixed(2);
+    Number(data?.balance || 0).toFixed(2);
 
-  document.getElementById(
-    "statWithdraw"
-  ).textContent =
+  document.getElementById("statWithdraw").textContent =
     data?.pending_withdrawals || 0;
 }
 
@@ -202,38 +211,11 @@ async function loadUsers() {
   );
 
   if (error) {
-
-    console.error(error);
-
-    document.getElementById(
-      "usersTable"
-    ).innerHTML = `
-      <tr>
-        <td colspan="5" class="empty">
-          Users load করা যায়নি।
-        </td>
-      </tr>
-    `;
-
+    console.error("Users:", error);
     return;
   }
 
   const users = data || [];
-
-  if (!users.length) {
-
-    document.getElementById(
-      "usersTable"
-    ).innerHTML = `
-      <tr>
-        <td colspan="5" class="empty">
-          কোনো User পাওয়া যায়নি।
-        </td>
-      </tr>
-    `;
-
-    return;
-  }
 
   let html = "";
 
@@ -261,18 +243,29 @@ async function loadUsers() {
         </td>
 
         <td>
+
           <button
             class="btn blue"
             onclick="changeBalance('${user.id}')"
           >
             Balance
           </button>
+
         </td>
 
       </tr>
     `;
-
   });
+
+  if (!html) {
+    html = `
+      <tr>
+        <td colspan="5" class="empty">
+          কোনো User পাওয়া যায়নি।
+        </td>
+      </tr>
+    `;
+  }
 
   document.getElementById(
     "usersTable"
@@ -281,7 +274,7 @@ async function loadUsers() {
 
 
 /* =========================
-   CHANGE BALANCE
+   BALANCE
 ========================= */
 
 async function changeBalance(userId) {
@@ -302,7 +295,6 @@ async function changeBalance(userId) {
   const value = Number(amount);
 
   if (!Number.isFinite(value)) {
-
     alert("সঠিক Amount দিন।");
     return;
   }
@@ -318,19 +310,11 @@ async function changeBalance(userId) {
   );
 
   if (error) {
-
-    showMessage(
-      error.message,
-      "error"
-    );
-
+    alert(error.message);
     return;
   }
 
-  showMessage(
-    "Balance সফলভাবে পরিবর্তন হয়েছে।",
-    "success"
-  );
+  alert("Balance সফলভাবে পরিবর্তন হয়েছে।");
 
   await loadUsers();
   await loadDashboard();
@@ -351,27 +335,11 @@ async function loadLinks() {
   );
 
   if (error) {
-
-    console.error(error);
+    console.error("Links:", error);
     return;
   }
 
   const links = data || [];
-
-  if (!links.length) {
-
-    document.getElementById(
-      "linksTable"
-    ).innerHTML = `
-      <tr>
-        <td colspan="5" class="empty">
-          কোনো Link পাওয়া যায়নি।
-        </td>
-      </tr>
-    `;
-
-    return;
-  }
 
   let html = "";
 
@@ -417,8 +385,17 @@ async function loadLinks() {
 
       </tr>
     `;
-
   });
+
+  if (!html) {
+    html = `
+      <tr>
+        <td colspan="5" class="empty">
+          কোনো Link পাওয়া যায়নি।
+        </td>
+      </tr>
+    `;
+  }
 
   document.getElementById(
     "linksTable"
@@ -432,11 +409,7 @@ async function loadLinks() {
 
 async function deleteLink(id) {
 
-  if (
-    !confirm(
-      "এই Short Link Delete করতে চান?"
-    )
-  ) {
+  if (!confirm("এই Short Link Delete করতে চান?")) {
     return;
   }
 
@@ -450,19 +423,11 @@ async function deleteLink(id) {
   );
 
   if (error) {
-
-    showMessage(
-      error.message,
-      "error"
-    );
-
+    alert(error.message);
     return;
   }
 
-  showMessage(
-    "Short Link Delete হয়েছে।",
-    "success"
-  );
+  alert("Short Link Delete হয়েছে।");
 
   await loadLinks();
   await loadDashboard();
@@ -483,46 +448,18 @@ async function loadWithdrawals() {
   );
 
   if (error) {
-
-    console.error(error);
-
-    document.getElementById(
-      "withdrawalsTable"
-    ).innerHTML = `
-      <tr>
-        <td colspan="6" class="empty">
-          Withdrawals load করা যায়নি।
-        </td>
-      </tr>
-    `;
-
+    console.error("Withdrawals:", error);
     return;
   }
 
   const withdrawals = data || [];
-
-  if (!withdrawals.length) {
-
-    document.getElementById(
-      "withdrawalsTable"
-    ).innerHTML = `
-      <tr>
-        <td colspan="6" class="empty">
-          কোনো Withdrawal Request নেই।
-        </td>
-      </tr>
-    `;
-
-    return;
-  }
 
   let html = "";
 
   withdrawals.forEach(w => {
 
     const status =
-      String(w.status || "")
-        .toLowerCase();
+      String(w.status || "").toLowerCase();
 
     let statusClass = "pending";
 
@@ -534,12 +471,10 @@ async function loadWithdrawals() {
       statusClass = "rejected";
     }
 
-    const date =
-      w.created_at
-        ? new Date(
-            w.created_at
-          ).toLocaleDateString("bn-BD")
-        : "-";
+    const date = w.created_at
+      ? new Date(w.created_at)
+          .toLocaleDateString("bn-BD")
+      : "-";
 
     let actions = "-";
 
@@ -560,7 +495,6 @@ async function loadWithdrawals() {
           Reject
         </button>
       `;
-
     }
 
     html += `
@@ -585,13 +519,11 @@ async function loadWithdrawals() {
         </td>
 
         <td>
-          <span
-            class="status ${statusClass}"
-          >
-            ${escapeHtml(
-              status || "-"
-            )}
+
+          <span class="status ${statusClass}">
+            ${escapeHtml(status || "-")}
           </span>
+
         </td>
 
         <td>
@@ -604,8 +536,17 @@ async function loadWithdrawals() {
 
       </tr>
     `;
-
   });
+
+  if (!html) {
+    html = `
+      <tr>
+        <td colspan="6" class="empty">
+          কোনো Withdrawal Request নেই।
+        </td>
+      </tr>
+    `;
+  }
 
   document.getElementById(
     "withdrawalsTable"
@@ -619,11 +560,7 @@ async function loadWithdrawals() {
 
 async function approveWithdrawal(id) {
 
-  if (
-    !confirm(
-      "এই Withdrawal Approve করতে চান?"
-    )
-  ) {
+  if (!confirm("এই Withdrawal Approve করতে চান?")) {
     return;
   }
 
@@ -637,19 +574,11 @@ async function approveWithdrawal(id) {
   );
 
   if (error) {
-
-    showMessage(
-      error.message,
-      "error"
-    );
-
+    alert(error.message);
     return;
   }
 
-  showMessage(
-    "Withdrawal Approved হয়েছে।",
-    "success"
-  );
+  alert("Withdrawal Approved হয়েছে।");
 
   await loadWithdrawals();
   await loadDashboard();
@@ -681,18 +610,12 @@ async function rejectWithdrawal(id) {
   );
 
   if (error) {
-
-    showMessage(
-      error.message,
-      "error"
-    );
-
+    alert(error.message);
     return;
   }
 
-  showMessage(
-    "Withdrawal Reject হয়েছে এবং Balance ফেরত দেওয়া হয়েছে।",
-    "success"
+  alert(
+    "Withdrawal Reject হয়েছে এবং Balance ফেরত দেওয়া হয়েছে।"
   );
 
   await loadWithdrawals();
@@ -715,8 +638,7 @@ async function loadSettings() {
   );
 
   if (error) {
-
-    console.error(error);
+    console.error("Settings:", error);
     return;
   }
 
@@ -742,10 +664,7 @@ async function loadSettings() {
       element &&
       settings[key] !== undefined
     ) {
-
-      element.value =
-        settings[key];
-
+      element.value = settings[key];
     }
 
   });
@@ -774,9 +693,7 @@ async function saveSettings() {
     const element =
       document.getElementById(key);
 
-    if (!element) {
-      continue;
-    }
+    if (!element) continue;
 
     const {
       error
@@ -790,21 +707,16 @@ async function saveSettings() {
 
     if (error) {
 
-      showMessage(
-        "Setting save error: " +
-        error.message,
-        "error"
+      alert(
+        "Setting Error: " +
+        error.message
       );
 
       return;
     }
-
   }
 
-  showMessage(
-    "সব Settings সফলভাবে Save হয়েছে।",
-    "success"
-  );
+  alert("সব Settings সফলভাবে Save হয়েছে।");
 }
 
 
@@ -812,29 +724,18 @@ async function saveSettings() {
    TABS
 ========================= */
 
-function showPanel(
-  panelId,
-  button
-) {
+function showPanel(panelId, button) {
 
   document
     .querySelectorAll(".panel")
     .forEach(panel => {
-
-      panel.classList.remove(
-        "active"
-      );
-
+      panel.classList.remove("active");
     });
 
   document
     .querySelectorAll(".tab")
     .forEach(tab => {
-
-      tab.classList.remove(
-        "active"
-      );
-
+      tab.classList.remove("active");
     });
 
   document
@@ -846,34 +747,6 @@ function showPanel(
 
 
 /* =========================
-   MESSAGE
-========================= */
-
-function showMessage(
-  text,
-  type
-) {
-
-  const box =
-    document.getElementById(
-      "message"
-    );
-
-  box.textContent = text;
-
-  box.className =
-    "message " + type;
-
-  setTimeout(() => {
-
-    box.className =
-      "message";
-
-  }, 4000);
-}
-
-
-/* =========================
    LOGOUT
 ========================= */
 
@@ -881,13 +754,12 @@ async function logout() {
 
   await supabaseClient.auth.signOut();
 
-  window.location.href =
-    "login.html";
+  window.location.href = "login.html";
 }
 
 
 /* =========================
-   SECURITY
+   ESCAPE HTML
 ========================= */
 
 function escapeHtml(value) {
@@ -907,7 +779,7 @@ function escapeHtml(value) {
 
 
 /* =========================
-   START
+   RUN
 ========================= */
 
 startAdmin();
