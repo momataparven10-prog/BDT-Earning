@@ -91,6 +91,8 @@
       margin: 5px;
       border-radius: 8px;
       font-weight: bold;
+      border: 0;
+      cursor: pointer;
     }
 
     .btn-primary {
@@ -151,6 +153,10 @@
       margin-top: 30px;
     }
 
+    /* =========================
+       REDIRECT / UNLOCK SCREEN
+    ========================= */
+
     #redirectMessage {
       display: none;
       min-height: 100vh;
@@ -162,22 +168,90 @@
       background: #f5f7fb;
     }
 
-    #redirectMessage .loader {
+    .unlock-box {
+      background: white;
+      padding: 30px 25px;
+      border-radius: 15px;
+      box-shadow: 0 5px 25px rgba(0,0,0,0.08);
+      max-width: 480px;
+      width: 100%;
+    }
+
+    .unlock-icon {
+      font-size: 50px;
+      margin-bottom: 15px;
+    }
+
+    .unlock-box h2 {
+      margin-bottom: 10px;
+      color: #111827;
+    }
+
+    .unlock-box p {
+      color: #6b7280;
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+
+    .progress {
+      height: 9px;
+      background: #e5e7eb;
+      border-radius: 20px;
+      overflow: hidden;
+      margin: 20px 0;
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background: #22c55e;
+      transition: width .3s ease;
+    }
+
+    .timer {
+      font-size: 30px;
+      font-weight: bold;
+      color: #2563eb;
+      margin: 15px 0;
+    }
+
+    .unlock-button {
+      width: 100%;
+      border: 0;
+      padding: 13px 20px;
+      border-radius: 8px;
+      background: #22c55e;
+      color: #111827;
+      font-weight: bold;
+      font-size: 15px;
+      cursor: pointer;
+    }
+
+    .unlock-button:disabled {
+      background: #d1d5db;
+      color: #6b7280;
+      cursor: not-allowed;
+    }
+
+    .step-label {
+      display: inline-block;
+      background: #ecfdf5;
+      color: #166534;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: bold;
+      margin-bottom: 12px;
+    }
+
+    .loader {
       width: 45px;
       height: 45px;
       border: 5px solid #ddd;
       border-top: 5px solid #22c55e;
       border-radius: 50%;
       animation: spin 1s linear infinite;
-      margin-bottom: 20px;
-    }
-
-    #redirectMessage h2 {
-      margin-bottom: 10px;
-    }
-
-    #redirectMessage p {
-      color: #666;
+      margin: 0 auto 20px;
     }
 
     .error-box {
@@ -212,6 +286,7 @@
     }
 
     @media (max-width: 768px) {
+
       .cards {
         grid-template-columns: 1fr;
       }
@@ -238,30 +313,63 @@
 
 <body>
 
-  <!-- Short Link Redirect Screen -->
+  <!-- =========================
+       SHORT LINK / UNLOCK SCREEN
+  ========================== -->
+
   <div id="redirectMessage">
-    <div id="loadingBox">
+
+    <div class="unlock-box" id="unlockBox">
+
       <div class="loader"></div>
+
       <h2>লিংক লোড হচ্ছে...</h2>
-      <p>অনুগ্রহ করে অপেক্ষা করুন</p>
+
+      <p>
+        অনুগ্রহ করে অপেক্ষা করুন।
+      </p>
+
     </div>
+
   </div>
 
-  <!-- Normal Homepage -->
+
+  <!-- =========================
+       NORMAL HOMEPAGE
+  ========================== -->
+
   <div id="homePage">
 
     <nav>
-      <div class="logo">BDTxEarning</div>
+
+      <div class="logo">
+        BDTxEarning
+      </div>
 
       <div class="nav-links">
-        <a href="index.html">Home</a>
-        <a href="login.html">Login</a>
-        <a href="register.html">Register</a>
+
+        <a href="index.html">
+          Home
+        </a>
+
+        <a href="login.html">
+          Login
+        </a>
+
+        <a href="register.html">
+          Register
+        </a>
+
       </div>
+
     </nav>
 
+
     <section class="hero">
-      <h1>BDT<span>x</span>Earning</h1>
+
+      <h1>
+        BDT<span>x</span>Earning
+      </h1>
 
       <p>
         আপনার লিংক Short করুন এবং ভবিষ্যতে
@@ -270,51 +378,91 @@
       </p>
 
       <div class="buttons">
-        <a href="register.html" class="btn btn-primary">
+
+        <a
+          href="register.html"
+          class="btn btn-primary"
+        >
           Get Started
         </a>
 
-        <a href="login.html" class="btn btn-secondary">
+        <a
+          href="login.html"
+          class="btn btn-secondary"
+        >
           Login
         </a>
+
       </div>
+
     </section>
+
 
     <section class="features">
 
-      <h2>আমাদের সুবিধা</h2>
+      <h2>
+        আমাদের সুবিধা
+      </h2>
 
       <div class="cards">
 
         <div class="card">
-          <div class="icon">🔗</div>
-          <h3>Link Shortener</h3>
+
+          <div class="icon">
+            🔗
+          </div>
+
+          <h3>
+            Link Shortener
+          </h3>
+
           <p>
             বড় URL সহজেই ছোট এবং সুন্দর
             Short Link-এ পরিণত করুন।
           </p>
+
         </div>
 
+
         <div class="card">
-          <div class="icon">📊</div>
-          <h3>Click Tracking</h3>
+
+          <div class="icon">
+            📊
+          </div>
+
+          <h3>
+            Click Tracking
+          </h3>
+
           <p>
             আপনার Short Link কতবার Click হয়েছে
             তা Dashboard থেকে দেখতে পারবেন।
           </p>
+
         </div>
 
+
         <div class="card">
-          <div class="icon">💰</div>
-          <h3>Earning</h3>
+
+          <div class="icon">
+            💰
+          </div>
+
+          <h3>
+            Earning
+          </h3>
+
           <p>
-            ভবিষ্যতে আপনার Link-এর মাধ্যমে
-            আয় করার সুবিধা যুক্ত করা হবে।
+            আপনার Link-এর মাধ্যমে
+            আয় করার সুবিধা ব্যবহার করুন।
           </p>
+
         </div>
 
       </div>
+
     </section>
+
 
     <footer>
       © 2026 BDTxEarning. All Rights Reserved.
@@ -322,7 +470,12 @@
 
   </div>
 
+
   <script>
+
+    /* =========================
+       SUPABASE
+    ========================= */
 
     const SUPABASE_URL =
       "https://hmshjrqrogczsvxtwkqi.supabase.co";
@@ -337,27 +490,64 @@
       );
 
 
+    /* =========================
+       GLOBAL STATE
+    ========================= */
+
+    let originalUrl = "";
+
+    let currentStep = 1;
+
+    let totalSteps = 1;
+
+    let timerSeconds = 0;
+
+    let timerInterval = null;
+
+    let settings = {};
+
+
+    /* =========================
+       SHORT LINK
+    ========================= */
+
     async function handleShortLink() {
 
       const params =
-        new URLSearchParams(window.location.search);
+        new URLSearchParams(
+          window.location.search
+        );
 
-      const code = params.get("c");
+      const code =
+        params.get("c");
 
-      // Normal homepage হলে কিছু করার দরকার নেই
+
+      // Normal homepage
       if (!code) {
         return;
       }
 
-      // Homepage hide
-      document.getElementById("homePage").style.display = "none";
 
-      // Redirect screen show
-      document.getElementById("redirectMessage").style.display = "flex";
+      document
+        .getElementById("homePage")
+        .style.display = "none";
+
+
+      document
+        .getElementById("redirectMessage")
+        .style.display = "flex";
+
 
       try {
 
-        const { data, error } =
+        /*
+          1. Get original URL
+        */
+
+        const {
+          data,
+          error
+        } =
           await supabaseClient.rpc(
             "open_short_link",
             {
@@ -365,46 +555,545 @@
             }
           );
 
+
         if (error) {
           throw error;
         }
 
+
         if (!data) {
-          showError("Link পাওয়া যায়নি");
+
+          showError(
+            "Link পাওয়া যায়নি।"
+          );
+
           return;
+
         }
 
-        // মূল URL-এ পাঠিয়ে দেওয়া
-        window.location.replace(data);
+
+        originalUrl = data;
+
+
+        /*
+          2. Load unlock settings
+        */
+
+        const {
+          data: unlockSettings,
+          error: settingsError
+        } =
+          await supabaseClient.rpc(
+            "get_unlock_settings"
+          );
+
+
+        if (settingsError) {
+          throw settingsError;
+        }
+
+
+        settings =
+          unlockSettings || {};
+
+
+        totalSteps =
+          parseInt(
+            settings.unlock_pages || 1,
+            10
+          );
+
+
+        if (
+          !Number.isFinite(totalSteps) ||
+          totalSteps < 1
+        ) {
+
+          totalSteps = 1;
+
+        }
+
+
+        /*
+          Maximum safety
+        */
+
+        totalSteps =
+          Math.min(
+            totalSteps,
+            5
+          );
+
+
+        timerSeconds =
+          parseInt(
+            settings.unlock_timer || 5,
+            10
+          );
+
+
+        if (
+          !Number.isFinite(timerSeconds) ||
+          timerSeconds < 0
+        ) {
+
+          timerSeconds = 0;
+
+        }
+
+
+        /*
+          3. Start unlock flow
+        */
+
+        showUnlockStep();
+
 
       } catch (error) {
 
-        console.error("Short link error:", error);
+        console.error(
+          "Short link error:",
+          error
+        );
 
-        showError("এই Short Link আর পাওয়া যাচ্ছে না।");
+        showError(
+          "এই Short Link এখন পাওয়া যাচ্ছে না।"
+        );
 
       }
+
     }
 
+
+    /* =========================
+       SHOW UNLOCK STEP
+    ========================= */
+
+    function showUnlockStep() {
+
+      const box =
+        document.getElementById(
+          "unlockBox"
+        );
+
+
+      if (!box) {
+        return;
+      }
+
+
+      const buttonText =
+        settings.unlock_button_text ||
+        "Unlock Link";
+
+
+      box.innerHTML = `
+
+        <div class="unlock-icon">
+          🔓
+        </div>
+
+        <span class="step-label">
+          Step ${currentStep} / ${totalSteps}
+        </span>
+
+        <h2>
+          Link Unlock করুন
+        </h2>
+
+        <p>
+          নিচের Timer শেষ হওয়া পর্যন্ত অপেক্ষা করুন।
+          তারপর Unlock Button চাপুন।
+        </p>
+
+        <div class="progress">
+          <div
+            class="progress-bar"
+            id="progressBar"
+          ></div>
+        </div>
+
+        <div
+          class="timer"
+          id="unlockTimer"
+        >
+          ${timerSeconds}
+        </div>
+
+        <button
+          class="unlock-button"
+          id="unlockButton"
+          disabled
+        >
+          ${escapeHtml(buttonText)}
+        </button>
+
+      `;
+
+
+      startTimer();
+
+    }
+
+
+    /* =========================
+       TIMER
+    ========================= */
+
+    function startTimer() {
+
+      if (timerInterval) {
+
+        clearInterval(
+          timerInterval
+        );
+
+      }
+
+
+      let remaining =
+        timerSeconds;
+
+
+      const timer =
+        document.getElementById(
+          "unlockTimer"
+        );
+
+
+      const button =
+        document.getElementById(
+          "unlockButton"
+        );
+
+
+      const progress =
+        document.getElementById(
+          "progressBar"
+        );
+
+
+      if (!timer || !button) {
+        return;
+      }
+
+
+      timer.textContent =
+        remaining;
+
+
+      if (remaining <= 0) {
+
+        finishTimer();
+
+        return;
+
+      }
+
+
+      timerInterval =
+        setInterval(() => {
+
+          remaining--;
+
+          timer.textContent =
+            remaining;
+
+
+          const percentage =
+            timerSeconds > 0
+              ? (
+                  (
+                    timerSeconds -
+                    remaining
+                  ) /
+                  timerSeconds
+                ) * 100
+              : 100;
+
+
+          if (progress) {
+
+            progress.style.width =
+              Math.min(
+                100,
+                Math.max(
+                  0,
+                  percentage
+                )
+              ) + "%";
+
+          }
+
+
+          if (remaining <= 0) {
+
+            clearInterval(
+              timerInterval
+            );
+
+            timerInterval =
+              null;
+
+            finishTimer();
+
+          }
+
+        }, 1000);
+
+    }
+
+
+    /* =========================
+       TIMER FINISHED
+    ========================= */
+
+    function finishTimer() {
+
+      const timer =
+        document.getElementById(
+          "unlockTimer"
+        );
+
+
+      const progress =
+        document.getElementById(
+          "progressBar"
+        );
+
+
+      const button =
+        document.getElementById(
+          "unlockButton"
+        );
+
+
+      if (timer) {
+
+        timer.textContent =
+          "✓";
+
+      }
+
+
+      if (progress) {
+
+        progress.style.width =
+          "100%";
+
+      }
+
+
+      if (button) {
+
+        button.disabled =
+          false;
+
+        button.onclick =
+          handleUnlock;
+
+      }
+
+    }
+
+
+    /* =========================
+       UNLOCK BUTTON
+    ========================= */
+
+    async function handleUnlock() {
+
+      const button =
+        document.getElementById(
+          "unlockButton"
+        );
+
+
+      if (button) {
+
+        button.disabled =
+          true;
+
+      }
+
+
+      /*
+        Monetag Direct Link
+
+        শুধুমাত্র Ads enabled এবং
+        Direct Link থাকলে খুলবে।
+      */
+
+      const adsEnabled =
+        String(
+          settings.ads_enabled
+        ).toLowerCase() === "true";
+
+
+      const directLink =
+        String(
+          settings.monetag_direct_link || ""
+        ).trim();
+
+
+      if (
+        adsEnabled &&
+        directLink
+      ) {
+
+        try {
+
+          window.open(
+            directLink,
+            "_blank",
+            "noopener,noreferrer"
+          );
+
+        } catch(error) {
+
+          console.warn(
+            "Direct link open failed:",
+            error
+          );
+
+        }
+
+      }
+
+
+      /*
+        Next unlock step
+      */
+
+      if (
+        currentStep <
+        totalSteps
+      ) {
+
+        currentStep++;
+
+        showUnlockStep();
+
+        return;
+
+      }
+
+
+      /*
+        All steps complete
+      */
+
+      goToOriginalUrl();
+
+    }
+
+
+    /* =========================
+       FINAL REDIRECT
+    ========================= */
+
+    function goToOriginalUrl() {
+
+      if (!originalUrl) {
+
+        showError(
+          "Original URL পাওয়া যায়নি।"
+        );
+
+        return;
+
+      }
+
+
+      window.location.replace(
+        originalUrl
+      );
+
+    }
+
+
+    /* =========================
+       ERROR
+    ========================= */
 
     function showError(message) {
 
       const box =
-        document.getElementById("loadingBox");
+        document.getElementById(
+          "unlockBox"
+        );
+
+
+      if (!box) {
+        return;
+      }
+
 
       box.innerHTML = `
+
         <div class="error-box">
-          <h2>❌ দুঃখিত!</h2>
 
-          <p>${message}</p>
+          <h2>
+            ❌ দুঃখিত!
+          </h2>
 
-          <a href="index.html" class="home-btn">
+          <p>
+            ${escapeHtml(message)}
+          </p>
+
+          <a
+            href="index.html"
+            class="home-btn"
+          >
             Home এ ফিরে যান
           </a>
+
         </div>
+
       `;
+
     }
 
+
+    /* =========================
+       HTML ESCAPE
+    ========================= */
+
+    function escapeHtml(value) {
+
+      return String(value)
+
+        .replace(
+          /&/g,
+          "&amp;"
+        )
+
+        .replace(
+          /</g,
+          "&lt;"
+        )
+
+        .replace(
+          />/g,
+          "&gt;"
+        )
+
+        .replace(
+          /"/g,
+          "&quot;"
+        )
+
+        .replace(
+          /'/g,
+          "&#039;"
+        );
+
+    }
+
+
+    /* =========================
+       START
+    ========================= */
 
     handleShortLink();
 
