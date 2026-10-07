@@ -1,0 +1,1761 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Admin Panel - BDTxEarning</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: #f3f6fb;
+      color: #1f2937;
+    }
+
+    .navbar {
+      background: #111827;
+      color: white;
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .logo {
+      font-size: 22px;
+      font-weight: bold;
+      color: #22c55e;
+    }
+
+    .admin-badge {
+      font-size: 12px;
+      background: #166534;
+      padding: 6px 10px;
+      border-radius: 20px;
+      margin-right: 8px;
+    }
+
+    .logout-btn {
+      border: none;
+      background: #ef4444;
+      color: white;
+      padding: 9px 15px;
+      border-radius: 7px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .container {
+      width: 95%;
+      max-width: 1250px;
+      margin: 25px auto;
+    }
+
+    .welcome {
+      background: linear-gradient(135deg, #111827, #1f2937);
+      color: white;
+      padding: 25px;
+      border-radius: 15px;
+      margin-bottom: 22px;
+    }
+
+    .welcome h1 {
+      margin-bottom: 8px;
+    }
+
+    .welcome p {
+      color: #d1d5db;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 15px;
+      margin-bottom: 22px;
+    }
+
+    .stat {
+      background: white;
+      padding: 20px;
+      border-radius: 13px;
+      box-shadow: 0 4px 15px rgba(0,0,0,.06);
+    }
+
+    .stat-icon {
+      font-size: 25px;
+      margin-bottom: 8px;
+    }
+
+    .stat-title {
+      color: #6b7280;
+      font-size: 13px;
+      margin-bottom: 6px;
+    }
+
+    .stat-value {
+      font-size: 23px;
+      font-weight: bold;
+    }
+
+    .section {
+      background: white;
+      border-radius: 14px;
+      padding: 22px;
+      margin-bottom: 22px;
+      box-shadow: 0 4px 15px rgba(0,0,0,.06);
+    }
+
+    .section-title {
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 18px;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+
+    .tab {
+      border: none;
+      padding: 10px 15px;
+      background: #e5e7eb;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .tab.active {
+      background: #22c55e;
+      color: #111827;
+    }
+
+    .panel {
+      display: none;
+    }
+
+    .panel.active {
+      display: block;
+    }
+
+    .table-wrapper {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 750px;
+    }
+
+    th,
+    td {
+      padding: 12px 9px;
+      border-bottom: 1px solid #e5e7eb;
+      text-align: left;
+      font-size: 13px;
+    }
+
+    th {
+      background: #f8fafc;
+      color: #4b5563;
+    }
+
+    .btn {
+      border: none;
+      padding: 7px 11px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+      margin: 2px;
+    }
+
+    .green {
+      background: #22c55e;
+      color: #111827;
+    }
+
+    .red {
+      background: #ef4444;
+      color: white;
+    }
+
+    .blue {
+      background: #2563eb;
+      color: white;
+    }
+
+    .gray {
+      background: #e5e7eb;
+      color: #111827;
+    }
+
+    .input-group {
+      margin-bottom: 15px;
+    }
+
+    .input-group label {
+      display: block;
+      font-size: 13px;
+      font-weight: bold;
+      margin-bottom: 6px;
+    }
+
+    .input,
+    .select {
+      width: 100%;
+      padding: 11px;
+      border: 1px solid #d1d5db;
+      border-radius: 7px;
+      outline: none;
+      font-size: 14px;
+    }
+
+    .input:focus,
+    .select:focus {
+      border-color: #22c55e;
+    }
+
+    .settings-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+    }
+
+    .setting-card {
+      background: #f8fafc;
+      padding: 15px;
+      border-radius: 10px;
+    }
+
+    .setting-card h3 {
+      font-size: 15px;
+      margin-bottom: 10px;
+    }
+
+    .message {
+      display: none;
+      padding: 12px;
+      border-radius: 8px;
+      margin-bottom: 15px;
+    }
+
+    .success {
+      display: block;
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .error {
+      display: block;
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    .status {
+      display: inline-block;
+      padding: 5px 9px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: bold;
+    }
+
+    .pending {
+      background: #fef3c7;
+      color: #92400e;
+    }
+
+    .approved {
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .rejected {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    .empty {
+      text-align: center;
+      padding: 30px;
+      color: #6b7280;
+    }
+
+    footer {
+      text-align: center;
+      padding: 25px;
+      color: #6b7280;
+      font-size: 13px;
+    }
+
+    @media (max-width: 1000px) {
+      .stats {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    @media (max-width: 650px) {
+      .stats {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .settings-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .navbar {
+        padding: 13px;
+      }
+
+      .logo {
+        font-size: 18px;
+      }
+
+      .admin-badge {
+        display: none;
+      }
+
+      .container {
+        width: 92%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<nav class="navbar">
+
+  <div class="logo">
+    BDTxEarning Admin
+  </div>
+
+  <div>
+    <span class="admin-badge">ADMIN</span>
+
+    <button class="logout-btn" onclick="logout()">
+      Logout
+    </button>
+  </div>
+
+</nav>
+
+
+<main class="container">
+
+  <div class="welcome">
+
+    <h1>
+      👑 Admin Panel
+    </h1>
+
+    <p>
+      এখান থেকে BDTxEarning-এর Users, Links,
+      Withdrawals এবং Monetag Settings পরিচালনা করুন।
+    </p>
+
+  </div>
+
+
+  <div id="message" class="message"></div>
+
+
+  <!-- Statistics -->
+
+  <div class="stats">
+
+    <div class="stat">
+      <div class="stat-icon">👥</div>
+      <div class="stat-title">Total Users</div>
+      <div class="stat-value" id="statUsers">0</div>
+    </div>
+
+    <div class="stat">
+      <div class="stat-icon">🔗</div>
+      <div class="stat-title">Total Links</div>
+      <div class="stat-value" id="statLinks">0</div>
+    </div>
+
+    <div class="stat">
+      <div class="stat-icon">👆</div>
+      <div class="stat-title">Total Clicks</div>
+      <div class="stat-value" id="statClicks">0</div>
+    </div>
+
+    <div class="stat">
+      <div class="stat-icon">💰</div>
+      <div class="stat-title">Total Balance</div>
+      <div class="stat-value" id="statBalance">৳0</div>
+    </div>
+
+    <div class="stat">
+      <div class="stat-icon">💸</div>
+      <div class="stat-title">Pending Withdraw</div>
+      <div class="stat-value" id="statWithdraw">0</div>
+    </div>
+
+  </div>
+
+
+  <!-- Tabs -->
+
+  <div class="section">
+
+    <div class="tabs">
+
+      <button
+        class="tab active"
+        onclick="showPanel('users', this)"
+      >
+        👥 Users
+      </button>
+
+      <button
+        class="tab"
+        onclick="showPanel('links', this)"
+      >
+        🔗 Links
+      </button>
+
+      <button
+        class="tab"
+        onclick="showPanel('withdrawals', this)"
+      >
+        💸 Withdrawals
+      </button>
+
+      <button
+        class="tab"
+        onclick="showPanel('settings', this)"
+      >
+        ⚙️ Settings
+      </button>
+
+    </div>
+
+
+    <!-- USERS -->
+
+    <div id="users" class="panel active">
+
+      <div class="section-title">
+        👥 All Users
+      </div>
+
+      <div class="table-wrapper">
+
+        <table>
+
+          <thead>
+
+            <tr>
+              <th>Name</th>
+              <th>Username</th>
+              <th>Balance</th>
+              <th>Referral</th>
+              <th>Action</th>
+            </tr>
+
+          </thead>
+
+          <tbody id="usersTable">
+
+            <tr>
+              <td colspan="5" class="empty">
+                Loading...
+              </td>
+            </tr>
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+    </div>
+
+
+    <!-- LINKS -->
+
+    <div id="links" class="panel">
+
+      <div class="section-title">
+        🔗 All Short Links
+      </div>
+
+      <div class="table-wrapper">
+
+        <table>
+
+          <thead>
+
+            <tr>
+              <th>Short Code</th>
+              <th>Original URL</th>
+              <th>Clicks</th>
+              <th>User ID</th>
+              <th>Action</th>
+            </tr>
+
+          </thead>
+
+          <tbody id="linksTable">
+
+            <tr>
+              <td colspan="5" class="empty">
+                Loading...
+              </td>
+            </tr>
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+    </div>
+
+
+    <!-- WITHDRAWALS -->
+
+    <div id="withdrawals" class="panel">
+
+      <div class="section-title">
+        💸 Withdrawal Requests
+      </div>
+
+      <div class="table-wrapper">
+
+        <table>
+
+          <thead>
+
+            <tr>
+              <th>Amount</th>
+              <th>Method</th>
+              <th>Account</th>
+              <th>Status</th>
+              <th>Date</th>
+              <th>Action</th>
+            </tr>
+
+          </thead>
+
+          <tbody id="withdrawalsTable">
+
+            <tr>
+              <td colspan="6" class="empty">
+                Loading...
+              </td>
+            </tr>
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+    </div>
+
+
+    <!-- SETTINGS -->
+
+    <div id="settings" class="panel">
+
+      <div class="section-title">
+        ⚙️ Website & Monetag Settings
+      </div>
+
+
+      <div class="settings-grid">
+
+
+        <div class="setting-card">
+
+          <h3>🔗 Monetag Direct Link</h3>
+
+          <input
+            class="input"
+            id="monetag_direct_link"
+            type="url"
+            placeholder="https://..."
+          >
+
+        </div>
+
+
+        <div class="setting-card">
+
+          <h3>🔓 Unlock Pages</h3>
+
+          <select
+            class="select"
+            id="unlock_pages"
+          >
+
+            <option value="1">1 Page</option>
+            <option value="2">2 Pages</option>
+            <option value="3">3 Pages</option>
+            <option value="4">4 Pages</option>
+            <option value="5">5 Pages</option>
+
+          </select>
+
+        </div>
+
+
+        <div class="setting-card">
+
+          <h3>⏱️ Unlock Timer</h3>
+
+          <input
+            class="input"
+            id="unlock_timer"
+            type="number"
+            min="0"
+            placeholder="5"
+          >
+
+        </div>
+
+
+        <div class="setting-card">
+
+          <h3>🔓 Button Text</h3>
+
+          <input
+            class="input"
+            id="unlock_button_text"
+            type="text"
+            placeholder="Unlock Link"
+          >
+
+        </div>
+
+
+        <div class="setting-card">
+
+          <h3>📢 Ads</h3>
+
+          <select
+            class="select"
+            id="ads_enabled"
+          >
+
+            <option value="true">
+              Enabled
+            </option>
+
+            <option value="false">
+              Disabled
+            </option>
+
+          </select>
+
+        </div>
+
+
+        <div class="setting-card">
+
+          <h3>💰 Click Earning</h3>
+
+          <input
+            class="input"
+            id="click_earning"
+            type="number"
+            step="0.001"
+            min="0"
+            placeholder="0.01"
+          >
+
+        </div>
+
+
+        <div class="setting-card">
+
+          <h3>💸 Minimum Withdrawal</h3>
+
+          <input
+            class="input"
+            id="minimum_withdrawal"
+            type="number"
+            min="0"
+            placeholder="100"
+          >
+
+        </div>
+
+
+        <div class="setting-card">
+
+          <h3>👥 Referral Earning</h3>
+
+          <input
+            class="input"
+            id="referral_earning"
+            type="number"
+            step="0.01"
+            min="0"
+            placeholder="0"
+          >
+
+        </div>
+
+      </div>
+
+
+      <br>
+
+      <button
+        class="btn green"
+        onclick="saveSettings()"
+      >
+        💾 Save Settings
+      </button>
+
+    </div>
+
+  </div>
+
+</main>
+
+
+<footer>
+  © 2026 BDTxEarning Admin Panel
+</footer>
+
+
+<script>
+
+const SUPABASE_URL =
+  "https://hmshjrqrogczsvxtwkqi.supabase.co";
+
+const SUPABASE_KEY =
+  "sb_publishable_tLNKwPxwoceKvJG2DpR6jw_VE9KaExr";
+
+const supabaseClient =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
+
+
+/* =========================
+   START
+========================= */
+
+async function startAdmin() {
+
+  const {
+    data: {
+      user
+    },
+    error
+  } =
+    await supabaseClient.auth.getUser();
+
+
+  if (error || !user) {
+
+    window.location.href =
+      "login.html";
+
+    return;
+  }
+
+
+  /* Check Admin */
+
+  const {
+    data: isAdmin,
+    error: adminError
+  } =
+    await supabaseClient.rpc(
+      "admin_check"
+    );
+
+
+  if (
+    adminError ||
+    isAdmin !== true
+  ) {
+
+    alert(
+      "আপনার Admin access নেই।"
+    );
+
+    window.location.href =
+      "dashboard.html";
+
+    return;
+  }
+
+
+  await loadDashboard();
+
+  await loadUsers();
+
+  await loadLinks();
+
+  await loadWithdrawals();
+
+  await loadSettings();
+
+}
+
+
+/* =========================
+   DASHBOARD
+========================= */
+
+async function loadDashboard() {
+
+  const {
+    data,
+    error
+  } =
+    await supabaseClient.rpc(
+      "admin_dashboard_stats"
+    );
+
+
+  if (error) {
+
+    console.error(error);
+
+    return;
+  }
+
+
+  document.getElementById(
+    "statUsers"
+  ).textContent =
+    data.users || 0;
+
+
+  document.getElementById(
+    "statLinks"
+  ).textContent =
+    data.links || 0;
+
+
+  document.getElementById(
+    "statClicks"
+  ).textContent =
+    data.clicks || 0;
+
+
+  document.getElementById(
+    "statBalance"
+  ).textContent =
+    "৳" +
+    Number(
+      data.balance || 0
+    ).toFixed(2);
+
+
+  document.getElementById(
+    "statWithdraw"
+  ).textContent =
+    data.pending_withdrawals || 0;
+
+}
+
+
+/* =========================
+   USERS
+========================= */
+
+async function loadUsers() {
+
+  const {
+    data,
+    error
+  } =
+    await supabaseClient.rpc(
+      "admin_get_users"
+    );
+
+
+  if (error) {
+
+    console.error(error);
+
+    document.getElementById(
+      "usersTable"
+    ).innerHTML = `
+      <tr>
+        <td colspan="5" class="empty">
+          Users load করা যায়নি।
+        </td>
+      </tr>
+    `;
+
+    return;
+  }
+
+
+  const users =
+    data || [];
+
+
+  if (!users.length) {
+
+    document.getElementById(
+      "usersTable"
+    ).innerHTML = `
+      <tr>
+        <td colspan="5" class="empty">
+          কোনো User পাওয়া যায়নি।
+        </td>
+      </tr>
+    `;
+
+    return;
+  }
+
+
+  let html = "";
+
+
+  users.forEach(user => {
+
+    html += `
+
+      <tr>
+
+        <td>
+          ${escapeHtml(
+            user.full_name || "-"
+          )}
+        </td>
+
+        <td>
+          ${escapeHtml(
+            user.username || "-"
+          )}
+        </td>
+
+        <td>
+          ৳${Number(
+            user.balance || 0
+          ).toFixed(2)}
+        </td>
+
+        <td>
+          ৳${Number(
+            user.referral_balance || 0
+          ).toFixed(2)}
+        </td>
+
+        <td>
+
+          <button
+            class="btn blue"
+            onclick="changeBalance('${user.id}')"
+          >
+            Balance
+          </button>
+
+        </td>
+
+      </tr>
+
+    `;
+
+  });
+
+
+  document.getElementById(
+    "usersTable"
+  ).innerHTML =
+    html;
+
+}
+
+
+/* =========================
+   CHANGE BALANCE
+========================= */
+
+async function changeBalance(userId) {
+
+  const amount =
+    prompt(
+      "Balance পরিবর্তন করুন।\n\n" +
+      "যোগ করতে: 50\n" +
+      "কমাতে: -50"
+    );
+
+
+  if (
+    amount === null ||
+    amount.trim() === ""
+  ) {
+    return;
+  }
+
+
+  const value =
+    Number(amount);
+
+
+  if (
+    !Number.isFinite(value)
+  ) {
+
+    alert(
+      "সঠিক Amount দিন।"
+    );
+
+    return;
+  }
+
+
+  const {
+    error
+  } =
+    await supabaseClient.rpc(
+      "admin_update_balance",
+      {
+        p_user_id: userId,
+        p_amount: value
+      }
+    );
+
+
+  if (error) {
+
+    showMessage(
+      error.message,
+      "error"
+    );
+
+    return;
+  }
+
+
+  showMessage(
+    "Balance সফলভাবে পরিবর্তন হয়েছে।",
+    "success"
+  );
+
+
+  await loadUsers();
+
+  await loadDashboard();
+
+}
+
+
+/* =========================
+   LINKS
+========================= */
+
+async function loadLinks() {
+
+  const {
+    data,
+    error
+  } =
+    await supabaseClient.rpc(
+      "admin_get_links"
+    );
+
+
+  if (error) {
+
+    console.error(error);
+
+    return;
+  }
+
+
+  const links =
+    data || [];
+
+
+  if (!links.length) {
+
+    document.getElementById(
+      "linksTable"
+    ).innerHTML = `
+      <tr>
+        <td colspan="5" class="empty">
+          কোনো Link পাওয়া যায়নি।
+        </td>
+      </tr>
+    `;
+
+    return;
+  }
+
+
+  let html = "";
+
+
+  links.forEach(link => {
+
+    html += `
+
+      <tr>
+
+        <td>
+          <strong>
+            ${escapeHtml(
+              link.short_code || "-"
+            )}
+          </strong>
+        </td>
+
+        <td>
+          ${escapeHtml(
+            link.original_url || "-"
+          )}
+        </td>
+
+        <td>
+          ${Number(
+            link.clicks || 0
+          )}
+        </td>
+
+        <td>
+          ${escapeHtml(
+            link.user_id || "-"
+          )}
+        </td>
+
+        <td>
+
+          <button
+            class="btn red"
+            onclick="deleteLink(${link.id})"
+          >
+            Delete
+          </button>
+
+        </td>
+
+      </tr>
+
+    `;
+
+  });
+
+
+  document.getElementById(
+    "linksTable"
+  ).innerHTML =
+    html;
+
+}
+
+
+/* =========================
+   DELETE LINK
+========================= */
+
+async function deleteLink(id) {
+
+  if (
+    !confirm(
+      "এই Short Link Delete করতে চান?"
+    )
+  ) {
+    return;
+  }
+
+
+  const {
+    error
+  } =
+    await supabaseClient.rpc(
+      "admin_delete_link",
+      {
+        p_link_id: id
+      }
+    );
+
+
+  if (error) {
+
+    showMessage(
+      error.message,
+      "error"
+    );
+
+    return;
+  }
+
+
+  showMessage(
+    "Short Link Delete হয়েছে।",
+    "success"
+  );
+
+
+  await loadLinks();
+
+  await loadDashboard();
+
+}
+
+
+/* =========================
+   WITHDRAWALS
+========================= */
+
+async function loadWithdrawals() {
+
+  const {
+    data,
+    error
+  } =
+    await supabaseClient.rpc(
+      "admin_get_withdrawals"
+    );
+
+
+  if (error) {
+
+    console.error(error);
+
+    document.getElementById(
+      "withdrawalsTable"
+    ).innerHTML = `
+      <tr>
+        <td colspan="6" class="empty">
+          Withdrawals load করা যায়নি।
+        </td>
+      </tr>
+    `;
+
+    return;
+  }
+
+
+  const withdrawals =
+    data || [];
+
+
+  if (!withdrawals.length) {
+
+    document.getElementById(
+      "withdrawalsTable"
+    ).innerHTML = `
+      <tr>
+        <td colspan="6" class="empty">
+          কোনো Withdrawal Request নেই।
+        </td>
+      </tr>
+    `;
+
+    return;
+  }
+
+
+  let html = "";
+
+
+  withdrawals.forEach(w => {
+
+    const status =
+      String(
+        w.status || ""
+      ).toLowerCase();
+
+
+    let statusClass =
+      "pending";
+
+
+    if (
+      status === "approved"
+    ) {
+      statusClass = "approved";
+    }
+
+
+    if (
+      status === "rejected"
+    ) {
+      statusClass = "rejected";
+    }
+
+
+    const date =
+      w.created_at
+        ? new Date(
+            w.created_at
+          ).toLocaleDateString(
+            "bn-BD"
+          )
+        : "-";
+
+
+    let actions = "-";
+
+
+    if (
+      status === "pending"
+    ) {
+
+      actions = `
+
+        <button
+          class="btn green"
+          onclick="approveWithdrawal(${w.id})"
+        >
+          Approve
+        </button>
+
+        <button
+          class="btn red"
+          onclick="rejectWithdrawal(${w.id})"
+        >
+          Reject
+        </button>
+
+      `;
+
+    }
+
+
+    html += `
+
+      <tr>
+
+        <td>
+          ৳${Number(
+            w.amount || 0
+          ).toFixed(2)}
+        </td>
+
+        <td>
+          ${escapeHtml(
+            w.payment_method || "-"
+          )}
+        </td>
+
+        <td>
+          ${escapeHtml(
+            w.account_number || "-"
+          )}
+        </td>
+
+        <td>
+
+          <span
+            class="status ${statusClass}"
+          >
+            ${escapeHtml(
+              status || "-"
+            )}
+          </span>
+
+        </td>
+
+        <td>
+          ${date}
+        </td>
+
+        <td>
+          ${actions}
+        </td>
+
+      </tr>
+
+    `;
+
+  });
+
+
+  document.getElementById(
+    "withdrawalsTable"
+  ).innerHTML =
+    html;
+
+}
+
+
+/* =========================
+   APPROVE
+========================= */
+
+async function approveWithdrawal(id) {
+
+  if (
+    !confirm(
+      "এই Withdrawal Approve করতে চান?"
+    )
+  ) {
+    return;
+  }
+
+
+  const {
+    error
+  } =
+    await supabaseClient.rpc(
+      "admin_approve_withdrawal",
+      {
+        p_withdraw_id: id
+      }
+    );
+
+
+  if (error) {
+
+    showMessage(
+      error.message,
+      "error"
+    );
+
+    return;
+  }
+
+
+  showMessage(
+    "Withdrawal Approved হয়েছে।",
+    "success"
+  );
+
+
+  await loadWithdrawals();
+
+  await loadDashboard();
+
+}
+
+
+/* =========================
+   REJECT
+========================= */
+
+async function rejectWithdrawal(id) {
+
+  const note =
+    prompt(
+      "Reject করার কারণ লিখুন:"
+    );
+
+
+  if (note === null) {
+    return;
+  }
+
+
+  const {
+    error
+  } =
+    await supabaseClient.rpc(
+      "admin_reject_withdrawal",
+      {
+        p_withdraw_id: id,
+        p_admin_note: note
+      }
+    );
+
+
+  if (error) {
+
+    showMessage(
+      error.message,
+      "error"
+    );
+
+    return;
+  }
+
+
+  showMessage(
+    "Withdrawal Reject হয়েছে এবং Balance ফেরত দেওয়া হয়েছে।",
+    "success"
+  );
+
+
+  await loadWithdrawals();
+
+  await loadUsers();
+
+  await loadDashboard();
+
+}
+
+
+/* =========================
+   SETTINGS
+========================= */
+
+async function loadSettings() {
+
+  const {
+    data,
+    error
+  } =
+    await supabaseClient.rpc(
+      "admin_get_settings"
+    );
+
+
+  if (error) {
+
+    console.error(error);
+
+    return;
+  }
+
+
+  const settings =
+    data || {};
+
+
+  const fields = [
+    "monetag_direct_link",
+    "unlock_pages",
+    "unlock_timer",
+    "unlock_button_text",
+    "ads_enabled",
+    "click_earning",
+    "minimum_withdrawal",
+    "referral_earning"
+  ];
+
+
+  fields.forEach(key => {
+
+    const element =
+      document.getElementById(key);
+
+
+    if (
+      element &&
+      settings[key] !== undefined
+    ) {
+
+      element.value =
+        settings[key];
+
+    }
+
+  });
+
+}
+
+
+/* =========================
+   SAVE SETTINGS
+========================= */
+
+async function saveSettings() {
+
+  const fields = [
+    "monetag_direct_link",
+    "unlock_pages",
+    "unlock_timer",
+    "unlock_button_text",
+    "ads_enabled",
+    "click_earning",
+    "minimum_withdrawal",
+    "referral_earning"
+  ];
+
+
+  for (
+    const key of fields
+  ) {
+
+    const element =
+      document.getElementById(key);
+
+
+    if (!element) {
+      continue;
+    }
+
+
+    const {
+      error
+    } =
+      await supabaseClient.rpc(
+        "admin_update_setting",
+        {
+          p_key: key,
+          p_value: element.value
+        }
+      );
+
+
+    if (error) {
+
+      showMessage(
+        "Setting save error: " +
+        error.message,
+        "error"
+      );
+
+      return;
+    }
+
+  }
+
+
+  showMessage(
+    "সব Settings সফলভাবে Save হয়েছে।",
+    "success"
+  );
+
+}
+
+
+/* =========================
+   TABS
+========================= */
+
+function showPanel(
+  panelId,
+  button
+) {
+
+  document
+    .querySelectorAll(".panel")
+    .forEach(panel => {
+
+      panel.classList.remove(
+        "active"
+      );
+
+    });
+
+
+  document
+    .querySelectorAll(".tab")
+    .forEach(tab => {
+
+      tab.classList.remove(
+        "active"
+      );
+
+    });
+
+
+  document
+    .getElementById(panelId)
+    .classList.add("active");
+
+
+  button.classList.add(
+    "active"
+  );
+
+}
+
+
+/* =========================
+   MESSAGE
+========================= */
+
+function showMessage(
+  text,
+  type
+) {
+
+  const box =
+    document.getElementById(
+      "message"
+    );
+
+
+  box.textContent =
+    text;
+
+
+  box.className =
+    "message " + type;
+
+
+  setTimeout(() => {
+
+    box.className =
+      "message";
+
+  }, 4000);
+
+}
+
+
+/* =========================
+   LOGOUT
+========================= */
+
+async function logout() {
+
+  await supabaseClient.auth.signOut();
+
+  window.location.href =
+    "login.html";
+
+}
+
+
+/* =========================
+   SECURITY
+========================= */
+
+function escapeHtml(value) {
+
+  return String(value)
+
+    .replace(
+      /&/g,
+      "&amp;"
+    )
+
+    .replace(
+      /</g,
+      "&lt;"
+    )
+
+    .replace(
+      />/g,
+      "&gt;"
+    )
+
+    .replace(
+      /"/g,
+      "&quot;"
+    )
+
+    .replace(
+      /'/g,
+      "&#039;"
+    );
+
+}
+
+
+/* =========================
+   RUN
+========================= */
+
+startAdmin();
+
+</script>
+
+</body>
+</html>
