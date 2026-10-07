@@ -1,19 +1,14 @@
 <!DOCTYPE html>
 <html lang="bn">
-
 <head>
-
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <meta name="viewport"
-        content="width=device-width, initial-scale=1.0">
-
-  <title>BDTxEarning - Short Link & Earn Money</title>
+  <title>BDTxEarning - Short Link & Earn</title>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
-
     * {
       box-sizing: border-box;
       margin: 0;
@@ -47,13 +42,6 @@
 
     .logo span {
       color: #22c55e;
-    }
-
-    .nav button {
-      width: auto;
-      margin: 0;
-      padding: 8px 15px;
-      font-size: 14px;
     }
 
     .container {
@@ -153,6 +141,15 @@
       text-align: center;
       margin-top: 12px;
       font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .success {
+      color: #15803d;
+    }
+
+    .error {
+      color: #dc2626;
     }
 
     .stats {
@@ -210,11 +207,6 @@
       word-break: break-all;
     }
 
-    .welcome {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-
     footer {
       background: #111827;
       color: white;
@@ -223,8 +215,7 @@
       margin-top: 50px;
     }
 
-    @media(max-width: 700px) {
-
+    @media(max-width:700px) {
       .stats {
         grid-template-columns: 1fr;
       }
@@ -236,339 +227,252 @@
       .container {
         margin-top: 20px;
       }
-
     }
-
   </style>
-
 </head>
-
 
 <body>
 
-
 <header>
-
   <div class="nav">
-
     <div class="logo">
       BDTx<span>Earning</span>
     </div>
-
-    <div id="navArea"></div>
-
   </div>
-
 </header>
-
 
 <main class="container">
 
+  <!-- HOME -->
+  <section id="home">
 
-<!-- HOME -->
+    <div class="hero">
+      <h1>BDTxEarning</h1>
+      <p>সহজেই লিঙ্ক ছোট করুন এবং ইনকাম করুন 💰</p>
+    </div>
 
-<section id="home">
+    <div class="card">
+      <h2>BDTxEarning কী?</h2>
 
-  <div class="hero">
+      <p>
+        আপনার Long Link ছোট করুন এবং ভবিষ্যতে
+        ভিজিট থেকে আয় করুন।
+      </p>
 
-    <h1>BDTxEarning</h1>
+      <button onclick="showRegister()">
+        Create Account
+      </button>
 
-    <p>
-      সহজেই লিঙ্ক ছোট করুন এবং ইনকাম করুন 💰
-    </p>
+      <button class="green" onclick="showLogin()">
+        Login
+      </button>
+    </div>
 
-  </div>
+    <div class="card">
+      <h2>কীভাবে কাজ করবে?</h2>
+
+      <p>🔗 লিংক তৈরি করুন</p>
+      <p>👥 ভিজিটর পান</p>
+      <p>💰 আয় করুন</p>
+    </div>
+
+  </section>
 
 
-  <div class="card">
+  <!-- REGISTER -->
+  <section id="register" class="card auth hidden">
 
-    <h2>BDTxEarning কী?</h2>
+    <h2>Create Account</h2>
 
-    <p>
-      আপনার লং লিঙ্ক ছোট করুন এবং ভবিষ্যতে
-      ভিজিট থেকে আয় করুন।
-    </p>
+    <input
+      id="regName"
+      type="text"
+      placeholder="আপনার নাম"
+    >
 
-    <button onclick="showRegister()">
-      Create Account
+    <input
+      id="regUsername"
+      type="text"
+      placeholder="Username"
+    >
+
+    <input
+      id="regEmail"
+      type="email"
+      placeholder="Email"
+    >
+
+    <input
+      id="regPassword"
+      type="password"
+      placeholder="Password"
+    >
+
+    <button onclick="registerUser()">
+      Register
     </button>
 
     <button class="green" onclick="showLogin()">
       Login
     </button>
 
-  </div>
+    <button class="gray" onclick="showHome()">
+      Home
+    </button>
+
+    <div id="registerMessage" class="message"></div>
+
+  </section>
 
 
-  <div class="card">
+  <!-- LOGIN -->
+  <section id="login" class="card auth hidden">
 
-    <h2>কীভাবে কাজ করবে?</h2>
-
-    <p>🔗 লিংক তৈরি করুন</p>
-
-    <p>👥 ভিজিটর পান</p>
-
-    <p>💰 আয় করুন</p>
-
-  </div>
-
-</section>
-
-
-
-<!-- REGISTER -->
-
-<section id="register"
-         class="card auth hidden">
-
-  <h2>Create Account</h2>
-
-  <input
-    id="regName"
-    type="text"
-    placeholder="আপনার নাম"
-  >
-
-  <input
-    id="regUsername"
-    type="text"
-    placeholder="Username"
-  >
-
-  <input
-    id="regEmail"
-    type="email"
-    placeholder="Email"
-  >
-
-  <input
-    id="regPassword"
-    type="password"
-    placeholder="Password"
-  >
-
-  <button onclick="registerUser()">
-    Register
-  </button>
-
-  <button
-    class="green"
-    onclick="showLogin()">
-    Login
-  </button>
-
-  <button
-    class="gray"
-    onclick="showHome()">
-    Home
-  </button>
-
-  <div
-    id="registerMessage"
-    class="message">
-  </div>
-
-</section>
-
-
-
-<!-- LOGIN -->
-
-<section id="login"
-         class="card auth hidden">
-
-  <h2>Login</h2>
-
-  <input
-    id="loginEmail"
-    type="email"
-    placeholder="Email"
-  >
-
-  <input
-    id="loginPassword"
-    type="password"
-    placeholder="Password"
-  >
-
-  <button onclick="loginUser()">
-    Login
-  </button>
-
-  <button
-    class="green"
-    onclick="showRegister()">
-    Create Account
-  </button>
-
-  <button
-    class="gray"
-    onclick="showHome()">
-    Home
-  </button>
-
-  <div
-    id="loginMessage"
-    class="message">
-  </div>
-
-</section>
-
-
-
-<!-- DASHBOARD -->
-
-<section id="dashboard"
-         class="hidden">
-
-  <div class="hero">
-
-    <h1>Dashboard 👋</h1>
-
-    <p id="welcomeText">
-      Welcome to BDTxEarning
-    </p>
-
-  </div>
-
-
-  <div class="stats">
-
-    <div class="stat">
-
-      <h3>Main Balance</h3>
-
-      <strong id="balance">
-        ৳0.00
-      </strong>
-
-    </div>
-
-
-    <div class="stat">
-
-      <h3>Referral Balance</h3>
-
-      <strong id="refBalance">
-        ৳0.00
-      </strong>
-
-    </div>
-
-
-    <div class="stat">
-
-      <h3>Total Links</h3>
-
-      <strong id="totalLinks">
-        0
-      </strong>
-
-    </div>
-
-  </div>
-
-
-  <div class="card">
-
-    <h2>🔗 Create Short Link</h2>
+    <h2>Login</h2>
 
     <input
-      id="longUrl"
-      type="url"
-      placeholder="https://example.com/your-link"
+      id="loginEmail"
+      type="email"
+      placeholder="Email"
     >
 
-    <button onclick="shortenLink()">
-      Shorten Link
+    <input
+      id="loginPassword"
+      type="password"
+      placeholder="Password"
+    >
+
+    <button onclick="loginUser()">
+      Login
     </button>
 
+    <button class="green" onclick="showRegister()">
+      Create Account
+    </button>
 
-    <div
-      id="resultBox"
-      class="result hidden">
+    <button class="gray" onclick="showHome()">
+      Home
+    </button>
 
-      <p>
-        আপনার Short Link:
+    <div id="loginMessage" class="message"></div>
+
+  </section>
+
+
+  <!-- DASHBOARD -->
+  <section id="dashboard" class="hidden">
+
+    <div class="hero">
+
+      <h1>Dashboard 👋</h1>
+
+      <p id="welcomeText">
+        Welcome to BDTxEarning
       </p>
 
-      <br>
+    </div>
 
-      <a
-        id="shortUrlLink"
-        href="#"
-        target="_blank">
-      </a>
+
+    <div class="stats">
+
+      <div class="stat">
+        <h3>Main Balance</h3>
+        <strong id="balance">৳0.00</strong>
+      </div>
+
+      <div class="stat">
+        <h3>Referral Balance</h3>
+        <strong id="refBalance">৳0.00</strong>
+      </div>
+
+      <div class="stat">
+        <h3>Total Links</h3>
+        <strong id="totalLinks">0</strong>
+      </div>
 
     </div>
 
-  </div>
 
+    <div class="card">
 
-  <div class="card">
+      <h2>🔗 Create Short Link</h2>
 
-    <h2>👥 Your Referral Code</h2>
+      <input
+        id="longUrl"
+        type="url"
+        placeholder="https://example.com/your-link"
+      >
 
-    <div
-      id="refCode"
-      class="result">
-      ---
+      <button onclick="shortenLink()">
+        Shorten Link
+      </button>
+
+      <div id="resultBox" class="result hidden">
+
+        <p>আপনার Short Link:</p>
+
+        <br>
+
+        <a
+          id="shortUrlLink"
+          href="#"
+          target="_blank">
+        </a>
+
+      </div>
+
     </div>
 
-  </div>
 
+    <div class="card">
 
-  <div class="card">
+      <h2>👥 Your Referral Code</h2>
 
-    <h2>🔗 আপনার Links</h2>
+      <div id="refCode" class="result">
+        ---
+      </div>
 
-    <div
-      id="linksList"
-      class="links">
     </div>
 
-  </div>
+
+    <div class="card">
+
+      <h2>🔗 আপনার Links</h2>
+
+      <div id="linksList" class="links"></div>
+
+    </div>
 
 
-  <div class="card">
+    <div class="card">
 
-    <button
-      class="red"
-      onclick="logoutUser()">
-      Logout
-    </button>
+      <button class="red" onclick="logoutUser()">
+        Logout
+      </button>
 
-  </div>
+    </div>
 
-</section>
-
+  </section>
 
 </main>
 
 
 <footer>
-
   © 2026 BDTxEarning
-
 </footer>
-
 
 
 <script>
 
-
-/* ================================
-   SUPABASE
-================================ */
-
+/* =================================
+   SUPABASE CONFIG
+================================= */
 
 const SUPABASE_URL =
   "https://hmshjrqrogczsvxtwkqi.supabase.co";
 
-
 const SUPABASE_KEY =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSI6Imhtc2hqcnJvZ2N6c3Z4dHdraXEiLCJyb2xlIjoiYW5vbiIsImlhdCI6MTc5MTM2MDkzMSwiZXhwIjoyMTA2OTM2OTMxfQ...";
-
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imhtc2hqcnJvZ2N6c3Z4dHdraXEiLCJyb2xlIjoiYW5vbiIsImlhdCI6MTc5MTM2MDkzMSwiZXhwIjoyMTA2OTM2OTMxfQ.LE4S-YuqC8TjRLtlPwRNMjPQaTl7GqLGRCSztqcmVqs";
 
 const supabaseClient =
   supabase.createClient(
@@ -577,30 +481,23 @@ const supabaseClient =
   );
 
 
-
-/* ================================
+/* =================================
    PAGE CONTROL
-================================ */
-
+================================= */
 
 function hideAll() {
 
-  document
-    .getElementById("home")
+  document.getElementById("home")
     .classList.add("hidden");
 
-  document
-    .getElementById("register")
+  document.getElementById("register")
     .classList.add("hidden");
 
-  document
-    .getElementById("login")
+  document.getElementById("login")
     .classList.add("hidden");
 
-  document
-    .getElementById("dashboard")
+  document.getElementById("dashboard")
     .classList.add("hidden");
-
 }
 
 
@@ -608,10 +505,8 @@ function showHome() {
 
   hideAll();
 
-  document
-    .getElementById("home")
+  document.getElementById("home")
     .classList.remove("hidden");
-
 }
 
 
@@ -619,10 +514,10 @@ function showRegister() {
 
   hideAll();
 
-  document
-    .getElementById("register")
+  document.getElementById("register")
     .classList.remove("hidden");
 
+  document.getElementById("registerMessage").innerText = "";
 }
 
 
@@ -630,59 +525,42 @@ function showLogin() {
 
   hideAll();
 
-  document
-    .getElementById("login")
+  document.getElementById("login")
     .classList.remove("hidden");
 
+  document.getElementById("loginMessage").innerText = "";
 }
 
 
-
-/* ================================
+/* =================================
    REGISTER
-================================ */
-
+================================= */
 
 async function registerUser() {
 
   const name =
-    document
-      .getElementById("regName")
-      .value
-      .trim();
-
+    document.getElementById("regName")
+      .value.trim();
 
   const username =
-    document
-      .getElementById("regUsername")
-      .value
-      .trim();
-
+    document.getElementById("regUsername")
+      .value.trim();
 
   const email =
-    document
-      .getElementById("regEmail")
-      .value
-      .trim();
-
+    document.getElementById("regEmail")
+      .value.trim();
 
   const password =
-    document
-      .getElementById("regPassword")
+    document.getElementById("regPassword")
       .value;
 
-
   const message =
-    document
-      .getElementById("registerMessage");
+    document.getElementById("registerMessage");
 
 
-  if (
-    !name ||
-    !username ||
-    !email ||
-    !password
-  ) {
+  if (!name || !username || !email || !password) {
+
+    message.className = "message error";
 
     message.innerText =
       "সব তথ্য পূরণ করুন।";
@@ -693,6 +571,8 @@ async function registerUser() {
 
   if (password.length < 6) {
 
+    message.className = "message error";
+
     message.innerText =
       "Password কমপক্ষে ৬ অক্ষরের হতে হবে।";
 
@@ -700,75 +580,103 @@ async function registerUser() {
   }
 
 
+  message.className = "message";
+
   message.innerText =
     "Account তৈরি হচ্ছে...";
 
 
-  const { data, error } =
-    await supabaseClient.auth.signUp({
+  try {
 
-      email: email,
+    const { data, error } =
+      await supabaseClient.auth.signUp({
 
-      password: password,
+        email: email,
 
-      options: {
+        password: password,
 
-        data: {
+        options: {
 
-          username: username,
+          data: {
 
-          full_name: name
+            username: username,
+
+            full_name: name
+
+          }
 
         }
 
-      }
-
-    });
+      });
 
 
-  if (error) {
+    if (error) {
+
+      message.className =
+        "message error";
+
+      message.innerText =
+        error.message;
+
+      return;
+    }
+
+
+    message.className =
+      "message success";
+
+
+    if (data.session) {
+
+      message.innerText =
+        "✅ Account সফলভাবে তৈরি হয়েছে! Dashboard-এ যাচ্ছি...";
+
+      setTimeout(() => {
+        loadDashboard();
+      }, 1000);
+
+    } else {
+
+      message.innerText =
+        "✅ Account তৈরি হয়েছে। আপনার Email verify করে Login করুন।";
+
+    }
+
+  } catch (err) {
+
+    message.className =
+      "message error";
 
     message.innerText =
-      error.message;
+      "❌ সমস্যা হয়েছে: " + err.message;
 
-    return;
   }
-
-
-  message.innerText =
-    "Account তৈরি হয়েছে। Email verification প্রয়োজন হতে পারে।";
-
 
 }
 
 
-
-/* ================================
+/* =================================
    LOGIN
-================================ */
-
+================================= */
 
 async function loginUser() {
 
   const email =
-    document
-      .getElementById("loginEmail")
-      .value
-      .trim();
-
+    document.getElementById("loginEmail")
+      .value.trim();
 
   const password =
-    document
-      .getElementById("loginPassword")
+    document.getElementById("loginPassword")
       .value;
 
-
   const message =
-    document
-      .getElementById("loginMessage");
+    document.getElementById("loginMessage");
 
 
   if (!email || !password) {
+
+    message.className =
+      "message error";
 
     message.innerText =
       "Email এবং Password দিন।";
@@ -777,40 +685,63 @@ async function loginUser() {
   }
 
 
+  message.className =
+    "message";
+
   message.innerText =
     "Login হচ্ছে...";
 
 
-  const { data, error } =
-    await supabaseClient.auth
-      .signInWithPassword({
+  try {
 
-        email: email,
+    const { data, error } =
+      await supabaseClient.auth
+        .signInWithPassword({
 
-        password: password
+          email: email,
 
-      });
+          password: password
+
+        });
 
 
-  if (error) {
+    if (error) {
+
+      message.className =
+        "message error";
+
+      message.innerText =
+        error.message;
+
+      return;
+    }
+
+
+    message.className =
+      "message success";
 
     message.innerText =
-      error.message;
+      "✅ Login সফল হয়েছে।";
 
-    return;
+
+    await loadDashboard();
+
+  } catch (err) {
+
+    message.className =
+      "message error";
+
+    message.innerText =
+      "❌ সমস্যা হয়েছে: " + err.message;
+
   }
-
-
-  await loadDashboard();
 
 }
 
 
-
-/* ================================
+/* =================================
    DASHBOARD
-================================ */
-
+================================= */
 
 async function loadDashboard() {
 
@@ -849,15 +780,11 @@ async function loadDashboard() {
 
   hideAll();
 
-
-  document
-    .getElementById("dashboard")
-    .classList
-    .remove("hidden");
+  document.getElementById("dashboard")
+    .classList.remove("hidden");
 
 
-  document
-    .getElementById("welcomeText")
+  document.getElementById("welcomeText")
     .innerText =
       "স্বাগতম, " +
       (
@@ -867,29 +794,23 @@ async function loadDashboard() {
       );
 
 
-  document
-    .getElementById("balance")
+  document.getElementById("balance")
     .innerText =
       "৳" +
-      Number(
-        profile.balance || 0
-      ).toFixed(2);
+      Number(profile.balance || 0)
+        .toFixed(2);
 
 
-  document
-    .getElementById("refBalance")
+  document.getElementById("refBalance")
     .innerText =
       "৳" +
-      Number(
-        profile.referral_balance || 0
-      ).toFixed(2);
+      Number(profile.referral_balance || 0)
+        .toFixed(2);
 
 
-  document
-    .getElementById("refCode")
+  document.getElementById("refCode")
     .innerText =
-      profile.referral_code ||
-      "---";
+      profile.referral_code || "---";
 
 
   await loadLinks();
@@ -897,11 +818,9 @@ async function loadDashboard() {
 }
 
 
-
-/* ================================
-   CREATE SHORT LINK
-================================ */
-
+/* =================================
+   SHORT CODE
+================================= */
 
 function generateCode() {
 
@@ -912,34 +831,48 @@ function generateCode() {
 }
 
 
+/* =================================
+   CREATE SHORT LINK
+================================= */
 
 async function shortenLink() {
 
   const longUrl =
-    document
-      .getElementById("longUrl")
-      .value
-      .trim();
+    document.getElementById("longUrl")
+      .value.trim();
 
 
   if (!longUrl) {
 
+    alert("একটি লিংক দিন।");
+
+    return;
+  }
+
+
+  let url;
+
+  try {
+
+    url = new URL(longUrl);
+
+  } catch {
+
     alert(
-      "একটি লিংক দিন।"
+      "সঠিক URL দিন। যেমন: https://example.com"
     );
 
     return;
   }
 
 
-  try {
-
-    new URL(longUrl);
-
-  } catch {
+  if (
+    url.protocol !== "http:" &&
+    url.protocol !== "https:"
+  ) {
 
     alert(
-      "সঠিক URL দিন। যেমন: https://example.com"
+      "শুধু HTTP অথবা HTTPS লিংক ব্যবহার করুন।"
     );
 
     return;
@@ -954,9 +887,7 @@ async function shortenLink() {
 
   if (!user) {
 
-    alert(
-      "প্রথমে Login করুন।"
-    );
+    alert("প্রথমে Login করুন।");
 
     showLogin();
 
@@ -989,7 +920,8 @@ async function shortenLink() {
     console.error(error);
 
     alert(
-      "লিংক তৈরি হয়নি। আবার চেষ্টা করুন।"
+      "লিংক তৈরি হয়নি: " +
+      error.message
     );
 
     return;
@@ -1003,26 +935,19 @@ async function shortenLink() {
 
 
   const link =
-    document
-      .getElementById("shortUrlLink");
+    document.getElementById("shortUrlLink");
 
 
-  link.href =
-    shortUrl;
+  link.href = shortUrl;
+
+  link.innerText = shortUrl;
 
 
-  link.innerText =
-    shortUrl;
+  document.getElementById("resultBox")
+    .classList.remove("hidden");
 
 
-  document
-    .getElementById("resultBox")
-    .classList
-    .remove("hidden");
-
-
-  document
-    .getElementById("longUrl")
+  document.getElementById("longUrl")
     .value = "";
 
 
@@ -1031,11 +956,9 @@ async function shortenLink() {
 }
 
 
-
-/* ================================
-   LOAD USER LINKS
-================================ */
-
+/* =================================
+   LOAD LINKS
+================================= */
 
 async function loadLinks() {
 
@@ -1069,15 +992,13 @@ async function loadLinks() {
   }
 
 
-  document
-    .getElementById("totalLinks")
+  document.getElementById("totalLinks")
     .innerText =
       data.length;
 
 
   const list =
-    document
-      .getElementById("linksList");
+    document.getElementById("linksList");
 
 
   if (!data.length) {
@@ -1139,11 +1060,9 @@ async function loadLinks() {
 }
 
 
-
-/* ================================
+/* =================================
    SECURITY
-================================ */
-
+================================= */
 
 function escapeHtml(text) {
 
@@ -1157,11 +1076,9 @@ function escapeHtml(text) {
 }
 
 
-
-/* ================================
+/* =================================
    REDIRECT
-================================ */
-
+================================= */
 
 async function handleRedirect() {
 
@@ -1181,13 +1098,8 @@ async function handleRedirect() {
   const { data, error } =
     await supabaseClient
       .from("links")
-      .select(
-        "id, original_url"
-      )
-      .eq(
-        "short_code",
-        code
-      )
+      .select("id, original_url")
+      .eq("short_code", code)
       .single();
 
 
@@ -1227,29 +1139,22 @@ async function handleRedirect() {
 }
 
 
-
-/* ================================
+/* =================================
    LOGOUT
-================================ */
-
+================================= */
 
 async function logoutUser() {
 
-  await supabaseClient
-    .auth
-    .signOut();
-
+  await supabaseClient.auth.signOut();
 
   showHome();
 
 }
 
 
-
-/* ================================
-   START
-================================ */
-
+/* =================================
+   START APP
+================================= */
 
 async function startApp() {
 
@@ -1270,8 +1175,7 @@ async function startApp() {
   const {
     data: { session }
   } =
-    await supabaseClient
-      .auth
+    await supabaseClient.auth
       .getSession();
 
 
@@ -1289,7 +1193,6 @@ async function startApp() {
 
 
 startApp();
-
 
 </script>
 
