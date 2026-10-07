@@ -40,6 +40,28 @@
       color: #22c55e;
     }
 
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .profile-btn {
+      border: none;
+      background: #2563eb;
+      color: white;
+      padding: 9px 15px;
+      border-radius: 7px;
+      cursor: pointer;
+      font-weight: bold;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .profile-btn:hover {
+      background: #1d4ed8;
+    }
+
     .logout-btn {
       border: none;
       background: #ef4444;
@@ -143,30 +165,6 @@
       font-size: 21px;
       font-weight: bold;
       margin-bottom: 20px;
-    }
-
-    /* Profile */
-    .profile-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 15px;
-    }
-
-    .profile-item {
-      background: #f8fafc;
-      padding: 15px;
-      border-radius: 9px;
-    }
-
-    .profile-label {
-      font-size: 13px;
-      color: #6b7280;
-      margin-bottom: 5px;
-    }
-
-    .profile-value {
-      font-weight: bold;
-      word-break: break-word;
     }
 
     /* Shortener */
@@ -345,6 +343,16 @@
         font-size: 20px;
       }
 
+      .nav-right {
+        gap: 6px;
+      }
+
+      .profile-btn,
+      .logout-btn {
+        padding: 8px 10px;
+        font-size: 12px;
+      }
+
       .container {
         width: 92%;
         margin-top: 18px;
@@ -375,10 +383,6 @@
         padding: 18px;
       }
 
-      .profile-grid {
-        grid-template-columns: 1fr;
-      }
-
       .shortener-box {
         flex-direction: column;
       }
@@ -402,11 +406,23 @@
 
   <!-- Navbar -->
   <nav class="navbar">
-    <div class="logo">BDTxEarning</div>
 
-    <button class="logout-btn" onclick="logout()">
-      Logout
-    </button>
+    <div class="logo">
+      BDTxEarning
+    </div>
+
+    <div class="nav-right">
+
+      <a href="profile.html" class="profile-btn">
+        👤 Profile
+      </a>
+
+      <button class="logout-btn" onclick="logout()">
+        Logout
+      </button>
+
+    </div>
+
   </nav>
 
 
@@ -414,15 +430,17 @@
 
     <!-- Welcome -->
     <div class="welcome">
+
       <h1>
         স্বাগতম, <span id="welcomeName">User</span> 👋
       </h1>
 
       <p>
         আপনার BDTxEarning Dashboard থেকে
-        Link Shorten, Click এবং আপনার Account
-        তথ্য পরিচালনা করুন।
+        Link Shorten, Click এবং আপনার
+        Earning পরিচালনা করুন।
       </p>
+
     </div>
 
 
@@ -430,82 +448,60 @@
     <div class="stats">
 
       <div class="stat-card">
+
         <div class="stat-icon">💰</div>
-        <div class="stat-title">Balance</div>
-        <div class="stat-value" id="balance">৳0</div>
+
+        <div class="stat-title">
+          Balance
+        </div>
+
+        <div class="stat-value" id="balance">
+          ৳0
+        </div>
+
       </div>
 
+
       <div class="stat-card">
+
         <div class="stat-icon">👥</div>
-        <div class="stat-title">Referral Balance</div>
-        <div class="stat-value" id="referralBalance">৳0</div>
+
+        <div class="stat-title">
+          Referral Balance
+        </div>
+
+        <div class="stat-value" id="referralBalance">
+          ৳0
+        </div>
+
       </div>
 
+
       <div class="stat-card">
+
         <div class="stat-icon">🔗</div>
-        <div class="stat-title">Total Links</div>
-        <div class="stat-value" id="totalLinks">0</div>
+
+        <div class="stat-title">
+          Total Links
+        </div>
+
+        <div class="stat-value" id="totalLinks">
+          0
+        </div>
+
       </div>
+
 
       <div class="stat-card">
+
         <div class="stat-icon">👆</div>
-        <div class="stat-title">Total Clicks</div>
-        <div class="stat-value" id="totalClicks">0</div>
-      </div>
 
-    </div>
-
-
-    <!-- Profile -->
-    <div class="section">
-
-      <div class="section-title">
-        👤 Profile Information
-      </div>
-
-      <div class="profile-grid">
-
-        <div class="profile-item">
-          <div class="profile-label">
-            Full Name
-          </div>
-
-          <div class="profile-value" id="fullName">
-            Loading...
-          </div>
+        <div class="stat-title">
+          Total Clicks
         </div>
 
-
-        <div class="profile-item">
-          <div class="profile-label">
-            Username
-          </div>
-
-          <div class="profile-value" id="username">
-            Loading...
-          </div>
-        </div>
-
-
-        <div class="profile-item">
-          <div class="profile-label">
-            Email
-          </div>
-
-          <div class="profile-value" id="email">
-            Loading...
-          </div>
-        </div>
-
-
-        <div class="profile-item">
-          <div class="profile-label">
-            Referral Code
-          </div>
-
-          <div class="profile-value" id="referralCode">
-            Loading...
-          </div>
+        <div class="stat-value" id="totalClicks">
+          0
         </div>
 
       </div>
@@ -594,9 +590,11 @@
           <tbody id="linksTable">
 
             <tr>
+
               <td colspan="4" class="loading">
                 Loading...
               </td>
+
             </tr>
 
           </tbody>
@@ -649,18 +647,14 @@
 
       if (error || !user) {
 
-        window.location.href = "login.html";
+        window.location.href =
+          "login.html";
 
         return;
       }
 
 
       currentUser = user;
-
-
-      document.getElementById("email").textContent =
-        user.email || "-";
-
 
       await loadProfile();
 
@@ -669,7 +663,7 @@
     }
 
 
-    /* Profile */
+    /* Profile Data */
 
     async function loadProfile() {
 
@@ -688,7 +682,8 @@
         console.error(error);
 
         showMessage(
-          "Profile load error: " + error.message,
+          "Profile load error: " +
+          error.message,
           "error"
         );
 
@@ -707,28 +702,20 @@
       }
 
 
-      document.getElementById("fullName").textContent =
-        data.full_name || "-";
-
-
-      document.getElementById("username").textContent =
-        data.username || "-";
-
-
-      document.getElementById("referralCode").textContent =
-        data.referral_code || "-";
-
-
       document.getElementById("balance").textContent =
-        "৳" + Number(data.balance || 0).toFixed(2);
+        "৳" +
+        Number(data.balance || 0).toFixed(2);
 
 
       document.getElementById("referralBalance").textContent =
-        "৳" + Number(data.referral_balance || 0).toFixed(2);
+        "৳" +
+        Number(data.referral_balance || 0).toFixed(2);
 
 
       document.getElementById("welcomeName").textContent =
-        data.full_name || data.username || "User";
+        data.full_name ||
+        data.username ||
+        "User";
 
     }
 
@@ -806,7 +793,9 @@
         const shortUrl =
           window.location.origin +
           "/?c=" +
-          encodeURIComponent(link.short_code);
+          encodeURIComponent(
+            link.short_code
+          );
 
 
         const originalUrl =
@@ -815,8 +804,9 @@
 
         const created =
           link.created_at
-            ? new Date(link.created_at)
-                .toLocaleDateString("bn-BD")
+            ? new Date(
+                link.created_at
+              ).toLocaleDateString("bn-BD")
             : "-";
 
 
@@ -839,7 +829,8 @@
 
             <td>
               <span class="click-badge">
-                ${Number(link.clicks || 0)} Clicks
+                ${Number(link.clicks || 0)}
+                Clicks
               </span>
             </td>
 
@@ -864,7 +855,9 @@
     async function shortenLink() {
 
       const input =
-        document.getElementById("originalUrl");
+        document.getElementById(
+          "originalUrl"
+        );
 
       const url =
         input.value.trim();
@@ -886,7 +879,8 @@
 
       try {
 
-        validUrl = new URL(url);
+        validUrl =
+          new URL(url);
 
       } catch {
 
@@ -949,14 +943,20 @@
       const shortUrl =
         window.location.origin +
         "/?c=" +
-        encodeURIComponent(data.short_code);
+        encodeURIComponent(
+          data.short_code
+        );
 
 
-      document.getElementById("resultUrl").textContent =
+      document.getElementById(
+        "resultUrl"
+      ).textContent =
         shortUrl;
 
 
-      document.getElementById("resultBox").style.display =
+      document.getElementById(
+        "resultBox"
+      ).style.display =
         "block";
 
 
@@ -994,7 +994,8 @@
         result +=
           chars.charAt(
             Math.floor(
-              Math.random() * chars.length
+              Math.random() *
+              chars.length
             )
           );
 
@@ -1011,7 +1012,9 @@
     async function copyLink() {
 
       const url =
-        document.getElementById("resultUrl").textContent;
+        document.getElementById(
+          "resultUrl"
+        ).textContent;
 
 
       if (!url) {
@@ -1021,7 +1024,9 @@
 
       try {
 
-        await navigator.clipboard.writeText(url);
+        await navigator.clipboard.writeText(
+          url
+        );
 
         showMessage(
           "Short Link Copy হয়েছে! ✅",
@@ -1046,7 +1051,8 @@
 
       const {
         error
-      } = await supabaseClient.auth.signOut();
+      } =
+        await supabaseClient.auth.signOut();
 
 
       if (error) {
@@ -1074,7 +1080,9 @@
     ) {
 
       const message =
-        document.getElementById("message");
+        document.getElementById(
+          "message"
+        );
 
 
       message.textContent =
