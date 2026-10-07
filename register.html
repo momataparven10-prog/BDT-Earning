@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="bn">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Register - BDTxEarning</title>
+
+
+    <!-- Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+            color: #1f2937;
+            min-height: 100vh;
+        }
+
+
+        /* =========================
+           Navbar
+        ========================= */
+
+        .navbar {
+            background: #111827;
+            color: white;
+
+            padding: 15px 6%;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+
+        .logo {
+            color: #22c55e;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 15px;
+        }
+
+
+        .nav-links a:hover {
+            color: #22c55e;
+        }
+
+
+        /* =========================
+           Register Container
+        ========================= */
+
+        .register-container {
+            width: 100%;
+            max-width: 480px;
+
+            margin: 45px auto;
+
+            padding: 20px;
+        }
+
+
+        .register-card {
+            background: white;
+
+            padding: 30px;
+
+            border-radius: 14px;
+
+            box-shadow:
+                0 5px 20px rgba(0,0,0,0.08);
+        }
+
+
+        .register-card h1 {
+            text-align: center;
+
+            margin-bottom: 8px;
+
+            color: #111827;
+        }
+
+
+        .subtitle {
+            text-align: center;
+
+            color: #6b7280;
+
+            margin-bottom: 25px;
+        }
+
+
+        /* =========================
+           Message
+        ========================= */
+
+        .message {
+            display: none;
+
+            padding: 12px;
+
+            border-radius: 8px;
+
+            margin-bottom: 15px;
+
+            font-size: 14px;
+        }
+
+
+        .success {
+            background: #dcfce7;
+
+            color: #166534;
+        }
+
+
+        .error {
+            background: #fee2e2;
+
+            color: #991b1b;
+        }
+
+
+        /* =========================
+           Form
+        ========================= */
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+
+        .form-group label {
+            display: block;
+
+            margin-bottom: 7px;
+
+            font-size: 14px;
+
+            font-weight: bold;
+
+            color: #374151;
+        }
+
+
+        .form-group input {
+            width: 100%;
+
+            padding: 13px;
+
+            border: 1px solid #d1d5db;
+
+            border-radius: 8px;
+
+            font-size: 15px;
+
+            outline: none;
+        }
+
+
+        .form-group input:focus {
+            border-color: #22c55e;
+
+            box-shadow:
+                0 0 0 2px
+                rgba(34,197,94,0.15);
+        }
+
+
+        /* =========================
+           Register Button
+        ========================= */
+
+        .register-btn {
+            width: 100%;
+
+            padding: 13px;
+
+            border: none;
+
+            border-radius: 8px;
+
+            background: #22c55e;
+
+            color: white;
+
+            font-size: 16px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            transition: 0.2s;
+        }
+
+
+        .register-btn:hover {
+            background: #16a34a;
+        }
+
+
+        .register-btn:disabled {
+            opacity: 0.7;
+
+            cursor: not-allowed;
+        }
+
+
+        /* =========================
+           Bottom
+        ========================= */
+
+        .bottom-text {
+            text-align: center;
+
+            margin-top: 20px;
+
+            color: #6b7280;
+
+            font-size: 14px;
+        }
+
+
+        .bottom-text a {
+            color: #2563eb;
+
+            text-decoration: none;
+
+            font-weight: bold;
+        }
+
+
+        .bottom-text a:hover {
+            text-decoration: underline;
+        }
+
+
+        /* =========================
+           Footer
+        ========================= */
+
+        footer {
+            text-align: center;
+
+            padding: 25px;
+
+            color: #6b7280;
+        }
+
+
+        /* =========================
+           Mobile
+        ========================= */
+
+        @media (max-width: 600px) {
+
+            .navbar {
+                padding: 14px 20px;
+            }
+
+
+            .logo {
+                font-size: 20px;
+            }
+
+
+            .nav-links {
+                gap: 10px;
+            }
+
+
+            .nav-links a {
+                font-size: 13px;
+            }
+
+
+            .register-container {
+                margin: 30px auto;
+            }
+
+
+            .register-card {
+                padding: 25px 20px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =========================
+         Navbar
+    ========================= -->
+
+    <header class="navbar">
+
+        <div class="logo">
+            BDTxEarning
+        </div>
+
+
+        <nav class="nav-links">
+
+            <a href="index.html">
+                Home
+            </a>
+
+            <a href="login.html">
+                Login
+            </a>
+
+        </nav>
+
+    </header>
+
+
+
+    <!-- =========================
+         Register
+    ========================= -->
+
+    <main class="register-container">
+
+        <div class="register-card">
+
+            <h1>
+                Create Account 🚀
+            </h1>
+
+            <p class="subtitle">
+                BDTxEarning-এ আপনার নতুন Account তৈরি করুন
+            </p>
+
+
+            <div
+                id="message"
+                class="message"
+            ></div>
+
+
+            <!-- Full Name -->
+
+            <div class="form-group">
+
+                <label>
+                    Full Name
+                </label>
+
+                <input
+                    type="text"
+                    id="fullName"
+                    placeholder="আপনার পুরো নাম"
+                    autocomplete="name"
+                >
+
+            </div>
+
+
+            <!-- Username -->
+
+            <div class="form-group">
+
+                <label>
+                    Username
+                </label>
+
+                <input
+                    type="text"
+                    id="username"
+                    placeholder="একটি Username দিন"
+                    autocomplete="username"
+                >
+
+            </div>
+
+
+            <!-- Email -->
+
+            <div class="form-group">
+
+                <label>
+                    Email
+                </label>
+
+                <input
+                    type="email"
+                    id="email"
+                    placeholder="আপনার Email"
+                    autocomplete="email"
+                >
+
+            </div>
+
+
+            <!-- Password -->
+
+            <div class="form-group">
+
+                <label>
+                    Password
+                </label>
+
+                <input
+                    type="password"
+                    id="password"
+                    placeholder="কমপক্ষে ৬ অক্ষর"
+                    autocomplete="new-password"
+                >
+
+            </div>
+
+
+            <!-- Confirm Password -->
+
+            <div class="form-group">
+
+                <label>
+                    Confirm Password
+                </label>
+
+                <input
+                    type="password"
+                    id="confirmPassword"
+                    placeholder="Password আবার লিখুন"
+                    autocomplete="new-password"
+                >
+
+            </div>
+
+
+            <button
+                id="registerButton"
+                class="register-btn"
+                onclick="registerUser()"
+            >
+                Create Account
+            </button>
+
+
+            <div class="bottom-text">
+
+                আগে থেকেই Account আছে?
+
+                <a href="login.html">
+                    Login করুন
+                </a>
+
+            </div>
+
+        </div>
+
+    </main>
+
+
+
+    <footer>
+
+        © 2026 BDTxEarning — All Rights Reserved
+
+    </footer>
+
+
+
+    <script>
+
+
+        /* =========================
+           SUPABASE CONFIG
+        ========================= */
+
+
+        const SUPABASE_URL =
+            "https://hmshjrqrogczsvxtwkqi.supabase.co";
+
+
+        const SUPABASE_KEY =
+            "sb_publishable_tLNKwPxwoceKvJG2DpR6jw_VE9KaExr";
+
+
+        const supabaseClient =
+            supabase.createClient(
+                SUPABASE_URL,
+                SUPABASE_KEY
+            );
+
+
+
+        /* =========================
+           MESSAGE
+        ========================= */
+
+
+        function showMessage(
+            text,
+            type
+        ) {
+
+            const message =
+                document.getElementById(
+                    "message"
+                );
+
+
+            message.innerText = text;
+
+
+            message.className =
+                "message " + type;
+
+
+            message.style.display =
+                "block";
+        }
+
+
+
+        /* =========================
+           REGISTER
+        ========================= */
+
+
+        async function registerUser() {
+
+
+            const fullName =
+                document
+                    .getElementById("fullName")
+                    .value
+                    .trim();
+
+
+            const username =
+                document
+                    .getElementById("username")
+                    .value
+                    .trim();
+
+
+            const email =
+                document
+                    .getElementById("email")
+                    .value
+                    .trim();
+
+
+            const password =
+                document
+                    .getElementById("password")
+                    .value;
+
+
+            const confirmPassword =
+                document
+                    .getElementById("confirmPassword")
+                    .value;
+
+
+            const button =
+                document.getElementById(
+                    "registerButton"
+                );
+
+
+            /* Validation */
+
+            if (!fullName) {
+
+                showMessage(
+                    "আপনার Full Name দিন।",
+                    "error"
+                );
+
+                return;
+            }
+
+
+            if (!username) {
+
+                showMessage(
+                    "একটি Username দিন।",
+                    "error"
+                );
+
+                return;
+            }
+
+
+            if (!email) {
+
+                showMessage(
+                    "আপনার Email দিন।",
+                    "error"
+                );
+
+                return;
+            }
+
+
+            if (password.length < 6) {
+
+                showMessage(
+                    "Password কমপক্ষে ৬ অক্ষরের হতে হবে।",
+                    "error"
+                );
+
+                return;
+            }
+
+
+            if (password !== confirmPassword) {
+
+                showMessage(
+                    "দুইটি Password একই নয়।",
+                    "error"
+                );
+
+                return;
+            }
+
+
+            button.disabled = true;
+
+            button.innerText =
+                "Account তৈরি হচ্ছে...";
+
+
+            showMessage(
+                "আপনার Account তৈরি করা হচ্ছে...",
+                "success"
+            );
+
+
+            /* =========================
+               Supabase Signup
+            ========================= */
+
+
+            const {
+                data,
+                error
+            } =
+                await supabaseClient.auth
+                    .signUp({
+
+                        email: email,
+
+                        password: password,
+
+                        options: {
+
+                            data: {
+
+                                full_name:
+                                    fullName,
+
+                                username:
+                                    username
+
+                            }
+
+                        }
+
+                    });
+
+
+            /* Error */
+
+            if (error) {
+
+                button.disabled = false;
+
+                button.innerText =
+                    "Create Account";
+
+
+                showMessage(
+                    error.message,
+                    "error"
+                );
+
+                return;
+            }
+
+
+            /* Success */
+
+            if (data.user) {
+
+                showMessage(
+                    "Account সফলভাবে তৈরি হয়েছে! Login Page-এ নেওয়া হচ্ছে...",
+                    "success"
+                );
+
+
+                setTimeout(
+                    function() {
+
+                        window.location.href =
+                            "login.html";
+
+                    },
+                    1200
+                );
+
+            }
+
+        }
+
+
+
+        /* =========================
+           ENTER KEY
+        ========================= */
+
+
+        document
+            .getElementById("confirmPassword")
+            .addEventListener(
+                "keydown",
+                function(event) {
+
+                    if (
+                        event.key === "Enter"
+                    ) {
+
+                        registerUser();
+
+                    }
+
+                }
+            );
+
+
+    </script>
+
+
+</body>
+
+</html>
