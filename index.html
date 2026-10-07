@@ -1,99 +1,1296 @@
 <!DOCTYPE html>
 <html lang="bn">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BDTxEarning - Short Link & Earn Money</title>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        body { background: #f4f7f6; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; }
-        .card { background: #ffffff; padding: 30px; border-radius: 12px; box-shadow: 0 8px 20px rgba(0,0,0,0.1); width: 100%; max-width: 450px; text-align: center; }
-        h1 { color: #1e293b; font-size: 26px; margin-bottom: 8px; }
-        p.subtitle { color: #64748b; font-size: 14px; margin-bottom: 20px; }
-        input { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 15px; outline: none; }
-        input:focus { border-color: #2563eb; }
-        button { width: 100%; padding: 12px; background: #2563eb; color: white; border: none; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.3s; }
-        button:hover { background: #1d4ed8; }
-        .result { margin-top: 20px; word-break: break-all; text-align: left; background: #f8fafc; padding: 15px; border-radius: 8px; border: 1px solid #e2e8f0; display: none; }
-        .result p { font-size: 14px; color: #334155; margin-bottom: 5px; }
-        .result a { color: #2563eb; font-weight: bold; text-decoration: none; }
-    </style>
+
+  <meta charset="UTF-8">
+
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+  <title>BDTxEarning - Short Link & Earn Money</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: #f4f7f6;
+      color: #172033;
+    }
+
+    header {
+      background: #111827;
+      color: white;
+      padding: 16px 20px;
+    }
+
+    .nav {
+      max-width: 1100px;
+      margin: auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .logo span {
+      color: #22c55e;
+    }
+
+    .nav button {
+      width: auto;
+      margin: 0;
+      padding: 8px 15px;
+      font-size: 14px;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 30px auto;
+      padding: 0 18px;
+    }
+
+    .hero {
+      background: linear-gradient(135deg, #111827, #2563eb);
+      color: white;
+      padding: 45px 25px;
+      border-radius: 20px;
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    .hero h1 {
+      font-size: 36px;
+      margin-bottom: 10px;
+    }
+
+    .hero p {
+      font-size: 16px;
+    }
+
+    .card {
+      background: white;
+      padding: 25px;
+      border-radius: 16px;
+      box-shadow: 0 5px 20px rgba(0,0,0,.07);
+      margin-bottom: 20px;
+    }
+
+    .card h2 {
+      margin-bottom: 15px;
+    }
+
+    input {
+      width: 100%;
+      padding: 13px;
+      margin-bottom: 12px;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      font-size: 15px;
+      outline: none;
+    }
+
+    input:focus {
+      border-color: #2563eb;
+    }
+
+    button {
+      width: 100%;
+      padding: 13px;
+      background: #2563eb;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 8px;
+    }
+
+    button:hover {
+      opacity: .9;
+    }
+
+    .green {
+      background: #16a34a;
+    }
+
+    .red {
+      background: #dc2626;
+    }
+
+    .gray {
+      background: #64748b;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .auth {
+      max-width: 430px;
+      margin: 30px auto;
+    }
+
+    .auth h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .message {
+      text-align: center;
+      margin-top: 12px;
+      font-size: 14px;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .stat {
+      background: white;
+      padding: 22px;
+      border-radius: 15px;
+      box-shadow: 0 5px 20px rgba(0,0,0,.06);
+    }
+
+    .stat h3 {
+      font-size: 15px;
+      color: #64748b;
+      margin-bottom: 8px;
+    }
+
+    .stat strong {
+      font-size: 25px;
+      color: #16a34a;
+    }
+
+    .result {
+      margin-top: 18px;
+      background: #f1f5f9;
+      padding: 15px;
+      border-radius: 9px;
+      word-break: break-all;
+    }
+
+    .result a {
+      color: #2563eb;
+      font-weight: bold;
+    }
+
+    .links {
+      margin-top: 20px;
+    }
+
+    .link-item {
+      border: 1px solid #e2e8f0;
+      padding: 15px;
+      border-radius: 10px;
+      margin-bottom: 10px;
+      background: #f8fafc;
+    }
+
+    .link-item p {
+      margin-bottom: 6px;
+      font-size: 14px;
+      word-break: break-all;
+    }
+
+    .welcome {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    footer {
+      background: #111827;
+      color: white;
+      text-align: center;
+      padding: 25px;
+      margin-top: 50px;
+    }
+
+    @media(max-width: 700px) {
+
+      .stats {
+        grid-template-columns: 1fr;
+      }
+
+      .hero h1 {
+        font-size: 28px;
+      }
+
+      .container {
+        margin-top: 20px;
+      }
+
+    }
+
+  </style>
+
 </head>
+
+
 <body>
 
-<div class="card">
-    <h1>BDTxEarning</h1>
-    <p class="subtitle">সহজেই লিঙ্ক ছোট করুন এবং ইনকাম করুন</p>
-    
-    <input type="url" id="longUrl" placeholder="আপনার লং লিঙ্কটি পেস্ট করুন (eg. https://...)" required>
-    <button onclick="shortenLink()">শর্ট লিঙ্ক তৈরি করুন</button>
-    
-    <div class="result" id="resultBox">
-        <p>আপনার শর্ট লিঙ্ক তৈরি হয়েছে:</p>
-        <a id="shortUrlLink" href="#" target="_blank"></a>
+
+<header>
+
+  <div class="nav">
+
+    <div class="logo">
+      BDTx<span>Earning</span>
     </div>
-</div>
+
+    <div id="navArea"></div>
+
+  </div>
+
+</header>
+
+
+<main class="container">
+
+
+<!-- HOME -->
+
+<section id="home">
+
+  <div class="hero">
+
+    <h1>BDTxEarning</h1>
+
+    <p>
+      সহজেই লিঙ্ক ছোট করুন এবং ইনকাম করুন 💰
+    </p>
+
+  </div>
+
+
+  <div class="card">
+
+    <h2>BDTxEarning কী?</h2>
+
+    <p>
+      আপনার লং লিঙ্ক ছোট করুন এবং ভবিষ্যতে
+      ভিজিট থেকে আয় করুন।
+    </p>
+
+    <button onclick="showRegister()">
+      Create Account
+    </button>
+
+    <button class="green" onclick="showLogin()">
+      Login
+    </button>
+
+  </div>
+
+
+  <div class="card">
+
+    <h2>কীভাবে কাজ করবে?</h2>
+
+    <p>🔗 লিংক তৈরি করুন</p>
+
+    <p>👥 ভিজিটর পান</p>
+
+    <p>💰 আয় করুন</p>
+
+  </div>
+
+</section>
+
+
+
+<!-- REGISTER -->
+
+<section id="register"
+         class="card auth hidden">
+
+  <h2>Create Account</h2>
+
+  <input
+    id="regName"
+    type="text"
+    placeholder="আপনার নাম"
+  >
+
+  <input
+    id="regUsername"
+    type="text"
+    placeholder="Username"
+  >
+
+  <input
+    id="regEmail"
+    type="email"
+    placeholder="Email"
+  >
+
+  <input
+    id="regPassword"
+    type="password"
+    placeholder="Password"
+  >
+
+  <button onclick="registerUser()">
+    Register
+  </button>
+
+  <button
+    class="green"
+    onclick="showLogin()">
+    Login
+  </button>
+
+  <button
+    class="gray"
+    onclick="showHome()">
+    Home
+  </button>
+
+  <div
+    id="registerMessage"
+    class="message">
+  </div>
+
+</section>
+
+
+
+<!-- LOGIN -->
+
+<section id="login"
+         class="card auth hidden">
+
+  <h2>Login</h2>
+
+  <input
+    id="loginEmail"
+    type="email"
+    placeholder="Email"
+  >
+
+  <input
+    id="loginPassword"
+    type="password"
+    placeholder="Password"
+  >
+
+  <button onclick="loginUser()">
+    Login
+  </button>
+
+  <button
+    class="green"
+    onclick="showRegister()">
+    Create Account
+  </button>
+
+  <button
+    class="gray"
+    onclick="showHome()">
+    Home
+  </button>
+
+  <div
+    id="loginMessage"
+    class="message">
+  </div>
+
+</section>
+
+
+
+<!-- DASHBOARD -->
+
+<section id="dashboard"
+         class="hidden">
+
+  <div class="hero">
+
+    <h1>Dashboard 👋</h1>
+
+    <p id="welcomeText">
+      Welcome to BDTxEarning
+    </p>
+
+  </div>
+
+
+  <div class="stats">
+
+    <div class="stat">
+
+      <h3>Main Balance</h3>
+
+      <strong id="balance">
+        ৳0.00
+      </strong>
+
+    </div>
+
+
+    <div class="stat">
+
+      <h3>Referral Balance</h3>
+
+      <strong id="refBalance">
+        ৳0.00
+      </strong>
+
+    </div>
+
+
+    <div class="stat">
+
+      <h3>Total Links</h3>
+
+      <strong id="totalLinks">
+        0
+      </strong>
+
+    </div>
+
+  </div>
+
+
+  <div class="card">
+
+    <h2>🔗 Create Short Link</h2>
+
+    <input
+      id="longUrl"
+      type="url"
+      placeholder="https://example.com/your-link"
+    >
+
+    <button onclick="shortenLink()">
+      Shorten Link
+    </button>
+
+
+    <div
+      id="resultBox"
+      class="result hidden">
+
+      <p>
+        আপনার Short Link:
+      </p>
+
+      <br>
+
+      <a
+        id="shortUrlLink"
+        href="#"
+        target="_blank">
+      </a>
+
+    </div>
+
+  </div>
+
+
+  <div class="card">
+
+    <h2>👥 Your Referral Code</h2>
+
+    <div
+      id="refCode"
+      class="result">
+      ---
+    </div>
+
+  </div>
+
+
+  <div class="card">
+
+    <h2>🔗 আপনার Links</h2>
+
+    <div
+      id="linksList"
+      class="links">
+    </div>
+
+  </div>
+
+
+  <div class="card">
+
+    <button
+      class="red"
+      onclick="logoutUser()">
+      Logout
+    </button>
+
+  </div>
+
+</section>
+
+
+</main>
+
+
+<footer>
+
+  © 2026 BDTxEarning
+
+</footer>
+
+
 
 <script>
-    // Supabase Credentials
-    const SUPABASE_URL = "https://hmshjrqrogczsvxtwkqi.supabase.co";
-    const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imhtc2hqcnFyb2djenN2eHR3a3FpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTEzNjA5MzEsImV4cCI6MjEwNjkzNjkzMX0.LE4S-YuqC8TjRLtlPwRNMjPQaTl7GqLGRCSztqcmVqs";
-    
-    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-    function generateCode() {
-        return Math.random().toString(36).substring(2, 7);
-    }
 
-    async function shortenLink() {
-        const longUrl = document.getElementById('longUrl').value;
-        const resultBox = document.getElementById('resultBox');
-        const shortUrlLink = document.getElementById('shortUrlLink');
-        
-        if (!longUrl) {
-            alert("অনুগ্রহ করে একটি লিঙ্ক ইনপুট দিন!");
-            return;
+/* ================================
+   SUPABASE
+================================ */
+
+
+const SUPABASE_URL =
+  "https://hmshjrqrogczsvxtwkqi.supabase.co";
+
+
+const SUPABASE_KEY =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSI6Imhtc2hqcnJvZ2N6c3Z4dHdraXEiLCJyb2xlIjoiYW5vbiIsImlhdCI6MTc5MTM2MDkzMSwiZXhwIjoyMTA2OTM2OTMxfQ...";
+
+
+const supabaseClient =
+  supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
+
+
+
+/* ================================
+   PAGE CONTROL
+================================ */
+
+
+function hideAll() {
+
+  document
+    .getElementById("home")
+    .classList.add("hidden");
+
+  document
+    .getElementById("register")
+    .classList.add("hidden");
+
+  document
+    .getElementById("login")
+    .classList.add("hidden");
+
+  document
+    .getElementById("dashboard")
+    .classList.add("hidden");
+
+}
+
+
+function showHome() {
+
+  hideAll();
+
+  document
+    .getElementById("home")
+    .classList.remove("hidden");
+
+}
+
+
+function showRegister() {
+
+  hideAll();
+
+  document
+    .getElementById("register")
+    .classList.remove("hidden");
+
+}
+
+
+function showLogin() {
+
+  hideAll();
+
+  document
+    .getElementById("login")
+    .classList.remove("hidden");
+
+}
+
+
+
+/* ================================
+   REGISTER
+================================ */
+
+
+async function registerUser() {
+
+  const name =
+    document
+      .getElementById("regName")
+      .value
+      .trim();
+
+
+  const username =
+    document
+      .getElementById("regUsername")
+      .value
+      .trim();
+
+
+  const email =
+    document
+      .getElementById("regEmail")
+      .value
+      .trim();
+
+
+  const password =
+    document
+      .getElementById("regPassword")
+      .value;
+
+
+  const message =
+    document
+      .getElementById("registerMessage");
+
+
+  if (
+    !name ||
+    !username ||
+    !email ||
+    !password
+  ) {
+
+    message.innerText =
+      "সব তথ্য পূরণ করুন।";
+
+    return;
+  }
+
+
+  if (password.length < 6) {
+
+    message.innerText =
+      "Password কমপক্ষে ৬ অক্ষরের হতে হবে।";
+
+    return;
+  }
+
+
+  message.innerText =
+    "Account তৈরি হচ্ছে...";
+
+
+  const { data, error } =
+    await supabaseClient.auth.signUp({
+
+      email: email,
+
+      password: password,
+
+      options: {
+
+        data: {
+
+          username: username,
+
+          full_name: name
+
         }
 
-        const shortCode = generateCode();
+      }
 
-        const { data, error } = await supabaseClient
-            .from('links')
-            .insert([{ original_url: longUrl, short_code: shortCode }]);
+    });
 
-        if (error) {
-            alert("কোথাও ভুল হয়েছে, ডাটাবেস টেবিল বা RLS সেটিংস চেক করুন!");
-            console.error(error);
-        } else {
-            const shortUrl = window.location.origin + "/?c=" + shortCode;
-            shortUrlLink.href = shortUrl;
-            shortUrlLink.innerText = shortUrl;
-            resultBox.style.display = "block";
+
+  if (error) {
+
+    message.innerText =
+      error.message;
+
+    return;
+  }
+
+
+  message.innerText =
+    "Account তৈরি হয়েছে। Email verification প্রয়োজন হতে পারে।";
+
+
+}
+
+
+
+/* ================================
+   LOGIN
+================================ */
+
+
+async function loginUser() {
+
+  const email =
+    document
+      .getElementById("loginEmail")
+      .value
+      .trim();
+
+
+  const password =
+    document
+      .getElementById("loginPassword")
+      .value;
+
+
+  const message =
+    document
+      .getElementById("loginMessage");
+
+
+  if (!email || !password) {
+
+    message.innerText =
+      "Email এবং Password দিন।";
+
+    return;
+  }
+
+
+  message.innerText =
+    "Login হচ্ছে...";
+
+
+  const { data, error } =
+    await supabaseClient.auth
+      .signInWithPassword({
+
+        email: email,
+
+        password: password
+
+      });
+
+
+  if (error) {
+
+    message.innerText =
+      error.message;
+
+    return;
+  }
+
+
+  await loadDashboard();
+
+}
+
+
+
+/* ================================
+   DASHBOARD
+================================ */
+
+
+async function loadDashboard() {
+
+  const {
+    data: { user }
+  } =
+    await supabaseClient.auth.getUser();
+
+
+  if (!user) {
+
+    showLogin();
+
+    return;
+  }
+
+
+  const { data: profile, error } =
+    await supabaseClient
+      .from("profiles")
+      .select("*")
+      .eq("id", user.id)
+      .single();
+
+
+  if (error) {
+
+    alert(
+      "Profile পাওয়া যায়নি: " +
+      error.message
+    );
+
+    return;
+  }
+
+
+  hideAll();
+
+
+  document
+    .getElementById("dashboard")
+    .classList
+    .remove("hidden");
+
+
+  document
+    .getElementById("welcomeText")
+    .innerText =
+      "স্বাগতম, " +
+      (
+        profile.full_name ||
+        profile.username ||
+        "User"
+      );
+
+
+  document
+    .getElementById("balance")
+    .innerText =
+      "৳" +
+      Number(
+        profile.balance || 0
+      ).toFixed(2);
+
+
+  document
+    .getElementById("refBalance")
+    .innerText =
+      "৳" +
+      Number(
+        profile.referral_balance || 0
+      ).toFixed(2);
+
+
+  document
+    .getElementById("refCode")
+    .innerText =
+      profile.referral_code ||
+      "---";
+
+
+  await loadLinks();
+
+}
+
+
+
+/* ================================
+   CREATE SHORT LINK
+================================ */
+
+
+function generateCode() {
+
+  return Math.random()
+    .toString(36)
+    .substring(2, 8);
+
+}
+
+
+
+async function shortenLink() {
+
+  const longUrl =
+    document
+      .getElementById("longUrl")
+      .value
+      .trim();
+
+
+  if (!longUrl) {
+
+    alert(
+      "একটি লিংক দিন।"
+    );
+
+    return;
+  }
+
+
+  try {
+
+    new URL(longUrl);
+
+  } catch {
+
+    alert(
+      "সঠিক URL দিন। যেমন: https://example.com"
+    );
+
+    return;
+  }
+
+
+  const {
+    data: { user }
+  } =
+    await supabaseClient.auth.getUser();
+
+
+  if (!user) {
+
+    alert(
+      "প্রথমে Login করুন।"
+    );
+
+    showLogin();
+
+    return;
+  }
+
+
+  const shortCode =
+    generateCode();
+
+
+  const { data, error } =
+    await supabaseClient
+      .from("links")
+      .insert([{
+
+        user_id: user.id,
+
+        original_url: longUrl,
+
+        short_code: shortCode
+
+      }])
+      .select()
+      .single();
+
+
+  if (error) {
+
+    console.error(error);
+
+    alert(
+      "লিংক তৈরি হয়নি। আবার চেষ্টা করুন।"
+    );
+
+    return;
+  }
+
+
+  const shortUrl =
+    window.location.origin +
+    "/?c=" +
+    data.short_code;
+
+
+  const link =
+    document
+      .getElementById("shortUrlLink");
+
+
+  link.href =
+    shortUrl;
+
+
+  link.innerText =
+    shortUrl;
+
+
+  document
+    .getElementById("resultBox")
+    .classList
+    .remove("hidden");
+
+
+  document
+    .getElementById("longUrl")
+    .value = "";
+
+
+  await loadLinks();
+
+}
+
+
+
+/* ================================
+   LOAD USER LINKS
+================================ */
+
+
+async function loadLinks() {
+
+  const {
+    data: { user }
+  } =
+    await supabaseClient.auth.getUser();
+
+
+  if (!user) return;
+
+
+  const { data, error } =
+    await supabaseClient
+      .from("links")
+      .select("*")
+      .eq("user_id", user.id)
+      .order(
+        "created_at",
+        {
+          ascending: false
         }
-    }
+      );
 
-    async function handleRedirect() {
-        const urlParams = new URLSearchParams(window.location.search);
-        const code = urlParams.get('c');
 
-        if (code) {
-            document.body.innerHTML = "<h2 style='text-align:center; margin-top:50px;'>BDTxEarning - অপেক্ষা করুন, রিডাইরেক্ট হচ্ছে...</h2>";
-            const { data, error } = await supabaseClient
-                .from('links')
-                .select('original_url')
-                .eq('short_code', code)
-                .single();
+  if (error) {
 
-            if (data && data.original_url) {
-                window.location.href = data.original_url;
-            } else {
-                document.body.innerHTML = "<h2 style='text-align:center; margin-top:50px; color:red;'>লিঙ্কটি সঠিক নয় বা মুছে ফেলা হয়েছে!</h2>";
-            }
-        }
-    }
+    console.error(error);
 
-    handleRedirect();
+    return;
+  }
+
+
+  document
+    .getElementById("totalLinks")
+    .innerText =
+      data.length;
+
+
+  const list =
+    document
+      .getElementById("linksList");
+
+
+  if (!data.length) {
+
+    list.innerHTML =
+      "<p>এখনও কোনো Short Link তৈরি করেননি।</p>";
+
+    return;
+  }
+
+
+  list.innerHTML = "";
+
+
+  data.forEach(link => {
+
+    const shortUrl =
+      window.location.origin +
+      "/?c=" +
+      link.short_code;
+
+
+    const div =
+      document.createElement("div");
+
+
+    div.className =
+      "link-item";
+
+
+    div.innerHTML = `
+
+      <p>
+        <strong>Original:</strong>
+        ${escapeHtml(link.original_url)}
+      </p>
+
+      <p>
+        <strong>Short:</strong>
+        <a
+          href="${shortUrl}"
+          target="_blank">
+          ${shortUrl}
+        </a>
+      </p>
+
+      <p>
+        👁️ Clicks:
+        ${link.clicks || 0}
+      </p>
+
+    `;
+
+
+    list.appendChild(div);
+
+  });
+
+}
+
+
+
+/* ================================
+   SECURITY
+================================ */
+
+
+function escapeHtml(text) {
+
+  const div =
+    document.createElement("div");
+
+  div.textContent = text;
+
+  return div.innerHTML;
+
+}
+
+
+
+/* ================================
+   REDIRECT
+================================ */
+
+
+async function handleRedirect() {
+
+  const params =
+    new URLSearchParams(
+      window.location.search
+    );
+
+
+  const code =
+    params.get("c");
+
+
+  if (!code) return;
+
+
+  const { data, error } =
+    await supabaseClient
+      .from("links")
+      .select(
+        "id, original_url"
+      )
+      .eq(
+        "short_code",
+        code
+      )
+      .single();
+
+
+  if (
+    error ||
+    !data ||
+    !data.original_url
+  ) {
+
+    document.body.innerHTML = `
+
+      <div style="
+        text-align:center;
+        margin-top:100px;
+        padding:20px;
+      ">
+
+        <h2>
+          ❌ লিংক পাওয়া যায়নি
+        </h2>
+
+        <p>
+          লিংকটি ভুল অথবা মুছে ফেলা হয়েছে।
+        </p>
+
+      </div>
+
+    `;
+
+    return;
+  }
+
+
+  window.location.href =
+    data.original_url;
+
+}
+
+
+
+/* ================================
+   LOGOUT
+================================ */
+
+
+async function logoutUser() {
+
+  await supabaseClient
+    .auth
+    .signOut();
+
+
+  showHome();
+
+}
+
+
+
+/* ================================
+   START
+================================ */
+
+
+async function startApp() {
+
+  const params =
+    new URLSearchParams(
+      window.location.search
+    );
+
+
+  if (params.get("c")) {
+
+    await handleRedirect();
+
+    return;
+  }
+
+
+  const {
+    data: { session }
+  } =
+    await supabaseClient
+      .auth
+      .getSession();
+
+
+  if (session) {
+
+    await loadDashboard();
+
+  } else {
+
+    showHome();
+
+  }
+
+}
+
+
+startApp();
+
+
 </script>
 
 </body>
