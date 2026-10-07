@@ -1,1742 +1,1123 @@
 <!DOCTYPE html>
 <html lang="bn">
-
 <head>
-
-    <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
-    <title>Dashboard - BDTxEarning</title>
-
-
-    <!-- Supabase -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-
-    <style>
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-
-        body {
-            font-family: Arial, sans-serif;
-            background: #f4f7fb;
-            color: #1f2937;
-        }
-
-
-        /* =========================
-           Navbar
-        ========================= */
-
-        .navbar {
-            background: #111827;
-            color: white;
-
-            padding: 15px 6%;
-
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-
-        .logo {
-            color: #22c55e;
-
-            font-size: 24px;
-
-            font-weight: bold;
-        }
-
-
-        .nav-right {
-            display: flex;
-
-            align-items: center;
-
-            gap: 10px;
-        }
-
-
-        .nav-right a,
-        .logout-btn {
-            color: white;
-
-            text-decoration: none;
-
-            background: transparent;
-
-            border: none;
-
-            cursor: pointer;
-
-            font-size: 14px;
-
-            padding: 7px 10px;
-        }
-
-
-        .nav-right a:hover,
-        .logout-btn:hover {
-            color: #22c55e;
-        }
-
-
-        /* =========================
-           Container
-        ========================= */
-
-        .container {
-            max-width: 1150px;
-
-            margin: auto;
-
-            padding: 25px 15px;
-        }
-
-
-        /* =========================
-           Welcome
-        ========================= */
-
-        .welcome-card {
-            background: white;
-
-            padding: 25px;
-
-            border-radius: 14px;
-
-            margin-bottom: 20px;
-
-            box-shadow:
-                0 4px 15px
-                rgba(0,0,0,0.06);
-        }
-
-
-        .welcome-card h1 {
-            font-size: 25px;
-
-            margin-bottom: 8px;
-        }
-
-
-        .welcome-card p {
-            color: #6b7280;
-
-            margin-top: 5px;
-        }
-
-
-        .referral-code {
-            display: inline-block;
-
-            margin-top: 12px;
-
-            padding: 8px 12px;
-
-            background: #dcfce7;
-
-            color: #166534;
-
-            border-radius: 7px;
-
-            font-weight: bold;
-        }
-
-
-        /* =========================
-           Stats
-        ========================= */
-
-        .stats {
-            display: grid;
-
-            grid-template-columns:
-                repeat(4, 1fr);
-
-            gap: 15px;
-
-            margin-bottom: 20px;
-        }
-
-
-        .stat-card {
-            background: white;
-
-            padding: 20px;
-
-            border-radius: 12px;
-
-            box-shadow:
-                0 4px 15px
-                rgba(0,0,0,0.05);
-        }
-
-
-        .stat-card h3 {
-            font-size: 14px;
-
-            color: #6b7280;
-
-            margin-bottom: 8px;
-        }
-
-
-        .stat-card strong {
-            font-size: 25px;
-
-            color: #111827;
-        }
-
-
-        /* =========================
-           Main Cards
-        ========================= */
-
-        .card {
-            background: white;
-
-            padding: 25px;
-
-            border-radius: 14px;
-
-            margin-bottom: 20px;
-
-            box-shadow:
-                0 4px 15px
-                rgba(0,0,0,0.06);
-        }
-
-
-        .card-title {
-            font-size: 21px;
-
-            margin-bottom: 18px;
-        }
-
-
-        /* =========================
-           Message
-        ========================= */
-
-        .message {
-            display: none;
-
-            padding: 12px;
-
-            border-radius: 8px;
-
-            margin-bottom: 15px;
-
-            font-size: 14px;
-        }
-
-
-        .success {
-            background: #dcfce7;
-
-            color: #166534;
-        }
-
-
-        .error {
-            background: #fee2e2;
-
-            color: #991b1b;
-        }
-
-
-        /* =========================
-           Shortener
-        ========================= */
-
-        .shortener {
-            display: flex;
-
-            gap: 10px;
-        }
-
-
-        .url-input {
-            flex: 1;
-
-            padding: 14px;
-
-            border: 1px solid #d1d5db;
-
-            border-radius: 8px;
-
-            font-size: 15px;
-
-            outline: none;
-        }
-
-
-        .url-input:focus {
-            border-color: #22c55e;
-
-            box-shadow:
-                0 0 0 2px
-                rgba(34,197,94,0.12);
-        }
-
-
-        .shorten-btn {
-            padding: 13px 22px;
-
-            border: none;
-
-            border-radius: 8px;
-
-            background: #22c55e;
-
-            color: white;
-
-            font-size: 15px;
-
-            font-weight: bold;
-
-            cursor: pointer;
-        }
-
-
-        .shorten-btn:hover {
-            background: #16a34a;
-        }
-
-
-        /* =========================
-           Result
-        ========================= */
-
-        .short-result {
-            display: none;
-
-            margin-top: 15px;
-
-            padding: 15px;
-
-            background: #f0fdf4;
-
-            border-radius: 9px;
-
-            border: 1px solid #bbf7d0;
-        }
-
-
-        .short-result a {
-            color: #15803d;
-
-            font-weight: bold;
-
-            word-break: break-all;
-        }
-
-
-        .copy-btn {
-            margin-top: 12px;
-
-            padding: 9px 15px;
-
-            border: none;
-
-            border-radius: 7px;
-
-            background: #2563eb;
-
-            color: white;
-
-            cursor: pointer;
-        }
-
-
-        .copy-btn:hover {
-            background: #1d4ed8;
-        }
-
-
-        /* =========================
-           Links
-        ========================= */
-
-        .link-item {
-            border: 1px solid #e5e7eb;
-
-            padding: 18px;
-
-            border-radius: 10px;
-
-            margin-bottom: 12px;
-
-            background: #ffffff;
-        }
-
-
-        .link-label {
-            font-size: 13px;
-
-            color: #6b7280;
-
-            margin-bottom: 4px;
-        }
-
-
-        .original-url {
-            word-break: break-all;
-
-            color: #374151;
-
-            font-size: 14px;
-        }
-
-
-        .short-url {
-            word-break: break-all;
-
-            color: #2563eb;
-
-            text-decoration: none;
-
-            font-weight: bold;
-
-            font-size: 15px;
-        }
-
-
-        .short-url:hover {
-            text-decoration: underline;
-        }
-
-
-        .link-bottom {
-            display: flex;
-
-            justify-content: space-between;
-
-            align-items: center;
-
-            margin-top: 12px;
-
-            gap: 10px;
-
-            flex-wrap: wrap;
-        }
-
-
-        .click-badge {
-            display: inline-block;
-
-            background: #dcfce7;
-
-            color: #15803d;
-
-            padding: 6px 12px;
-
-            border-radius: 20px;
-
-            font-size: 13px;
-
-            font-weight: bold;
-        }
-
-
-        .copy-small {
-            padding: 7px 12px;
-
-            background: #2563eb;
-
-            color: white;
-
-            border: none;
-
-            border-radius: 6px;
-
-            cursor: pointer;
-        }
-
-
-        /* =========================
-           Loading
-        ========================= */
-
-        .loading {
-            text-align: center;
-
-            padding: 25px;
-
-            color: #6b7280;
-        }
-
-
-        /* =========================
-           Footer
-        ========================= */
-
-        footer {
-            text-align: center;
-
-            padding: 30px;
-
-            color: #6b7280;
-        }
-
-
-        /* =========================
-           Mobile
-        ========================= */
-
-        @media (max-width: 800px) {
-
-            .stats {
-                grid-template-columns:
-                    repeat(2, 1fr);
-            }
-
-        }
-
-
-        @media (max-width: 600px) {
-
-            .navbar {
-                padding: 14px 20px;
-            }
-
-
-            .logo {
-                font-size: 20px;
-            }
-
-
-            .shortener {
-                flex-direction: column;
-            }
-
-
-            .shorten-btn {
-                width: 100%;
-            }
-
-
-            .stats {
-                grid-template-columns: 1fr 1fr;
-            }
-
-
-            .welcome-card h1 {
-                font-size: 21px;
-            }
-
-        }
-
-
-        @media (max-width: 400px) {
-
-            .stats {
-                grid-template-columns: 1fr;
-            }
-
-        }
-
-    </style>
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Dashboard - BDTxEarning</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: #f3f6fb;
+      color: #1f2937;
+    }
+
+    /* Navbar */
+    .navbar {
+      background: #111827;
+      color: white;
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .logo {
+      font-size: 23px;
+      font-weight: bold;
+      color: #22c55e;
+    }
+
+    .logout-btn {
+      border: none;
+      background: #ef4444;
+      color: white;
+      padding: 9px 16px;
+      border-radius: 7px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .logout-btn:hover {
+      background: #dc2626;
+    }
+
+    /* Main */
+    .container {
+      width: 95%;
+      max-width: 1200px;
+      margin: 25px auto;
+    }
+
+    /* Welcome */
+    .welcome {
+      background: linear-gradient(135deg, #111827, #1f2937);
+      color: white;
+      padding: 28px;
+      border-radius: 15px;
+      margin-bottom: 25px;
+    }
+
+    .welcome h1 {
+      font-size: 28px;
+      margin-bottom: 8px;
+    }
+
+    .welcome p {
+      color: #d1d5db;
+      line-height: 1.6;
+    }
+
+    .username {
+      color: #22c55e;
+      font-weight: bold;
+    }
+
+    /* Stats */
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+      margin-bottom: 25px;
+    }
+
+    .stat-card {
+      background: white;
+      border-radius: 14px;
+      padding: 22px;
+      box-shadow: 0 5px 18px rgba(0,0,0,0.06);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .stat-card::after {
+      content: "";
+      position: absolute;
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      background: #f0fdf4;
+      right: -25px;
+      top: -25px;
+    }
+
+    .stat-icon {
+      font-size: 28px;
+      margin-bottom: 12px;
+    }
+
+    .stat-title {
+      color: #6b7280;
+      font-size: 14px;
+      margin-bottom: 7px;
+    }
+
+    .stat-value {
+      font-size: 25px;
+      font-weight: bold;
+      color: #111827;
+    }
+
+    /* Section */
+    .section {
+      background: white;
+      border-radius: 14px;
+      padding: 25px;
+      margin-bottom: 25px;
+      box-shadow: 0 5px 18px rgba(0,0,0,0.06);
+    }
+
+    .section-title {
+      font-size: 21px;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+
+    /* Profile */
+    .profile-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+    }
+
+    .profile-item {
+      background: #f8fafc;
+      padding: 15px;
+      border-radius: 9px;
+    }
+
+    .profile-label {
+      font-size: 13px;
+      color: #6b7280;
+      margin-bottom: 5px;
+    }
+
+    .profile-value {
+      font-weight: bold;
+      word-break: break-word;
+    }
+
+    /* Shortener */
+    .shortener-box {
+      display: flex;
+      gap: 10px;
+    }
+
+    .url-input {
+      flex: 1;
+      padding: 14px;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      outline: none;
+      font-size: 15px;
+    }
+
+    .url-input:focus {
+      border-color: #22c55e;
+    }
+
+    .shorten-btn {
+      border: none;
+      background: #22c55e;
+      color: #111827;
+      padding: 0 22px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 15px;
+    }
+
+    .shorten-btn:hover {
+      background: #16a34a;
+    }
+
+    /* Result */
+    .result-box {
+      display: none;
+      margin-top: 18px;
+      padding: 18px;
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      border-radius: 10px;
+    }
+
+    .result-title {
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .result-row {
+      display: flex;
+      gap: 8px;
+    }
+
+    .result-url {
+      flex: 1;
+      background: white;
+      border: 1px solid #d1d5db;
+      padding: 11px;
+      border-radius: 7px;
+      word-break: break-all;
+    }
+
+    .copy-btn {
+      border: none;
+      background: #111827;
+      color: white;
+      padding: 0 15px;
+      border-radius: 7px;
+      cursor: pointer;
+    }
+
+    /* Links */
+    .table-wrapper {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 650px;
+    }
+
+    th,
+    td {
+      padding: 14px 10px;
+      border-bottom: 1px solid #e5e7eb;
+      text-align: left;
+      font-size: 14px;
+    }
+
+    th {
+      background: #f8fafc;
+      color: #4b5563;
+    }
+
+    td {
+      color: #374151;
+    }
+
+    .short-link {
+      color: #16a34a;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    .short-link:hover {
+      text-decoration: underline;
+    }
+
+    .click-badge {
+      display: inline-block;
+      background: #eff6ff;
+      color: #2563eb;
+      padding: 5px 10px;
+      border-radius: 20px;
+      font-weight: bold;
+      font-size: 12px;
+    }
+
+    .empty {
+      text-align: center;
+      padding: 30px;
+      color: #6b7280;
+    }
+
+    /* Loading */
+    .loading {
+      text-align: center;
+      padding: 40px;
+      color: #6b7280;
+    }
+
+    /* Message */
+    .message {
+      margin-top: 15px;
+      padding: 12px;
+      border-radius: 7px;
+      display: none;
+    }
+
+    .success {
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .error {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 25px;
+      color: #6b7280;
+      font-size: 13px;
+    }
+
+    /* Mobile */
+    @media (max-width: 900px) {
+      .stats {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 600px) {
+
+      .navbar {
+        padding: 13px 15px;
+      }
+
+      .logo {
+        font-size: 20px;
+      }
+
+      .container {
+        width: 92%;
+        margin-top: 18px;
+      }
+
+      .welcome {
+        padding: 22px;
+      }
+
+      .welcome h1 {
+        font-size: 23px;
+      }
+
+      .stats {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+      }
+
+      .stat-card {
+        padding: 17px;
+      }
+
+      .stat-value {
+        font-size: 21px;
+      }
+
+      .section {
+        padding: 18px;
+      }
+
+      .profile-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .shortener-box {
+        flex-direction: column;
+      }
+
+      .shorten-btn {
+        padding: 13px;
+      }
+
+      .result-row {
+        flex-direction: column;
+      }
+
+      .copy-btn {
+        padding: 12px;
+      }
+    }
+  </style>
 </head>
-
 
 <body>
 
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="logo">BDTxEarning</div>
 
-    <!-- =========================
-         Navbar
-    ========================= -->
+    <button class="logout-btn" onclick="logout()">
+      Logout
+    </button>
+  </nav>
 
-    <header class="navbar">
 
-        <div class="logo">
-            BDTxEarning
+  <main class="container">
+
+    <!-- Welcome -->
+    <div class="welcome">
+      <h1>
+        স্বাগতম, <span id="welcomeName">User</span> 👋
+      </h1>
+
+      <p>
+        আপনার BDTxEarning Dashboard থেকে
+        Link Shorten, Click এবং আপনার Account
+        তথ্য পরিচালনা করুন।
+      </p>
+    </div>
+
+
+    <!-- Statistics -->
+    <div class="stats">
+
+      <div class="stat-card">
+        <div class="stat-icon">💰</div>
+        <div class="stat-title">Balance</div>
+        <div class="stat-value" id="balance">৳0</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon">👥</div>
+        <div class="stat-title">Referral Balance</div>
+        <div class="stat-value" id="referralBalance">৳0</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon">🔗</div>
+        <div class="stat-title">Total Links</div>
+        <div class="stat-value" id="totalLinks">0</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon">👆</div>
+        <div class="stat-title">Total Clicks</div>
+        <div class="stat-value" id="totalClicks">0</div>
+      </div>
+
+    </div>
+
+
+    <!-- Profile -->
+    <div class="section">
+
+      <div class="section-title">
+        👤 Profile Information
+      </div>
+
+      <div class="profile-grid">
+
+        <div class="profile-item">
+          <div class="profile-label">
+            Full Name
+          </div>
+
+          <div class="profile-value" id="fullName">
+            Loading...
+          </div>
         </div>
 
 
-        <div class="nav-right">
+        <div class="profile-item">
+          <div class="profile-label">
+            Username
+          </div>
 
-            <a href="index.html">
-                Home
-            </a>
+          <div class="profile-value" id="username">
+            Loading...
+          </div>
+        </div>
 
-            <button
-                class="logout-btn"
-                onclick="logoutUser()"
-            >
-                Logout
-            </button>
+
+        <div class="profile-item">
+          <div class="profile-label">
+            Email
+          </div>
+
+          <div class="profile-value" id="email">
+            Loading...
+          </div>
+        </div>
+
+
+        <div class="profile-item">
+          <div class="profile-label">
+            Referral Code
+          </div>
+
+          <div class="profile-value" id="referralCode">
+            Loading...
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- Link Shortener -->
+    <div class="section">
+
+      <div class="section-title">
+        🔗 Shorten Your Link
+      </div>
+
+      <div class="shortener-box">
+
+        <input
+          type="url"
+          id="originalUrl"
+          class="url-input"
+          placeholder="https://example.com"
+        >
+
+        <button
+          class="shorten-btn"
+          onclick="shortenLink()"
+        >
+          Shorten Link
+        </button>
+
+      </div>
+
+
+      <div id="message" class="message"></div>
+
+
+      <div id="resultBox" class="result-box">
+
+        <div class="result-title">
+          ✅ আপনার Short Link তৈরি হয়েছে
+        </div>
+
+        <div class="result-row">
+
+          <div
+            id="resultUrl"
+            class="result-url"
+          ></div>
+
+          <button
+            class="copy-btn"
+            onclick="copyLink()"
+          >
+            Copy
+          </button>
 
         </div>
 
-    </header>
+      </div>
 
+    </div>
 
 
-    <!-- =========================
-         Dashboard
-    ========================= -->
+    <!-- Links -->
+    <div class="section">
 
-    <main class="container">
+      <div class="section-title">
+        📊 My Short Links
+      </div>
 
+      <div class="table-wrapper">
 
-        <!-- Welcome -->
+        <table>
 
-        <section class="welcome-card">
+          <thead>
 
-            <h1>
-                Welcome, <span id="userName">User</span> 👋
-            </h1>
+            <tr>
+              <th>Short Link</th>
+              <th>Original URL</th>
+              <th>Clicks</th>
+              <th>Created</th>
+            </tr>
 
-            <p>
-                Username:
-                <strong id="userUsername">...</strong>
-            </p>
+          </thead>
 
-            <p>
-                Email:
-                <strong id="userEmail">...</strong>
-            </p>
+          <tbody id="linksTable">
 
-            <span
-                class="referral-code"
-                id="referralCode"
-            >
-                Referral Code: ...
-            </span>
+            <tr>
+              <td colspan="4" class="loading">
+                Loading...
+              </td>
+            </tr>
 
-        </section>
+          </tbody>
 
+        </table>
 
+      </div>
 
-        <!-- =========================
-             Stats
-        ========================= -->
+    </div>
 
-        <section class="stats">
+  </main>
 
 
-            <div class="stat-card">
+  <footer>
+    © 2026 BDTxEarning. All Rights Reserved.
+  </footer>
 
-                <h3>
-                    💰 Balance
-                </h3>
 
-                <strong id="balance">
-                    ৳0.00
-                </strong>
+  <script>
 
-            </div>
+    /* Supabase */
 
+    const SUPABASE_URL =
+      "https://hmshjrqrogczsvxtwkqi.supabase.co";
 
-            <div class="stat-card">
+    const SUPABASE_KEY =
+      "sb_publishable_tLNKwPxwoceKvJG2DpR6jw_VE9KaExr";
 
-                <h3>
-                    👥 Referral Balance
-                </h3>
+    const supabaseClient =
+      window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+      );
 
-                <strong id="referralBalance">
-                    ৳0.00
-                </strong>
 
-            </div>
+    let currentUser = null;
 
 
-            <div class="stat-card">
+    /* Start */
 
-                <h3>
-                    🔗 Total Links
-                </h3>
+    async function startDashboard() {
 
-                <strong id="totalLinks">
-                    0
-                </strong>
+      const {
+        data: {
+          user
+        },
+        error
+      } = await supabaseClient.auth.getUser();
 
-            </div>
 
+      if (error || !user) {
 
-            <div class="stat-card">
+        window.location.href = "login.html";
 
-                <h3>
-                    👆 Total Clicks
-                </h3>
+        return;
+      }
 
-                <strong id="totalClicks">
-                    0
-                </strong>
 
-            </div>
+      currentUser = user;
 
 
-        </section>
+      document.getElementById("email").textContent =
+        user.email || "-";
 
 
+      await loadProfile();
 
-        <!-- =========================
-             Link Shortener
-        ========================= -->
+      await loadLinks();
 
-        <section class="card">
+    }
 
-            <h2 class="card-title">
-                🔗 Shorten Your Link
-            </h2>
 
+    /* Profile */
 
-            <div
-                id="message"
-                class="message"
-            ></div>
+    async function loadProfile() {
 
+      const {
+        data,
+        error
+      } = await supabaseClient
+        .from("profiles")
+        .select("*")
+        .eq("id", currentUser.id)
+        .maybeSingle();
 
-            <div class="shortener">
 
-                <input
-                    type="url"
-                    id="longUrl"
-                    class="url-input"
-                    placeholder="https://example.com/your-long-link"
-                >
+      if (error) {
 
+        console.error(error);
 
-                <button
-                    id="shortenButton"
-                    class="shorten-btn"
-                    onclick="shortenLink()"
-                >
-                    Shorten Link
-                </button>
+        showMessage(
+          "Profile load error: " + error.message,
+          "error"
+        );
 
-            </div>
+        return;
+      }
 
 
-            <!-- Result -->
+      if (!data) {
 
-            <div
-                id="shortResult"
-                class="short-result"
-            >
+        showMessage(
+          "Profile পাওয়া যায়নি।",
+          "error"
+        );
 
-                <div class="link-label">
-                    Your Short Link:
-                </div>
+        return;
+      }
 
 
-                <a
-                    id="newShortLink"
-                    href="#"
-                    target="_blank"
-                >
-                </a>
+      document.getElementById("fullName").textContent =
+        data.full_name || "-";
 
 
-                <br>
+      document.getElementById("username").textContent =
+        data.username || "-";
 
 
-                <button
-                    class="copy-btn"
-                    onclick="copyNewLink()"
-                >
-                    📋 Copy Link
-                </button>
+      document.getElementById("referralCode").textContent =
+        data.referral_code || "-";
 
-            </div>
 
-        </section>
+      document.getElementById("balance").textContent =
+        "৳" + Number(data.balance || 0).toFixed(2);
 
 
+      document.getElementById("referralBalance").textContent =
+        "৳" + Number(data.referral_balance || 0).toFixed(2);
 
-        <!-- =========================
-             My Links
-        ========================= -->
 
-        <section class="card">
+      document.getElementById("welcomeName").textContent =
+        data.full_name || data.username || "User";
 
-            <h2 class="card-title">
-                📊 My Links
-            </h2>
+    }
 
 
-            <div id="linksList">
+    /* Load Links */
 
-                <div class="loading">
-                    Links Loading...
-                </div>
+    async function loadLinks() {
 
-            </div>
+      const {
+        data,
+        error
+      } = await supabaseClient
+        .from("links")
+        .select("*")
+        .eq("user_id", currentUser.id)
+        .order("created_at", {
+          ascending: false
+        });
 
-        </section>
 
+      if (error) {
 
-    </main>
+        console.error(error);
 
+        document.getElementById("linksTable").innerHTML = `
+          <tr>
+            <td colspan="4" class="empty">
+              Links load করা যায়নি।
+            </td>
+          </tr>
+        `;
 
+        return;
+      }
 
-    <footer>
 
-        © 2026 BDTxEarning — All Rights Reserved
+      const links = data || [];
 
-    </footer>
 
+      document.getElementById("totalLinks").textContent =
+        links.length;
 
 
-    <script>
+      const totalClicks =
+        links.reduce(
+          (sum, link) =>
+            sum + Number(link.clicks || 0),
+          0
+        );
 
 
-        /* =========================
-           SUPABASE
-        ========================= */
+      document.getElementById("totalClicks").textContent =
+        totalClicks;
 
 
-        const SUPABASE_URL =
-            "https://hmshjrqrogczsvxtwkqi.supabase.co";
+      if (links.length === 0) {
 
+        document.getElementById("linksTable").innerHTML = `
+          <tr>
+            <td colspan="4" class="empty">
+              এখনো কোনো Short Link তৈরি করা হয়নি।
+            </td>
+          </tr>
+        `;
 
-        const SUPABASE_KEY =
-            "sb_publishable_tLNKwPxwoceKvJG2DpR6jw_VE9KaExr";
+        return;
+      }
 
 
-        const supabaseClient =
-            supabase.createClient(
-                SUPABASE_URL,
-                SUPABASE_KEY
-            );
+      let html = "";
 
 
+      links.forEach(link => {
 
-        let currentShortLink = "";
+        const shortUrl =
+          window.location.origin +
+          "/?c=" +
+          encodeURIComponent(link.short_code);
 
 
+        const originalUrl =
+          link.original_url || "-";
 
-        /* =========================
-           HTML ESCAPE
-        ========================= */
 
+        const created =
+          link.created_at
+            ? new Date(link.created_at)
+                .toLocaleDateString("bn-BD")
+            : "-";
 
-        function escapeHtml(text) {
 
-            if (!text) return "";
+        html += `
+          <tr>
 
-            return String(text)
-                .replace(/&/g, "&amp;")
-                .replace(/</g, "&lt;")
-                .replace(/>/g, "&gt;")
-                .replace(/"/g, "&quot;")
-                .replace(/'/g, "&#039;");
-        }
+            <td>
+              <a
+                class="short-link"
+                href="${shortUrl}"
+                target="_blank"
+              >
+                ${shortUrl}
+              </a>
+            </td>
 
+            <td>
+              ${escapeHtml(originalUrl)}
+            </td>
 
+            <td>
+              <span class="click-badge">
+                ${Number(link.clicks || 0)} Clicks
+              </span>
+            </td>
 
-        /* =========================
-           MESSAGE
-        ========================= */
+            <td>
+              ${created}
+            </td>
 
+          </tr>
+        `;
 
-        function showMessage(
-            text,
-            type
-        ) {
+      });
 
-            const message =
-                document.getElementById(
-                    "message"
-                );
 
+      document.getElementById("linksTable").innerHTML =
+        html;
 
-            message.innerText = text;
+    }
 
 
-            message.className =
-                "message " + type;
+    /* Shorten Link */
 
+    async function shortenLink() {
 
-            message.style.display =
-                "block";
-        }
+      const input =
+        document.getElementById("originalUrl");
 
+      const url =
+        input.value.trim();
 
 
-        /* =========================
-           GET USER
-        ========================= */
+      if (!url) {
 
+        showMessage(
+          "দয়া করে একটি URL দিন।",
+          "error"
+        );
 
-        async function getCurrentUser() {
+        return;
+      }
 
-            const {
-                data
-            } =
-                await supabaseClient.auth
-                    .getSession();
 
+      let validUrl;
 
-            return data.session?.user || null;
-        }
 
+      try {
 
+        validUrl = new URL(url);
 
-        /* =========================
-           LOAD DASHBOARD
-        ========================= */
+      } catch {
 
+        showMessage(
+          "সঠিক URL দিন। উদাহরণ: https://google.com",
+          "error"
+        );
 
-        async function loadDashboard() {
+        return;
+      }
 
 
-            const user =
-                await getCurrentUser();
+      if (
+        validUrl.protocol !== "http:" &&
+        validUrl.protocol !== "https:"
+      ) {
 
+        showMessage(
+          "শুধুমাত্র HTTP অথবা HTTPS URL ব্যবহার করুন।",
+          "error"
+        );
 
-            if (!user) {
+        return;
+      }
 
-                window.location.href =
-                    "login.html";
 
-                return;
-            }
+      const shortCode =
+        generateShortCode(6);
 
 
-            /* User Information */
+      const {
+        data,
+        error
+      } = await supabaseClient
+        .from("links")
+        .insert({
+          user_id: currentUser.id,
+          short_code: shortCode,
+          original_url: url,
+          clicks: 0
+        })
+        .select()
+        .single();
 
-            document
-                .getElementById("userEmail")
-                .innerText =
-                user.email || "";
 
+      if (error) {
 
-            /* Profile */
+        console.error(error);
 
-            const {
-                data: profile,
-                error
-            } =
-                await supabaseClient
-                    .from("profiles")
-                    .select("*")
-                    .eq("id", user.id)
-                    .maybeSingle();
+        showMessage(
+          "Link তৈরি করা যায়নি: " +
+          error.message,
+          "error"
+        );
 
+        return;
+      }
 
-            if (error) {
 
-                showMessage(
-                    "Profile পাওয়া যায়নি: " +
-                    error.message,
-                    "error"
-                );
+      const shortUrl =
+        window.location.origin +
+        "/?c=" +
+        encodeURIComponent(data.short_code);
 
-            }
 
+      document.getElementById("resultUrl").textContent =
+        shortUrl;
 
-            if (profile) {
 
-                document
-                    .getElementById("userName")
-                    .innerText =
-                    profile.full_name ||
-                    "User";
+      document.getElementById("resultBox").style.display =
+        "block";
 
 
-                document
-                    .getElementById("userUsername")
-                    .innerText =
-                    profile.username ||
-                    "";
+      input.value = "";
 
 
-                document
-                    .getElementById("balance")
-                    .innerText =
-                    "৳" +
-                    Number(
-                        profile.balance || 0
-                    ).toFixed(2);
+      showMessage(
+        "Short Link সফলভাবে তৈরি হয়েছে।",
+        "success"
+      );
 
 
-                document
-                    .getElementById("referralBalance")
-                    .innerText =
-                    "৳" +
-                    Number(
-                        profile.referral_balance || 0
-                    ).toFixed(2);
+      await loadLinks();
 
+    }
 
-                document
-                    .getElementById("referralCode")
-                    .innerText =
-                    "Referral Code: " +
-                    (
-                        profile.referral_code ||
-                        "N/A"
-                    );
 
-            }
+    /* Generate Short Code */
 
+    function generateShortCode(length) {
 
-            await loadLinks();
+      const chars =
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
-        }
 
+      let result = "";
 
 
-        /* =========================
-           GENERATE CODE
-        ========================= */
+      for (
+        let i = 0;
+        i < length;
+        i++
+      ) {
 
+        result +=
+          chars.charAt(
+            Math.floor(
+              Math.random() * chars.length
+            )
+          );
 
-        function generateCode(length = 6) {
+      }
 
-            const characters =
-                "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
+      return result;
 
-            let code = "";
+    }
 
 
-            for (
-                let i = 0;
-                i < length;
-                i++
-            ) {
+    /* Copy */
 
-                code +=
-                    characters.charAt(
-                        Math.floor(
-                            Math.random() *
-                            characters.length
-                        )
-                    );
+    async function copyLink() {
 
-            }
+      const url =
+        document.getElementById("resultUrl").textContent;
 
 
-            return code;
-        }
+      if (!url) {
+        return;
+      }
 
 
+      try {
 
-        /* =========================
-           SHORTEN LINK
-        ========================= */
+        await navigator.clipboard.writeText(url);
 
+        showMessage(
+          "Short Link Copy হয়েছে! ✅",
+          "success"
+        );
 
-        async function shortenLink() {
+      } catch {
 
+        showMessage(
+          "Copy করা যায়নি।",
+          "error"
+        );
 
-            const user =
-                await getCurrentUser();
+      }
 
+    }
 
-            if (!user) {
 
-                window.location.href =
-                    "login.html";
+    /* Logout */
 
-                return;
-            }
+    async function logout() {
 
+      const {
+        error
+      } = await supabaseClient.auth.signOut();
 
-            const longUrl =
-                document
-                    .getElementById("longUrl")
-                    .value
-                    .trim();
 
+      if (error) {
 
-            if (!longUrl) {
+        alert(
+          "Logout করা যায়নি: " +
+          error.message
+        );
 
-                showMessage(
-                    "একটি URL দিন।",
-                    "error"
-                );
+        return;
+      }
 
-                return;
-            }
 
+      window.location.href =
+        "login.html";
 
-            /* URL Validation */
+    }
 
-            try {
 
-                const url =
-                    new URL(longUrl);
+    /* Message */
 
+    function showMessage(
+      text,
+      type
+    ) {
 
-                if (
-                    url.protocol !== "http:" &&
-                    url.protocol !== "https:"
-                ) {
+      const message =
+        document.getElementById("message");
 
-                    throw new Error();
 
-                }
+      message.textContent =
+        text;
 
-            } catch {
 
-                showMessage(
-                    "সঠিক URL দিন। যেমন: https://example.com",
-                    "error"
-                );
+      message.className =
+        "message " + type;
 
-                return;
-            }
 
+      message.style.display =
+        "block";
 
-            const button =
-                document.getElementById(
-                    "shortenButton"
-                );
 
+      setTimeout(() => {
 
-            button.disabled = true;
+        message.style.display =
+          "none";
 
-            button.innerText =
-                "Creating...";
+      }, 4000);
 
+    }
 
-            showMessage(
-                "Short Link তৈরি হচ্ছে...",
-                "success"
-            );
 
+    /* Security */
 
-            const shortCode =
-                generateCode(6);
+    function escapeHtml(value) {
 
+      return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
 
-            const {
-                data,
-                error
-            } =
-                await supabaseClient
-                    .from("links")
-                    .insert([{
+    }
 
-                        user_id:
-                            user.id,
 
-                        original_url:
-                            longUrl,
+    /* Run */
 
-                        short_code:
-                            shortCode
+    startDashboard();
 
-                    }])
-                    .select()
-                    .single();
-
-
-            button.disabled = false;
-
-            button.innerText =
-                "Shorten Link";
-
-
-            if (error) {
-
-                showMessage(
-                    error.message,
-                    "error"
-                );
-
-                return;
-            }
-
-
-            const shortUrl =
-                window.location.origin +
-                "/?c=" +
-                data.short_code;
-
-
-            currentShortLink =
-                shortUrl;
-
-
-            document
-                .getElementById("newShortLink")
-                .innerText =
-                shortUrl;
-
-
-            document
-                .getElementById("newShortLink")
-                .href =
-                shortUrl;
-
-
-            document
-                .getElementById("shortResult")
-                .style.display =
-                "block";
-
-
-            document
-                .getElementById("longUrl")
-                .value = "";
-
-
-            showMessage(
-                "✅ Link সফলভাবে Short হয়েছে!",
-                "success"
-            );
-
-
-            await loadLinks();
-
-        }
-
-
-
-        /* =========================
-           COPY NEW LINK
-        ========================= */
-
-
-        async function copyNewLink() {
-
-
-            if (!currentShortLink) {
-
-                return;
-            }
-
-
-            try {
-
-                await navigator.clipboard
-                    .writeText(
-                        currentShortLink
-                    );
-
-
-                alert(
-                    "✅ Short Link Copy হয়েছে!"
-                );
-
-            } catch {
-
-                alert(
-                    "Copy করা যায়নি। Link টি Copy করুন।"
-                );
-
-            }
-
-        }
-
-
-
-        /* =========================
-           COPY OLD LINK
-        ========================= */
-
-
-        async function copyLink(url) {
-
-            try {
-
-                await navigator.clipboard
-                    .writeText(url);
-
-
-                alert(
-                    "✅ Link Copy হয়েছে!"
-                );
-
-            } catch {
-
-                alert(
-                    "Copy করা যায়নি।"
-                );
-
-            }
-
-        }
-
-
-
-        /* =========================
-           LOAD LINKS
-        ========================= */
-
-
-        async function loadLinks() {
-
-
-            const user =
-                await getCurrentUser();
-
-
-            if (!user) {
-
-                return;
-            }
-
-
-            const {
-                data: links,
-                error
-            } =
-                await supabaseClient
-                    .from("links")
-                    .select("*")
-                    .eq(
-                        "user_id",
-                        user.id
-                    )
-                    .order(
-                        "created_at",
-                        {
-                            ascending: false
-                        }
-                    );
-
-
-            if (error) {
-
-                document
-                    .getElementById(
-                        "linksList"
-                    )
-                    .innerHTML = `
-
-                        <div class="message error"
-                             style="display:block;">
-
-                            ${escapeHtml(
-                                error.message
-                            )}
-
-                        </div>
-
-                    `;
-
-                return;
-            }
-
-
-            const totalLinks =
-                links?.length || 0;
-
-
-            const totalClicks =
-                (links || [])
-                    .reduce(
-                        function(
-                            total,
-                            link
-                        ) {
-
-                            return total +
-                                Number(
-                                    link.clicks || 0
-                                );
-
-                        },
-                        0
-                    );
-
-
-            document
-                .getElementById(
-                    "totalLinks"
-                )
-                .innerText =
-                totalLinks;
-
-
-            document
-                .getElementById(
-                    "totalClicks"
-                )
-                .innerText =
-                totalClicks;
-
-
-            /* No Links */
-
-            if (
-                !links ||
-                links.length === 0
-            ) {
-
-                document
-                    .getElementById(
-                        "linksList"
-                    )
-                    .innerHTML = `
-
-                        <div class="loading">
-
-                            এখনো কোনো Short Link তৈরি করেননি।
-
-                        </div>
-
-                    `;
-
-                return;
-            }
-
-
-            /* Links */
-
-            let html = "";
-
-
-            links.forEach(
-                function(link) {
-
-
-                    const shortUrl =
-                        window.location.origin +
-                        "/?c=" +
-                        link.short_code;
-
-
-                    html += `
-
-                        <div class="link-item">
-
-
-                            <div class="link-label">
-
-                                Original Link
-
-                            </div>
-
-
-                            <div class="original-url">
-
-                                ${escapeHtml(
-                                    link.original_url
-                                )}
-
-                            </div>
-
-
-                            <div
-                                class="link-label"
-                                style="margin-top:12px;"
-                            >
-
-                                Short Link
-
-                            </div>
-
-
-                            <a
-                                href="${escapeHtml(
-                                    shortUrl
-                                )}"
-                                target="_blank"
-                                class="short-url"
-                            >
-
-                                ${escapeHtml(
-                                    shortUrl
-                                )}
-
-                            </a>
-
-
-                            <div class="link-bottom">
-
-
-                                <span class="click-badge">
-
-                                    👆
-                                    ${Number(
-                                        link.clicks || 0
-                                    )}
-                                    Clicks
-
-                                </span>
-
-
-                                <button
-                                    class="copy-small"
-                                    onclick="copyLink(
-                                        '${escapeHtml(
-                                            shortUrl
-                                        )}'
-                                    )"
-                                >
-
-                                    📋 Copy
-
-                                </button>
-
-
-                            </div>
-
-
-                        </div>
-
-                    `;
-
-                }
-            );
-
-
-            document
-                .getElementById(
-                    "linksList"
-                )
-                .innerHTML =
-                html;
-
-        }
-
-
-
-        /* =========================
-           LOGOUT
-        ========================= */
-
-
-        async function logoutUser() {
-
-
-            await supabaseClient.auth
-                .signOut();
-
-
-            window.location.href =
-                "login.html";
-
-        }
-
-
-
-        /* =========================
-           PUBLIC SHORT LINK
-           CLICK COUNTER + REDIRECT
-        ========================= */
-
-
-        async function handleShortLink() {
-
-
-            const params =
-                new URLSearchParams(
-                    window.location.search
-                );
-
-
-            const code =
-                params.get("c");
-
-
-            if (!code) {
-
-                return false;
-            }
-
-
-            document.body.innerHTML = `
-
-                <div style="
-                    min-height:100vh;
-                    display:flex;
-                    justify-content:center;
-                    align-items:center;
-                    text-align:center;
-                    font-family:Arial;
-                ">
-
-                    <div>
-
-                        <h2>
-                            Redirecting...
-                        </h2>
-
-                        <p style="
-                            margin-top:10px;
-                            color:#666;
-                        ">
-                            আপনার Link খোলা হচ্ছে...
-                        </p>
-
-                    </div>
-
-                </div>
-
-            `;
-
-
-            /*
-                এই RPC Function:
-
-                1. Short Code খুঁজবে
-                2. Click +1 করবে
-                3. Original URL ফেরত দেবে
-            */
-
-
-            const {
-                data,
-                error
-            } =
-                await supabaseClient
-                    .rpc(
-                        "open_short_link",
-                        {
-                            code: code
-                        }
-                    );
-
-
-            if (
-                error ||
-                !data
-            ) {
-
-                document.body.innerHTML = `
-
-                    <div style="
-                        min-height:100vh;
-                        display:flex;
-                        justify-content:center;
-                        align-items:center;
-                        text-align:center;
-                        font-family:Arial;
-                        padding:20px;
-                    ">
-
-                        <div>
-
-                            <h2>
-                                ❌ Link পাওয়া যায়নি
-                            </h2>
-
-                            <p style="
-                                margin-top:10px;
-                                color:#666;
-                            ">
-                                Short Link টি ভুল
-                                অথবা আর নেই।
-                            </p>
-
-                            <br>
-
-                            <a
-                                href="index.html"
-                                style="
-                                    color:#2563eb;
-                                "
-                            >
-                                BDTxEarning Home
-                            </a>
-
-                        </div>
-
-                    </div>
-
-                `;
-
-                return true;
-            }
-
-
-            /* Redirect */
-
-            window.location.replace(
-                data
-            );
-
-
-            return true;
-
-        }
-
-
-
-        /* =========================
-           START
-        ========================= */
-
-
-        async function startDashboard() {
-
-
-            /*
-                আগে দেখি URL-এ ?c= আছে কিনা।
-                থাকলে এটি Public Short Link।
-            */
-
-
-            const redirected =
-                await handleShortLink();
-
-
-            if (redirected) {
-
-                return;
-            }
-
-
-            /*
-                Normal Dashboard
-            */
-
-
-            await loadDashboard();
-
-        }
-
-
-
-        /* =========================
-           AUTH STATE
-        ========================= */
-
-
-        supabaseClient.auth
-            .onAuthStateChange(
-                function(
-                    event,
-                    session
-                ) {
-
-                    if (
-                        event ===
-                        "SIGNED_OUT"
-                    ) {
-
-                        window.location.href =
-                            "login.html";
-
-                    }
-
-                }
-            );
-
-
-
-        /* =========================
-           START APP
-        ========================= */
-
-
-        startDashboard();
-
-
-    </script>
-
+  </script>
 
 </body>
-
 </html>
