@@ -8,167 +8,220 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
-    *{
-      box-sizing:border-box;
-      margin:0;
-      padding:0;
-      font-family:Arial,sans-serif;
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
 
-    body{
-      background:#f4f7fb;
-      color:#1f2937;
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f7fb;
+      color: #222;
     }
 
-    .navbar{
-      background:#111827;
-      color:white;
-      padding:16px 20px;
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
+    .navbar {
+      background: #111827;
+      color: white;
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
 
-    .logo{
-      font-size:22px;
-      font-weight:bold;
+    .logo {
+      font-size: 22px;
+      font-weight: bold;
+      color: #22c55e;
     }
 
-    .back-btn{
-      background:#2563eb;
-      color:white;
-      text-decoration:none;
-      padding:9px 15px;
-      border-radius:8px;
-      font-size:14px;
+    .back-btn {
+      text-decoration: none;
+      color: white;
+      background: #2563eb;
+      padding: 9px 14px;
+      border-radius: 7px;
+      font-size: 14px;
     }
 
-    .container{
-      max-width:900px;
-      margin:25px auto;
-      padding:0 15px;
+    .container {
+      max-width: 700px;
+      margin: 25px auto;
+      padding: 0 15px;
     }
 
-    .card{
-      background:white;
-      border-radius:14px;
-      padding:22px;
-      margin-bottom:20px;
-      box-shadow:0 5px 20px rgba(0,0,0,.06);
+    .card {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      margin-bottom: 20px;
+      box-shadow: 0 3px 12px rgba(0,0,0,0.08);
     }
 
-    .card h2{
-      margin-bottom:18px;
-      font-size:20px;
+    h2 {
+      margin-bottom: 18px;
+      font-size: 20px;
+      color: #111827;
     }
 
-    .balance{
-      font-size:30px;
-      font-weight:bold;
-      color:#16a34a;
-      margin-bottom:8px;
+    label {
+      display: block;
+      margin: 12px 0 6px;
+      font-weight: bold;
+      font-size: 14px;
     }
 
-    .label{
-      display:block;
-      margin:12px 0 6px;
-      font-weight:bold;
-      font-size:14px;
+    input,
+    select {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #d1d5db;
+      border-radius: 7px;
+      font-size: 15px;
+      outline: none;
     }
 
-    input,select{
-      width:100%;
-      padding:12px;
-      border:1px solid #d1d5db;
-      border-radius:8px;
-      outline:none;
-      font-size:15px;
+    input:focus,
+    select:focus {
+      border-color: #2563eb;
     }
 
-    input:focus,select:focus{
-      border-color:#2563eb;
+    input[readonly] {
+      background: #f3f4f6;
     }
 
-    button{
-      border:none;
-      background:#2563eb;
-      color:white;
-      padding:12px 18px;
-      border-radius:8px;
-      cursor:pointer;
-      font-size:15px;
-      margin-top:15px;
+    button {
+      width: 100%;
+      border: none;
+      padding: 12px;
+      border-radius: 7px;
+      margin-top: 15px;
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer;
     }
 
-    button:hover{
-      background:#1d4ed8;
+    .save-btn {
+      background: #2563eb;
+      color: white;
     }
 
-    .success{
-      color:#16a34a;
-      margin-top:12px;
-      font-size:14px;
+    .payment-btn {
+      background: #16a34a;
+      color: white;
     }
 
-    .error{
-      color:#dc2626;
-      margin-top:12px;
-      font-size:14px;
+    .withdraw-btn {
+      background: #7c3aed;
+      color: white;
     }
 
-    .table-wrap{
-      overflow-x:auto;
+    button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
     }
 
-    table{
-      width:100%;
-      border-collapse:collapse;
-      margin-top:10px;
+    .balance-box {
+      background: linear-gradient(135deg, #16a34a, #15803d);
+      color: white;
+      padding: 20px;
+      border-radius: 12px;
+      margin-bottom: 20px;
     }
 
-    th,td{
-      padding:12px;
-      border-bottom:1px solid #e5e7eb;
-      text-align:left;
-      font-size:14px;
-      white-space:nowrap;
+    .balance-title {
+      font-size: 14px;
+      opacity: 0.9;
     }
 
-    th{
-      background:#f9fafb;
+    .balance {
+      font-size: 30px;
+      font-weight: bold;
+      margin-top: 5px;
     }
 
-    .pending{
-      color:#d97706;
-      font-weight:bold;
+    .message {
+      margin-top: 12px;
+      padding: 10px;
+      border-radius: 7px;
+      display: none;
+      font-size: 14px;
     }
 
-    .approved{
-      color:#16a34a;
-      font-weight:bold;
+    .success {
+      display: block;
+      background: #dcfce7;
+      color: #166534;
     }
 
-    .rejected{
-      color:#dc2626;
-      font-weight:bold;
+    .error {
+      display: block;
+      background: #fee2e2;
+      color: #991b1b;
     }
 
-    .loading{
-      text-align:center;
-      padding:30px;
+    .table-wrap {
+      overflow-x: auto;
     }
 
-    @media(max-width:600px){
-      .card{
-        padding:17px;
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 550px;
+    }
+
+    th,
+    td {
+      padding: 10px;
+      border-bottom: 1px solid #e5e7eb;
+      text-align: left;
+      font-size: 13px;
+    }
+
+    th {
+      background: #f3f4f6;
+    }
+
+    .pending {
+      color: #d97706;
+      font-weight: bold;
+    }
+
+    .approved {
+      color: #16a34a;
+      font-weight: bold;
+    }
+
+    .rejected {
+      color: #dc2626;
+      font-weight: bold;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 30px;
+      font-size: 18px;
+    }
+
+    @media (max-width: 600px) {
+      .navbar {
+        padding: 13px 12px;
       }
 
-      .navbar{
-        padding:13px 15px;
+      .logo {
+        font-size: 19px;
       }
 
-      .logo{
-        font-size:19px;
+      .container {
+        margin-top: 18px;
+      }
+
+      .card {
+        padding: 16px;
+      }
+
+      h2 {
+        font-size: 18px;
       }
     }
   </style>
@@ -183,492 +236,729 @@
 
   <div class="container">
 
-    <!-- PROFILE -->
-    <div class="card">
-      <h2>👤 Profile Information</h2>
-
-      <label class="label">Full Name</label>
-      <input type="text" id="fullName" placeholder="আপনার নাম">
-
-      <label class="label">Username</label>
-      <input type="text" id="username" placeholder="Username">
-
-      <label class="label">Email</label>
-      <input type="email" id="email" readonly>
-
-      <label class="label">Referral Code</label>
-      <input type="text" id="referralCode" readonly>
-
-      <button onclick="updateProfile()">Update Profile</button>
-
-      <div id="profileMessage"></div>
+    <div id="loading" class="loading">
+      Loading...
     </div>
 
+    <div id="mainContent" style="display:none;">
 
-    <!-- PAYMENT -->
-    <div class="card">
-      <h2>💳 Payment Information</h2>
-
-      <label class="label">Payment Method</label>
-      <select id="paymentMethod">
-        <option value="">Select Payment Method</option>
-        <option value="bKash">bKash</option>
-        <option value="Nagad">Nagad</option>
-        <option value="Rocket">Rocket</option>
-        <option value="Bank">Bank</option>
-      </select>
-
-      <label class="label">Account Number</label>
-      <input type="text" id="accountNumber" placeholder="01XXXXXXXXX">
-
-      <label class="label">Account Name</label>
-      <input type="text" id="accountName" placeholder="Account Holder Name">
-
-      <button onclick="savePayment()">Save Payment Information</button>
-
-      <div id="paymentMessage"></div>
-    </div>
-
-
-    <!-- WITHDRAW -->
-    <div class="card">
-      <h2>💸 Withdraw</h2>
-
-      <div class="balance">
-        ৳ <span id="balance">0.00</span>
+      <!-- Balance -->
+      <div class="balance-box">
+        <div class="balance-title">বর্তমান ব্যালেন্স</div>
+        <div class="balance">৳ <span id="balance">0.00</span></div>
       </div>
 
-      <p>Available Balance</p>
+      <!-- Profile -->
+      <div class="card">
+        <h2>👤 Profile Information</h2>
 
-      <label class="label">Withdraw Amount</label>
-      <input type="number" id="withdrawAmount" placeholder="Enter amount" min="1" step="0.01">
+        <label>Full Name</label>
+        <input type="text" id="fullName">
 
-      <button onclick="requestWithdraw()">Request Withdraw</button>
+        <label>Username</label>
+        <input type="text" id="username">
 
-      <div id="withdrawMessage"></div>
-    </div>
+        <label>Email</label>
+        <input type="email" id="email" readonly>
 
+        <label>Referral Code</label>
+        <input type="text" id="referralCode" readonly>
 
-    <!-- HISTORY -->
-    <div class="card">
-      <h2>📋 Withdraw History</h2>
+        <button class="save-btn" id="profileBtn" onclick="updateProfile()">
+          Update Profile
+        </button>
 
-      <div class="table-wrap">
-        <table>
-          <thead>
-            <tr>
-              <th>Amount</th>
-              <th>Method</th>
-              <th>Account</th>
-              <th>Status</th>
-              <th>Date</th>
-            </tr>
-          </thead>
-
-          <tbody id="withdrawHistory">
-            <tr>
-              <td colspan="5" class="loading">Loading...</td>
-            </tr>
-          </tbody>
-        </table>
+        <div id="profileMessage" class="message"></div>
       </div>
-    </div>
 
+      <!-- Payment -->
+      <div class="card">
+        <h2>💳 Payment Information</h2>
+
+        <label>Payment Method</label>
+
+        <select id="paymentMethod">
+          <option value="">Select Payment Method</option>
+          <option value="bKash">bKash</option>
+          <option value="Nagad">Nagad</option>
+          <option value="Rocket">Rocket</option>
+          <option value="Bank">Bank</option>
+        </select>
+
+        <label>Account Number</label>
+        <input
+          type="text"
+          id="accountNumber"
+          placeholder="আপনার অ্যাকাউন্ট নম্বর"
+        >
+
+        <label>Account Name</label>
+        <input
+          type="text"
+          id="accountName"
+          placeholder="অ্যাকাউন্টের নাম"
+        >
+
+        <button
+          class="payment-btn"
+          id="paymentBtn"
+          onclick="savePayment()"
+        >
+          Save Payment Information
+        </button>
+
+        <div id="paymentMessage" class="message"></div>
+      </div>
+
+      <!-- Withdraw -->
+      <div class="card">
+        <h2>💰 Withdraw</h2>
+
+        <label>Withdrawal Amount</label>
+
+        <input
+          type="number"
+          id="withdrawAmount"
+          placeholder="যেমন: 100"
+          min="1"
+          step="0.01"
+        >
+
+        <button
+          class="withdraw-btn"
+          id="withdrawBtn"
+          onclick="requestWithdraw()"
+        >
+          Request Withdrawal
+        </button>
+
+        <div id="withdrawMessage" class="message"></div>
+      </div>
+
+      <!-- History -->
+      <div class="card">
+        <h2>📋 Withdrawal History</h2>
+
+        <div class="table-wrap">
+
+          <table>
+            <thead>
+              <tr>
+                <th>Amount</th>
+                <th>Method</th>
+                <th>Account</th>
+                <th>Status</th>
+                <th>Date</th>
+              </tr>
+            </thead>
+
+            <tbody id="withdrawHistory">
+            </tbody>
+          </table>
+
+        </div>
+      </div>
+
+    </div>
   </div>
 
 
 <script>
 
-const SUPABASE_URL = "https://hmshjrqrogczsvxtwkqi.supabase.co";
-
-const SUPABASE_KEY =
-"sb_publishable_tLNKwPxwoceKvJG2DpR6jw_VE9KaExr";
-
-const supabaseClient =
-supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-
-let currentUser = null;
-let currentBalance = 0;
-
-
-// ===============================
-// LOAD USER
-// ===============================
-
-async function loadUser(){
-
-  const {
-    data:{user},
-    error
-  } = await supabaseClient.auth.getUser();
-
-  if(error || !user){
-
-    window.location.href = "login.html";
-    return;
-  }
-
-  currentUser = user;
-
-  document.getElementById("email").value =
-    user.email || "";
-
-  await loadProfile();
-  await loadPayment();
-  await loadWithdrawHistory();
-}
-
-
-// ===============================
-// LOAD PROFILE
-// ===============================
-
-async function loadProfile(){
-
-  const {data,error} =
-    await supabaseClient
-    .from("profiles")
-    .select("*")
-    .eq("id",currentUser.id)
-    .maybeSingle();
-
-  if(error){
-
-    console.log(error);
-    return;
-  }
-
-  if(!data){
-    return;
-  }
-
-  document.getElementById("fullName").value =
-    data.full_name || "";
-
-  document.getElementById("username").value =
-    data.username || "";
-
-  document.getElementById("referralCode").value =
-    data.referral_code || "";
-
-  currentBalance =
-    Number(data.balance || 0);
-
-  document.getElementById("balance").textContent =
-    currentBalance.toFixed(2);
-}
-
-
-// ===============================
-// UPDATE PROFILE
-// ===============================
-
-async function updateProfile(){
-
-  const fullName =
-    document.getElementById("fullName").value.trim();
-
-  const username =
-    document.getElementById("username").value.trim();
-
-  const message =
-    document.getElementById("profileMessage");
-
-  message.innerHTML = "";
-
-  const {error} =
-    await supabaseClient
-    .from("profiles")
-    .update({
-      full_name:fullName,
-      username:username
-    })
-    .eq("id",currentUser.id);
-
-  if(error){
-
-    message.innerHTML =
-      `<div class="error">${error.message}</div>`;
-
-    return;
-  }
-
-  message.innerHTML =
-    `<div class="success">
-      ✓ Profile updated successfully
-    </div>`;
-}
-
-
-// ===============================
-// LOAD PAYMENT
-// ===============================
-
-async function loadPayment(){
-
-  const {data,error} =
-    await supabaseClient
-    .from("payment_methods")
-    .select("*")
-    .eq("user_id",currentUser.id)
-    .maybeSingle();
-
-  if(error){
-
-    console.log(error);
-    return;
-  }
-
-  if(!data){
-    return;
-  }
-
-  document.getElementById("paymentMethod").value =
-    data.method || "";
-
-  document.getElementById("accountNumber").value =
-    data.account_number || "";
-
-  document.getElementById("accountName").value =
-    data.account_name || "";
-}
-
-
-// ===============================
-// SAVE PAYMENT
-// ===============================
-
-async function savePayment(){
-
-  const method =
-    document.getElementById("paymentMethod").value;
-
-  const accountNumber =
-    document.getElementById("accountNumber").value.trim();
-
-  const accountName =
-    document.getElementById("accountName").value.trim();
-
-  const message =
-    document.getElementById("paymentMessage");
-
-  message.innerHTML = "";
-
-  if(!method || !accountNumber){
-
-    message.innerHTML =
-      `<div class="error">
-        Payment method এবং account number দিন।
-      </div>`;
-
-    return;
-  }
-
-  const {error} =
-    await supabaseClient
-    .from("payment_methods")
-    .upsert({
-      user_id:currentUser.id,
-      method:method,
-      account_number:accountNumber,
-      account_name:accountName,
-      updated_at:new Date().toISOString()
-    },{
-      onConflict:"user_id"
-    });
-
-  if(error){
-
-    message.innerHTML =
-      `<div class="error">${error.message}</div>`;
-
-    return;
-  }
-
-  message.innerHTML =
-    `<div class="success">
-      ✓ Payment information saved successfully
-    </div>`;
-}
-
-
-// ===============================
-// WITHDRAW
-// ===============================
-
-async function requestWithdraw(){
-
-  const amount =
-    Number(
-      document.getElementById("withdrawAmount").value
+  const SUPABASE_URL =
+    "https://hmshjrqrogczsvxtwkqi.supabase.co";
+
+  const SUPABASE_KEY =
+    "sb_publishable_tLNKwPxwoceKvJG2DpR6jw_VE9KaExr";
+
+  const supabaseClient =
+    window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_KEY
     );
 
-  const method =
-    document.getElementById("paymentMethod").value;
 
-  const accountNumber =
-    document.getElementById("accountNumber").value.trim();
-
-  const message =
-    document.getElementById("withdrawMessage");
-
-  message.innerHTML = "";
-
-  if(!amount || amount <= 0){
-
-    message.innerHTML =
-      `<div class="error">
-        সঠিক amount লিখুন।
-      </div>`;
-
-    return;
-  }
-
-  if(amount > currentBalance){
-
-    message.innerHTML =
-      `<div class="error">
-        আপনার balance পর্যাপ্ত নয়।
-      </div>`;
-
-    return;
-  }
-
-  if(!method || !accountNumber){
-
-    message.innerHTML =
-      `<div class="error">
-        আগে Payment Information save করুন।
-      </div>`;
-
-    return;
-  }
-
-  message.innerHTML =
-    `<div class="success">
-      Withdrawal request তৈরি হচ্ছে...
-    </div>`;
-
-  const {data,error} =
-    await supabaseClient
-    .from("withdraw_requests")
-    .insert({
-      user_id:currentUser.id,
-      amount:amount,
-      payment_method:method,
-      account_number:accountNumber,
-      status:"pending"
-    })
-    .select()
-    .single();
-
-  if(error){
-
-    message.innerHTML =
-      `<div class="error">${error.message}</div>`;
-
-    return;
-  }
-
-  message.innerHTML =
-    `<div class="success">
-      ✓ Withdrawal request submitted successfully
-    </div>`;
-
-  document.getElementById("withdrawAmount").value = "";
-
-  await loadWithdrawHistory();
-}
+  let currentUser = null;
 
 
-// ===============================
-// LOAD WITHDRAW HISTORY
-// ===============================
+  // =========================
+  // LOAD USER
+  // =========================
 
-async function loadWithdrawHistory(){
+  async function loadUser() {
 
-  const tbody =
-    document.getElementById("withdrawHistory");
+    const {
+      data,
+      error
+    } = await supabaseClient.auth.getUser();
 
-  const {data,error} =
-    await supabaseClient
-    .from("withdraw_requests")
-    .select("*")
-    .eq("user_id",currentUser.id)
-    .order("created_at",{ascending:false});
+    if (error || !data.user) {
 
-  if(error){
+      window.location.href = "login.html";
+      return;
 
-    tbody.innerHTML =
-      `<tr>
-        <td colspan="5" class="error">
-          ${error.message}
-        </td>
-      </tr>`;
-
-    return;
-  }
-
-  if(!data || data.length === 0){
-
-    tbody.innerHTML =
-      `<tr>
-        <td colspan="5">
-          এখনো কোনো withdrawal request নেই।
-        </td>
-      </tr>`;
-
-    return;
-  }
-
-  tbody.innerHTML = "";
-
-  data.forEach(item => {
-
-    let statusClass = "";
-
-    if(item.status === "pending"){
-      statusClass = "pending";
     }
 
-    if(item.status === "approved"){
-      statusClass = "approved";
+    currentUser = data.user;
+
+    document.getElementById("email").value =
+      currentUser.email || "";
+
+    await loadProfile();
+
+    await loadPayment();
+
+    await loadWithdrawHistory();
+
+    document.getElementById("loading").style.display =
+      "none";
+
+    document.getElementById("mainContent").style.display =
+      "block";
+  }
+
+
+  // =========================
+  // LOAD PROFILE
+  // =========================
+
+  async function loadProfile() {
+
+    const {
+      data,
+      error
+    } = await supabaseClient
+      .from("profiles")
+      .select("*")
+      .eq("id", currentUser.id)
+      .maybeSingle();
+
+
+    if (error) {
+
+      showMessage(
+        "profileMessage",
+        "Profile load error: " + error.message,
+        "error"
+      );
+
+      return;
     }
 
-    if(item.status === "rejected"){
-      statusClass = "rejected";
+
+    if (!data) {
+
+      showMessage(
+        "profileMessage",
+        "Profile পাওয়া যায়নি।",
+        "error"
+      );
+
+      return;
     }
 
-    const date =
-      new Date(item.created_at)
-      .toLocaleString("en-BD");
 
-    tbody.innerHTML += `
-      <tr>
+    document.getElementById("fullName").value =
+      data.full_name || "";
 
-        <td>৳ ${Number(item.amount).toFixed(2)}</td>
+    document.getElementById("username").value =
+      data.username || "";
 
-        <td>${item.payment_method}</td>
+    document.getElementById("referralCode").value =
+      data.referral_code || "";
 
-        <td>${item.account_number}</td>
-
-        <td class="${statusClass}">
-          ${item.status}
-        </td>
-
-        <td>${date}</td>
-
-      </tr>
-    `;
-  });
-}
+    document.getElementById("balance").textContent =
+      Number(data.balance || 0).toFixed(2);
+  }
 
 
-// ===============================
-// START
-// ===============================
+  // =========================
+  // UPDATE PROFILE
+  // =========================
 
-loadUser();
+  async function updateProfile() {
+
+    const fullName =
+      document.getElementById("fullName").value.trim();
+
+    const username =
+      document.getElementById("username").value.trim();
+
+
+    if (!fullName || !username) {
+
+      showMessage(
+        "profileMessage",
+        "Full Name এবং Username দিন।",
+        "error"
+      );
+
+      return;
+    }
+
+
+    const button =
+      document.getElementById("profileBtn");
+
+    button.disabled = true;
+    button.textContent = "Updating...";
+
+
+    const {
+      error
+    } = await supabaseClient
+      .from("profiles")
+      .update({
+        full_name: fullName,
+        username: username
+      })
+      .eq("id", currentUser.id);
+
+
+    button.disabled = false;
+    button.textContent = "Update Profile";
+
+
+    if (error) {
+
+      showMessage(
+        "profileMessage",
+        error.message,
+        "error"
+      );
+
+      return;
+    }
+
+
+    showMessage(
+      "profileMessage",
+      "Profile successfully updated!",
+      "success"
+    );
+  }
+
+
+  // =========================
+  // LOAD PAYMENT
+  // =========================
+
+  async function loadPayment() {
+
+    const {
+      data,
+      error
+    } = await supabaseClient
+      .from("payment_methods")
+      .select("*")
+      .eq("user_id", currentUser.id)
+      .maybeSingle();
+
+
+    if (error || !data) {
+      return;
+    }
+
+
+    document.getElementById("paymentMethod").value =
+      data.method || "";
+
+    document.getElementById("accountNumber").value =
+      data.account_number || "";
+
+    document.getElementById("accountName").value =
+      data.account_name || "";
+  }
+
+
+  // =========================
+  // SAVE PAYMENT
+  // =========================
+
+  async function savePayment() {
+
+    const method =
+      document.getElementById("paymentMethod").value;
+
+    const accountNumber =
+      document.getElementById("accountNumber").value.trim();
+
+    const accountName =
+      document.getElementById("accountName").value.trim();
+
+
+    if (!method) {
+
+      showMessage(
+        "paymentMessage",
+        "Payment Method নির্বাচন করুন।",
+        "error"
+      );
+
+      return;
+    }
+
+
+    if (!accountNumber) {
+
+      showMessage(
+        "paymentMessage",
+        "Account Number দিন।",
+        "error"
+      );
+
+      return;
+    }
+
+
+    const button =
+      document.getElementById("paymentBtn");
+
+    button.disabled = true;
+    button.textContent = "Saving...";
+
+
+    const {
+      data: existing
+    } = await supabaseClient
+      .from("payment_methods")
+      .select("id")
+      .eq("user_id", currentUser.id)
+      .maybeSingle();
+
+
+    let result;
+
+
+    if (existing) {
+
+      result = await supabaseClient
+        .from("payment_methods")
+        .update({
+          method: method,
+          account_number: accountNumber,
+          account_name: accountName,
+          updated_at: new Date().toISOString()
+        })
+        .eq("user_id", currentUser.id);
+
+    } else {
+
+      result = await supabaseClient
+        .from("payment_methods")
+        .insert({
+          user_id: currentUser.id,
+          method: method,
+          account_number: accountNumber,
+          account_name: accountName
+        });
+
+    }
+
+
+    button.disabled = false;
+    button.textContent =
+      "Save Payment Information";
+
+
+    if (result.error) {
+
+      showMessage(
+        "paymentMessage",
+        result.error.message,
+        "error"
+      );
+
+      return;
+    }
+
+
+    showMessage(
+      "paymentMessage",
+      "Payment information saved!",
+      "success"
+    );
+  }
+
+
+  // =========================
+  // REQUEST WITHDRAWAL
+  // =========================
+
+  async function requestWithdraw() {
+
+    const amount =
+      Number(
+        document.getElementById("withdrawAmount").value
+      );
+
+
+    const method =
+      document.getElementById("paymentMethod").value;
+
+
+    const accountNumber =
+      document.getElementById("accountNumber").value.trim();
+
+
+    if (!amount || amount <= 0) {
+
+      showMessage(
+        "withdrawMessage",
+        "সঠিক Withdrawal Amount দিন।",
+        "error"
+      );
+
+      return;
+    }
+
+
+    if (!method) {
+
+      showMessage(
+        "withdrawMessage",
+        "আগে Payment Method নির্বাচন করুন।",
+        "error"
+      );
+
+      return;
+    }
+
+
+    if (!accountNumber) {
+
+      showMessage(
+        "withdrawMessage",
+        "আগে Account Number দিন।",
+        "error"
+      );
+
+      return;
+    }
+
+
+    const confirmWithdraw =
+      confirm(
+        "আপনি কি ৳" +
+        amount.toFixed(2) +
+        " Withdrawal Request করতে চান?"
+      );
+
+
+    if (!confirmWithdraw) {
+      return;
+    }
+
+
+    const button =
+      document.getElementById("withdrawBtn");
+
+    button.disabled = true;
+    button.textContent = "Processing...";
+
+
+    /*
+      IMPORTANT:
+      Balance client-side থেকে কমানো হচ্ছে না।
+      Supabase RPC একসাথে withdrawal তৈরি
+      এবং balance deduct করবে।
+    */
+
+    const {
+      data,
+      error
+    } = await supabaseClient.rpc(
+      "request_withdrawal",
+      {
+        p_amount: amount,
+        p_payment_method: method,
+        p_account_number: accountNumber
+      }
+    );
+
+
+    button.disabled = false;
+    button.textContent =
+      "Request Withdrawal";
+
+
+    if (error) {
+
+      showMessage(
+        "withdrawMessage",
+        error.message,
+        "error"
+      );
+
+      return;
+    }
+
+
+    showMessage(
+      "withdrawMessage",
+      "Withdrawal request সফল হয়েছে! Request ID: " + data,
+      "success"
+    );
+
+
+    document.getElementById("withdrawAmount").value =
+      "";
+
+
+    await loadProfile();
+
+    await loadWithdrawHistory();
+  }
+
+
+  // =========================
+  // WITHDRAW HISTORY
+  // =========================
+
+  async function loadWithdrawHistory() {
+
+    const {
+      data,
+      error
+    } = await supabaseClient
+      .from("withdraw_requests")
+      .select("*")
+      .eq("user_id", currentUser.id)
+      .order("created_at", {
+        ascending: false
+      });
+
+
+    const table =
+      document.getElementById("withdrawHistory");
+
+
+    if (error) {
+
+      table.innerHTML =
+        `<tr>
+          <td colspan="5">
+            History load error
+          </td>
+        </tr>`;
+
+      return;
+    }
+
+
+    if (!data || data.length === 0) {
+
+      table.innerHTML =
+        `<tr>
+          <td colspan="5">
+            এখনো কোনো Withdrawal নেই।
+          </td>
+        </tr>`;
+
+      return;
+    }
+
+
+    table.innerHTML = "";
+
+
+    data.forEach(item => {
+
+      let statusClass = "";
+
+      if (item.status === "pending") {
+        statusClass = "pending";
+      }
+
+      if (item.status === "approved") {
+        statusClass = "approved";
+      }
+
+      if (item.status === "rejected") {
+        statusClass = "rejected";
+      }
+
+
+      const date =
+        new Date(item.created_at)
+          .toLocaleDateString("en-GB");
+
+
+      table.innerHTML += `
+        <tr>
+
+          <td>
+            ৳${Number(item.amount || 0).toFixed(2)}
+          </td>
+
+          <td>
+            ${escapeHtml(item.payment_method || "")}
+          </td>
+
+          <td>
+            ${escapeHtml(item.account_number || "")}
+          </td>
+
+          <td class="${statusClass}">
+            ${escapeHtml(item.status || "")}
+          </td>
+
+          <td>
+            ${date}
+          </td>
+
+        </tr>
+      `;
+
+    });
+
+  }
+
+
+  // =========================
+  // MESSAGE
+  // =========================
+
+  function showMessage(id, message, type) {
+
+    const element =
+      document.getElementById(id);
+
+    element.textContent = message;
+
+    element.className =
+      "message " + type;
+
+
+    setTimeout(() => {
+
+      element.className =
+        "message";
+
+    }, 5000);
+  }
+
+
+  // =========================
+  // SECURITY
+  // =========================
+
+  function escapeHtml(value) {
+
+    return String(value)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+  }
+
+
+  // =========================
+  // START
+  // =========================
+
+  loadUser();
 
 </script>
 
