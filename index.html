@@ -4,117 +4,344 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>BDTxEarning</title>
+    <title>BDTxEarning - Link Shortener & Earning</title>
 
-    <link rel="stylesheet" href="css/style.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+            color: #1f2937;
+        }
+
+        /* Navbar */
+        .navbar {
+            background: #111827;
+            color: white;
+            padding: 15px 6%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            color: #22c55e;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 15px;
+        }
+
+        .nav-links a:hover {
+            color: #22c55e;
+        }
+
+        /* Hero */
+        .hero {
+            max-width: 900px;
+            margin: auto;
+            padding: 90px 20px 70px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            color: #111827;
+            margin-bottom: 12px;
+        }
+
+        .hero h2 {
+            font-size: 27px;
+            color: #16a34a;
+            margin-bottom: 15px;
+        }
+
+        .hero p {
+            color: #6b7280;
+            font-size: 17px;
+            max-width: 650px;
+            margin: auto;
+            margin-bottom: 30px;
+        }
+
+        /* Buttons */
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 25px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            background: #22c55e;
+            color: white;
+            transition: 0.2s;
+        }
+
+        .btn:hover {
+            background: #16a34a;
+            transform: translateY(-1px);
+        }
+
+        .login-btn {
+            background: #2563eb;
+        }
+
+        .login-btn:hover {
+            background: #1d4ed8;
+        }
+
+        /* Features */
+        .features {
+            max-width: 1100px;
+            margin: auto;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+        }
+
+        .feature-card h3 {
+            margin-bottom: 10px;
+            color: #111827;
+            font-size: 19px;
+        }
+
+        .feature-card p {
+            color: #6b7280;
+            line-height: 1.6;
+        }
+
+        /* Footer */
+        footer {
+            margin-top: 70px;
+            padding: 25px;
+            background: white;
+            color: #6b7280;
+            text-align: center;
+        }
+
+        /* Mobile */
+        @media (max-width: 768px) {
+
+            .navbar {
+                padding: 14px 20px;
+            }
+
+            .logo {
+                font-size: 20px;
+            }
+
+            .nav-links {
+                gap: 10px;
+            }
+
+            .nav-links a {
+                font-size: 13px;
+            }
+
+            .hero {
+                padding: 65px 20px 50px;
+            }
+
+            .hero h1 {
+                font-size: 36px;
+            }
+
+            .hero h2 {
+                font-size: 22px;
+            }
+
+            .hero p {
+                font-size: 15px;
+            }
+
+            .features {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 450px) {
+
+            .navbar {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .hero h1 {
+                font-size: 32px;
+            }
+
+            .hero h2 {
+                font-size: 20px;
+            }
+
+            .buttons {
+                flex-direction: column;
+            }
+
+            .buttons .btn {
+                width: 100%;
+            }
+        }
+    </style>
 </head>
 
 <body>
 
-<header class="navbar">
+    <!-- Navbar -->
+    <header class="navbar">
 
-    <div class="logo">
-        BDTxEarning
-    </div>
-
-    <nav>
-        <a href="index.html">Home</a>
-        <a href="login.html">Login</a>
-        <a href="register.html">Register</a>
-    </nav>
-
-</header>
-
-
-<main>
-
-    <section class="hero">
-
-        <h1>
+        <div class="logo">
             BDTxEarning
-        </h1>
+        </div>
 
-        <h2>
-            Link Short করুন, আয় শুরু করুন
-        </h2>
+        <nav class="nav-links">
 
-        <p>
-            সহজভাবে Link Short করুন এবং আপনার Online Earning শুরু করুন।
-        </p>
-
-        <div class="hero-buttons">
-
-            <a
-                href="register.html"
-                class="btn"
-            >
-                Get Started
+            <a href="index.html">
+                Home
             </a>
 
-            <a
-                href="login.html"
-                class="btn secondary-btn"
-            >
+            <a href="login.html">
                 Login
             </a>
 
-        </div>
+            <a href="register.html">
+                Register
+            </a>
 
-    </section>
+        </nav>
 
-
-    <section class="features">
-
-        <div class="feature-card">
-
-            <h3>
-                🔗 Easy Link Shortening
-            </h3>
-
-            <p>
-                আপনার বড় URL খুব সহজে ছোট করুন।
-            </p>
-
-        </div>
+    </header>
 
 
-        <div class="feature-card">
+    <!-- Hero Section -->
+    <main>
 
-            <h3>
-                📊 Click Tracking
-            </h3>
+        <section class="hero">
+
+            <h1>
+                BDTxEarning
+            </h1>
+
+            <h2>
+                Link Short করুন, আয় শুরু করুন
+            </h2>
 
             <p>
-                আপনার Short Link কতবার ক্লিক হয়েছে তা দেখুন।
+                সহজে আপনার Link Short করুন,
+                Click পান এবং Online Earning-এর
+                নতুন সুযোগ তৈরি করুন।
             </p>
 
-        </div>
+            <div class="buttons">
+
+                <a
+                    href="register.html"
+                    class="btn"
+                >
+                    Get Started
+                </a>
+
+                <a
+                    href="login.html"
+                    class="btn login-btn"
+                >
+                    Login
+                </a>
+
+            </div>
+
+        </section>
 
 
-        <div class="feature-card">
+        <!-- Features -->
+        <section class="features">
 
-            <h3>
-                💰 Earning
-            </h3>
+            <div class="feature-card">
 
-            <p>
-                Link Share করে আয় করার সুযোগ তৈরি করুন।
-            </p>
+                <h3>
+                    🔗 Easy Link Shortening
+                </h3>
 
-        </div>
+                <p>
+                    আপনার বড় URL খুব সহজে
+                    ছোট Short Link-এ পরিণত করুন।
+                </p>
 
-    </section>
-
-</main>
+            </div>
 
 
-<footer>
+            <div class="feature-card">
 
-    <p>
-        © 2026 BDTxEarning
-    </p>
+                <h3>
+                    📊 Click Tracking
+                </h3>
 
-</footer>
+                <p>
+                    আপনার Short Link কতবার
+                    Click হয়েছে তা Dashboard থেকে দেখুন।
+                </p>
+
+            </div>
+
+
+            <div class="feature-card">
+
+                <h3>
+                    💰 Earning Opportunity
+                </h3>
+
+                <p>
+                    আপনার Link Share করে
+                    Online Earning-এর সুযোগ তৈরি করুন।
+                </p>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- Footer -->
+    <footer>
+
+        <p>
+            © 2026 BDTxEarning — All Rights Reserved
+        </p>
+
+    </footer>
 
 </body>
 </html>
