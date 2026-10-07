@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BDTxEarning - Short Link & Earn Money</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background: #f4f7f6; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; }
+        .card { background: #ffffff; padding: 30px; border-radius: 12px; box-shadow: 0 8px 20px rgba(0,0,0,0.1); width: 100%; max-width: 450px; text-align: center; }
+        h1 { color: #1e293b; font-size: 26px; margin-bottom: 8px; }
+        p.subtitle { color: #64748b; font-size: 14px; margin-bottom: 20px; }
+        input { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 15px; outline: none; }
+        input:focus { border-color: #2563eb; }
+        button { width: 100%; padding: 12px; background: #2563eb; color: white; border: none; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.3s; }
+        button:hover { background: #1d4ed8; }
+        .result { margin-top: 20px; word-break: break-all; text-align: left; background: #f8fafc; padding: 15px; border-radius: 8px; border: 1px solid #e2e8f0; display: none; }
+        .result p { font-size: 14px; color: #334155; margin-bottom: 5px; }
+        .result a { color: #2563eb; font-weight: bold; text-decoration: none; }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h1>BDTxEarning</h1>
+    <p class="subtitle">সহজেই লিঙ্ক ছোট করুন এবং ইনকাম করুন</p>
+    
+    <input type="url" id="longUrl" placeholder="আপনার লং লিঙ্কটি পেস্ট করুন (eg. https://...)" required>
+    <button onclick="shortenLink()">শর্ট লিঙ্ক তৈরি করুন</button>
+    
+    <div class="result" id="resultBox">
+        <p>আপনার শর্ট লিঙ্ক তৈরি হয়েছে:</p>
+        <a id="shortUrlLink" href="#" target="_blank"></a>
+    </div>
+</div>
+
+<script>
+    // Supabase Credentials
+    const SUPABASE_URL = "https://hmshjrqrogczsvxtwkqi.supabase.co";
+    const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imhtc2hqcnFyb2djenN2eHR3a3FpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTEzNjA5MzEsImV4cCI6MjEwNjkzNjkzMX0.LE4S-YuqC8TjRLtlPwRNMjPQaTl7GqLGRCSztqcmVqs";
+    
+    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    function generateCode() {
+        return Math.random().toString(36).substring(2, 7);
+    }
+
+    async function shortenLink() {
+        const longUrl = document.getElementById('longUrl').value;
+        const resultBox = document.getElementById('resultBox');
+        const shortUrlLink = document.getElementById('shortUrlLink');
+        
+        if (!longUrl) {
+            alert("অনুগ্রহ করে একটি লিঙ্ক ইনপুট দিন!");
+            return;
+        }
+
+        const shortCode = generateCode();
+
+        const { data, error } = await supabaseClient
+            .from('links')
+            .insert([{ original_url: longUrl, short_code: shortCode }]);
+
+        if (error) {
+            alert("কোথাও ভুল হয়েছে, ডাটাবেস টেবিল বা RLS সেটিংস চেক করুন!");
+            console.error(error);
+        } else {
+            const shortUrl = window.location.origin + "/?c=" + shortCode;
+            shortUrlLink.href = shortUrl;
+            shortUrlLink.innerText = shortUrl;
+            resultBox.style.display = "block";
+        }
+    }
+
+    async function handleRedirect() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const code = urlParams.get('c');
+
+        if (code) {
+            document.body.innerHTML = "<h2 style='text-align:center; margin-top:50px;'>BDTxEarning - অপেক্ষা করুন, রিডাইরেক্ট হচ্ছে...</h2>";
+            const { data, error } = await supabaseClient
+                .from('links')
+                .select('original_url')
+                .eq('short_code', code)
+                .single();
+
+            if (data && data.original_url) {
+                window.location.href = data.original_url;
+            } else {
+                document.body.innerHTML = "<h2 style='text-align:center; margin-top:50px; color:red;'>লিঙ্কটি সঠিক নয় বা মুছে ফেলা হয়েছে!</h2>";
+            }
+        }
+    }
+
+    handleRedirect();
+</script>
+
+</body>
+</html>
