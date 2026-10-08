@@ -1756,15 +1756,159 @@
        HANDLE SHORT LINK
     ====================================================== */
 
-    async function handleShortLink() {
+    <script>
+async function handleUnlock() {
 
-      const params =
-        new URLSearchParams(
-          window.location.search
+    const button = document.getElementById("unlockButton");
+
+    if (button) {
+        button.disabled = true;
+    }
+
+    try {
+
+        /* =========================================
+           MONETAG DIRECT LINK
+        ========================================= */
+
+        const adsEnabled =
+            String(settings.ads_enabled || "").toLowerCase() === "true";
+
+        const directLink =
+            String(settings.monetag_direct_link || "").trim();
+
+        if (adsEnabled && directLink) {
+
+            try {
+                window.open(
+                    directLink,
+                    "_blank",
+                    "noopener,noreferrer"
+                );
+            } catch (error) {
+                console.warn("Ad open failed:", error);
+            }
+        }
+
+
+        /* =========================================
+           NEXT UNLOCK STEP
+        ========================================= */
+
+        if (currentStep < totalSteps) {
+
+            currentStep++;
+
+            showUnlockStep();
+
+            return;
+        }
+
+
+        /* =========================================
+           FINAL STEP
+           EARNING RECORD
+        ========================================= */
+
+        const params =
+            new URLSearchParams(window.location.search);
+
+        const shortCode =
+            params.get("c");
+
+
+        if (shortCode) {
+
+            /* Visitor ID তৈরি / সংরক্ষণ */
+
+            let visitorId =
+                localStorage.getItem("bdtx_visitor_id");
+
+            if (!visitorId) {
+
+                visitorId =
+                    "visitor-" +
+                    Date.now() +
+                    "-" +
+                    Math.random()
+                        .toString(36)
+                        .substring(2, 12);
+
+                localStorage.setItem(
+                    "bdtx_visitor_id",
+                    visitorId
+                );
+            }
+
+
+            /* =====================================
+               RECORD EARNING
+            ===================================== */
+
+            try {
+
+                const {
+                    data: earningResult,
+                    error: earningError
+                } = await supabaseClient.rpc(
+                    "record_link_earning",
+                    {
+                        p_short_code: shortCode,
+                        p_visitor_id: visitorId
+                    }
+                );
+
+
+                if (earningError) {
+
+                    console.error(
+                        "Earning RPC Error:",
+                        earningError
+                    );
+
+                } else {
+
+                    console.log(
+                        "Earning Result:",
+                        earningResult
+                    );
+
+                }
+
+            } catch (earningException) {
+
+                console.error(
+                    "Earning Exception:",
+                    earningException
+                );
+
+            }
+
+        }
+
+
+        /* =========================================
+           FINAL REDIRECT
+        ========================================= */
+
+        goToOriginalUrl();
+
+
+    } catch (error) {
+
+        console.error(
+            "Unlock error:",
+            error
         );
 
-      const code =
-        params.get("c");
+        if (button) {
+            button.disabled = false;
+        }
+
+    }
+
+}
+</script>
 
       /* ==========================================
          Normal Home Page
