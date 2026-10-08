@@ -3,723 +3,2111 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>BDTxEarning - Admin Panel</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
-*{box-sizing:border-box;margin:0;padding:0;font-family:Arial,sans-serif}
-body{background:#f3f6fb;color:#1f2937}
-button,input,select,textarea{font:inherit}
-button{cursor:pointer}
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  font-family:Arial,sans-serif
+}
+
+body{
+  background:#f3f6fb;
+  color:#1f2937
+}
+
+button,input,select,textarea{
+  font:inherit
+}
+
+button{
+  cursor:pointer
+}
+
+/* NAVBAR */
 
 .navbar{
-  position:sticky;top:0;z-index:100;
-  display:flex;justify-content:space-between;align-items:center;
-  padding:14px 20px;background:#111827;color:#fff;
+  position:sticky;
+  top:0;
+  z-index:100;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:14px 20px;
+  background:#111827;
+  color:#fff;
   box-shadow:0 2px 12px rgba(0,0,0,.12)
 }
-.logo{font-size:21px;font-weight:800;color:#22c55e}
-.nav-right{display:flex;align-items:center;gap:8px}
-.badge{background:#166534;padding:6px 10px;border-radius:20px;font-size:12px;font-weight:700}
-.logout{border:0;background:#ef4444;color:#fff;padding:9px 14px;border-radius:7px;font-weight:700}
 
-.container{width:95%;max-width:1250px;margin:24px auto}
+.logo{
+  font-size:21px;
+  font-weight:800;
+  color:#22c55e
+}
+
+.nav-right{
+  display:flex;
+  align-items:center;
+  gap:8px
+}
+
+.badge{
+  background:#166534;
+  padding:6px 10px;
+  border-radius:20px;
+  font-size:12px;
+  font-weight:700
+}
+
+.logout{
+  border:0;
+  background:#ef4444;
+  color:#fff;
+  padding:9px 14px;
+  border-radius:7px;
+  font-weight:700
+}
+
+/* CONTAINER */
+
+.container{
+  width:95%;
+  max-width:1250px;
+  margin:24px auto
+}
+
 .welcome{
   background:linear-gradient(135deg,#111827,#1f2937);
-  color:#fff;padding:25px;border-radius:15px;margin-bottom:20px
+  color:#fff;
+  padding:25px;
+  border-radius:15px;
+  margin-bottom:20px
 }
-.welcome h1{margin-bottom:8px}
-.welcome p{color:#d1d5db;line-height:1.6}
 
-.message{display:none;padding:12px 15px;border-radius:9px;margin-bottom:15px;font-weight:700}
-.message.success{display:block;background:#dcfce7;color:#166534}
-.message.error{display:block;background:#fee2e2;color:#991b1b}
+.welcome h1{
+  margin-bottom:8px
+}
+
+.welcome p{
+  color:#d1d5db;
+  line-height:1.6
+}
+
+/* MESSAGE */
+
+.message{
+  display:none;
+  padding:12px 15px;
+  border-radius:9px;
+  margin-bottom:15px;
+  font-weight:700
+}
+
+.message.success{
+  display:block;
+  background:#dcfce7;
+  color:#166534
+}
+
+.message.error{
+  display:block;
+  background:#fee2e2;
+  color:#991b1b
+}
+
+/* STATS */
 
 .stats{
-  display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-bottom:20px
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:14px;
+  margin-bottom:20px
 }
+
 .stat{
-  background:#fff;padding:18px;border-radius:13px;
+  background:#fff;
+  padding:18px;
+  border-radius:13px;
   box-shadow:0 4px 15px rgba(0,0,0,.06)
 }
-.stat-icon{font-size:24px;margin-bottom:7px}
-.stat-title{font-size:12px;color:#6b7280;margin-bottom:5px}
-.stat-value{font-size:22px;font-weight:800}
+
+.stat-icon{
+  font-size:24px;
+  margin-bottom:7px
+}
+
+.stat-title{
+  font-size:12px;
+  color:#6b7280;
+  margin-bottom:5px
+}
+
+.stat-value{
+  font-size:22px;
+  font-weight:800
+}
+
+/* SECTION */
 
 .section{
-  background:#fff;border-radius:14px;padding:20px;
-  box-shadow:0 4px 15px rgba(0,0,0,.06);margin-bottom:20px
+  background:#fff;
+  border-radius:14px;
+  padding:20px;
+  box-shadow:0 4px 15px rgba(0,0,0,.06);
+  margin-bottom:20px
 }
-.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px}
-.tab{
-  border:0;background:#e5e7eb;color:#111827;
-  padding:10px 15px;border-radius:8px;font-weight:700
-}
-.tab.active{background:#22c55e}
-.panel{display:none}
-.panel.active{display:block}
-.section-title{font-size:20px;font-weight:800;margin-bottom:16px}
 
-.table-wrapper{overflow-x:auto}
-table{width:100%;border-collapse:collapse;min-width:760px}
-th,td{padding:11px 9px;border-bottom:1px solid #e5e7eb;text-align:left;font-size:13px;vertical-align:middle}
-th{background:#f8fafc;color:#4b5563}
-td.url{max-width:330px;word-break:break-all}
+.tabs{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  margin-bottom:20px
+}
+
+.tab{
+  border:0;
+  background:#e5e7eb;
+  color:#111827;
+  padding:10px 15px;
+  border-radius:8px;
+  font-weight:700
+}
+
+.tab.active{
+  background:#22c55e
+}
+
+.panel{
+  display:none
+}
+
+.panel.active{
+  display:block
+}
+
+.section-title{
+  font-size:20px;
+  font-weight:800;
+  margin-bottom:16px
+}
+
+/* TABLE */
+
+.table-wrapper{
+  overflow-x:auto
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  min-width:760px
+}
+
+th,td{
+  padding:11px 9px;
+  border-bottom:1px solid #e5e7eb;
+  text-align:left;
+  font-size:13px;
+  vertical-align:middle
+}
+
+th{
+  background:#f8fafc;
+  color:#4b5563
+}
+
+td.url{
+  max-width:330px;
+  word-break:break-all
+}
+
+/* BUTTONS */
 
 .btn{
-  border:0;padding:8px 11px;border-radius:7px;
-  font-weight:700;margin:2px
+  border:0;
+  padding:8px 11px;
+  border-radius:7px;
+  font-weight:700;
+  margin:2px
 }
-.green{background:#22c55e;color:#111827}
-.red{background:#ef4444;color:#fff}
-.blue{background:#2563eb;color:#fff}
-.gray{background:#e5e7eb;color:#111827}
-.dark{background:#111827;color:#fff}
 
-.status{display:inline-block;padding:5px 9px;border-radius:20px;font-size:11px;font-weight:800;text-transform:capitalize}
-.pending{background:#fef3c7;color:#92400e}
-.approved{background:#dcfce7;color:#166534}
-.rejected{background:#fee2e2;color:#991b1b}
+.green{
+  background:#22c55e;
+  color:#111827
+}
 
-.empty,.loading{text-align:center;padding:28px;color:#6b7280}
+.red{
+  background:#ef4444;
+  color:#fff
+}
+
+.blue{
+  background:#2563eb;
+  color:#fff
+}
+
+.gray{
+  background:#e5e7eb;
+  color:#111827
+}
+
+.dark{
+  background:#111827;
+  color:#fff
+}
+
+/* STATUS */
+
+.status{
+  display:inline-block;
+  padding:5px 9px;
+  border-radius:20px;
+  font-size:11px;
+  font-weight:800;
+  text-transform:capitalize
+}
+
+.pending{
+  background:#fef3c7;
+  color:#92400e
+}
+
+.approved{
+  background:#dcfce7;
+  color:#166534
+}
+
+.rejected{
+  background:#fee2e2;
+  color:#991b1b
+}
+
+.empty,
+.loading{
+  text-align:center;
+  padding:28px;
+  color:#6b7280
+}
+
+/* SETTINGS */
 
 .settings-grid{
-  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:15px
 }
+
 .setting-card{
-  background:#f8fafc;padding:16px;border-radius:11px;
+  background:#f8fafc;
+  padding:16px;
+  border-radius:11px;
   border:1px solid #eef2f7
 }
-.setting-card.full{grid-column:1/-1}
-.setting-card h3{font-size:15px;margin-bottom:9px}
-.help{font-size:12px;color:#6b7280;line-height:1.55;margin-top:7px}
 
-.input,.select{
-  width:100%;padding:11px;border:1px solid #d1d5db;
-  border-radius:8px;outline:0;background:#fff
+.setting-card.full{
+  grid-column:1/-1
 }
-.input:focus,.select:focus{border-color:#22c55e}
-textarea.input{resize:vertical;min-height:150px;font-family:monospace;line-height:1.5}
 
-.save-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+.setting-card h3{
+  font-size:15px;
+  margin-bottom:9px
+}
+
+.help{
+  font-size:12px;
+  color:#6b7280;
+  line-height:1.55;
+  margin-top:7px
+}
+
+.input,
+.select{
+  width:100%;
+  padding:11px;
+  border:1px solid #d1d5db;
+  border-radius:8px;
+  outline:0;
+  background:#fff
+}
+
+.input:focus,
+.select:focus{
+  border-color:#22c55e
+}
+
+textarea.input{
+  resize:vertical;
+  min-height:150px;
+  font-family:monospace;
+  line-height:1.5
+}
+
+.save-row{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-top:18px
+}
+
+/* ERROR */
 
 .error-screen{
-  min-height:100vh;display:flex;align-items:center;justify-content:center;
-  padding:20px;background:#f3f6fb
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  background:#f3f6fb
 }
+
 .error-card{
-  width:100%;max-width:650px;background:#fff;padding:25px;border-radius:15px;
+  width:100%;
+  max-width:650px;
+  background:#fff;
+  padding:25px;
+  border-radius:15px;
   box-shadow:0 5px 25px rgba(0,0,0,.08)
 }
-.error-card h2{color:#dc2626;margin-bottom:12px}
-.error-text{
-  background:#fee2e2;color:#991b1b;padding:14px;border-radius:9px;
-  word-break:break-word;line-height:1.6
+
+.error-card h2{
+  color:#dc2626;
+  margin-bottom:12px
 }
 
-footer{text-align:center;color:#6b7280;font-size:13px;padding:25px}
+.error-text{
+  background:#fee2e2;
+  color:#991b1b;
+  padding:14px;
+  border-radius:9px;
+  word-break:break-word;
+  line-height:1.6
+}
+
+footer{
+  text-align:center;
+  color:#6b7280;
+  font-size:13px;
+  padding:25px
+}
+
+/* RESPONSIVE */
 
 @media(max-width:1050px){
-  .stats{grid-template-columns:repeat(3,1fr)}
+
+  .stats{
+    grid-template-columns:repeat(2,1fr)
+  }
+
 }
+
 @media(max-width:700px){
-  .container{width:92%;margin:15px auto}
-  .settings-grid{grid-template-columns:1fr}
-  .setting-card.full{grid-column:auto}
-  .stats{grid-template-columns:repeat(2,1fr)}
-  .navbar{padding:12px}
-  .logo{font-size:18px}
-  .badge{display:none}
-  .welcome{padding:20px}
-  .welcome h1{font-size:23px}
+
+  .container{
+    width:92%;
+    margin:15px auto
+  }
+
+  .settings-grid{
+    grid-template-columns:1fr
+  }
+
+  .setting-card.full{
+    grid-column:auto
+  }
+
+  .stats{
+    grid-template-columns:repeat(2,1fr)
+  }
+
+  .navbar{
+    padding:12px
+  }
+
+  .logo{
+    font-size:18px
+  }
+
+  .badge{
+    display:none
+  }
+
+  .welcome{
+    padding:20px
+  }
+
+  .welcome h1{
+    font-size:23px
+  }
+
+  .stat{
+    padding:15px
+  }
+
+  .stat-value{
+    font-size:19px
+  }
+
 }
+
 </style>
 </head>
 
 <body>
 
 <nav class="navbar">
-  <div class="logo">BDTxEarning Admin</div>
-  <div class="nav-right">
-    <span class="badge">ADMIN</span>
-    <button class="logout" onclick="logout()">Logout</button>
+
+  <div class="logo">
+    BDTxEarning Admin
   </div>
+
+  <div class="nav-right">
+
+    <span class="badge">
+      ADMIN
+    </span>
+
+    <button class="logout" onclick="logout()">
+      Logout
+    </button>
+
+  </div>
+
 </nav>
 
 <main class="container">
 
+  <!-- WELCOME -->
+
   <div class="welcome">
+
     <h1>👑 Admin Panel</h1>
-    <p>BDTxEarning-এর Users, Short Links, Withdrawals এবং Monetag/Unlock Settings এখান থেকে পরিচালনা করুন।</p>
+
+    <p>
+      BDTxEarning-এর Users, Short Links, Withdrawals এবং Monetag/Unlock Settings এখান থেকে পরিচালনা করুন।
+    </p>
+
   </div>
+
+  <!-- MESSAGE -->
 
   <div id="message" class="message"></div>
 
+  <!-- STATISTICS -->
+
   <div class="stats">
+
     <div class="stat">
-      <div class="stat-icon">👥</div>
-      <div class="stat-title">Total Users</div>
-      <div class="stat-value" id="statUsers">0</div>
+
+      <div class="stat-icon">
+        👥
+      </div>
+
+      <div class="stat-title">
+        Total Users
+      </div>
+
+      <div class="stat-value" id="statUsers">
+        0
+      </div>
+
     </div>
+
+
     <div class="stat">
-      <div class="stat-icon">🔗</div>
-      <div class="stat-title">Total Links</div>
-      <div class="stat-value" id="statLinks">0</div>
+
+      <div class="stat-icon">
+        🔗
+      </div>
+
+      <div class="stat-title">
+        Total Links
+      </div>
+
+      <div class="stat-value" id="statLinks">
+        0
+      </div>
+
     </div>
+
+
     <div class="stat">
-      <div class="stat-icon">👆</div>
-      <div class="stat-title">Total Clicks</div>
-      <div class="stat-value" id="statClicks">0</div>
+
+      <div class="stat-icon">
+        👆
+      </div>
+
+      <div class="stat-title">
+        Total Clicks
+      </div>
+
+      <div class="stat-value" id="statClicks">
+        0
+      </div>
+
     </div>
+
+
     <div class="stat">
-      <div class="stat-icon">💰</div>
-      <div class="stat-title">Total Balance</div>
-      <div class="stat-value" id="statBalance">৳0.00</div>
+
+      <div class="stat-icon">
+        💰
+      </div>
+
+      <div class="stat-title">
+        Current Balance
+      </div>
+
+      <div class="stat-value" id="statBalance">
+        ৳0.00
+      </div>
+
     </div>
+
+
     <div class="stat">
-      <div class="stat-icon">💸</div>
-      <div class="stat-title">Pending Withdraw</div>
-      <div class="stat-value" id="statWithdraw">0</div>
+
+      <div class="stat-icon">
+        📈
+      </div>
+
+      <div class="stat-title">
+        Total Earning
+      </div>
+
+      <div class="stat-value" id="statEarning">
+        ৳0.00
+      </div>
+
     </div>
+
+
+    <div class="stat">
+
+      <div class="stat-icon">
+        💸
+      </div>
+
+      <div class="stat-title">
+        Total Withdraw
+      </div>
+
+      <div class="stat-value" id="statWithdrawAmount">
+        ৳0.00
+      </div>
+
+    </div>
+
+
+    <div class="stat">
+
+      <div class="stat-icon">
+        ⏳
+      </div>
+
+      <div class="stat-title">
+        Pending Withdraw
+      </div>
+
+      <div class="stat-value" id="statWithdraw">
+        0
+      </div>
+
+    </div>
+
+
+    <div class="stat">
+
+      <div class="stat-icon">
+        ✅
+      </div>
+
+      <div class="stat-title">
+        Approved Withdraw
+      </div>
+
+      <div class="stat-value" id="statApprovedWithdraw">
+        ৳0.00
+      </div>
+
+    </div>
+
   </div>
 
+
+  <!-- MAIN SECTION -->
+
   <div class="section">
+
     <div class="tabs">
-      <button class="tab active" onclick="showPanel('users',this)">👥 Users</button>
-      <button class="tab" onclick="showPanel('links',this)">🔗 Links</button>
-      <button class="tab" onclick="showPanel('withdrawals',this)">💸 Withdrawals</button>
-      <button class="tab" onclick="showPanel('settings',this)">⚙️ Settings</button>
+
+      <button
+        class="tab active"
+        onclick="showPanel('users',this)"
+      >
+        👥 Users
+      </button>
+
+      <button
+        class="tab"
+        onclick="showPanel('links',this)"
+      >
+        🔗 Links
+      </button>
+
+      <button
+        class="tab"
+        onclick="showPanel('withdrawals',this)"
+      >
+        💸 Withdrawals
+      </button>
+
+      <button
+        class="tab"
+        onclick="showPanel('settings',this)"
+      >
+        ⚙️ Settings
+      </button>
+
     </div>
 
+
     <!-- USERS -->
+
     <div id="users" class="panel active">
-      <div class="section-title">👥 All Users</div>
-      <div style="margin-bottom:12px">
-        <button class="btn blue" onclick="loadUsers()">🔄 Refresh Users</button>
+
+      <div class="section-title">
+        👥 All Users
       </div>
+
+      <div style="margin-bottom:12px">
+
+        <button
+          class="btn blue"
+          onclick="loadUsers()"
+        >
+          🔄 Refresh Users
+        </button>
+
+      </div>
+
       <div class="table-wrapper">
+
         <table>
+
           <thead>
+
             <tr>
+
               <th>Name</th>
               <th>Username</th>
               <th>Balance</th>
               <th>Referral</th>
               <th>Action</th>
+
             </tr>
+
           </thead>
+
           <tbody id="usersTable">
-            <tr><td colspan="5" class="loading">Loading...</td></tr>
+
+            <tr>
+              <td colspan="5" class="loading">
+                Loading...
+              </td>
+            </tr>
+
           </tbody>
+
         </table>
+
       </div>
+
     </div>
 
+
     <!-- LINKS -->
+
     <div id="links" class="panel">
-      <div class="section-title">🔗 All Short Links</div>
-      <div style="margin-bottom:12px">
-        <button class="btn blue" onclick="loadLinks()">🔄 Refresh Links</button>
+
+      <div class="section-title">
+        🔗 All Short Links
       </div>
+
+      <div style="margin-bottom:12px">
+
+        <button
+          class="btn blue"
+          onclick="loadLinks()"
+        >
+          🔄 Refresh Links
+        </button>
+
+      </div>
+
       <div class="table-wrapper">
+
         <table>
+
           <thead>
+
             <tr>
+
               <th>Short Code</th>
               <th>Original URL</th>
               <th>Clicks</th>
               <th>User ID</th>
               <th>Action</th>
+
             </tr>
+
           </thead>
+
           <tbody id="linksTable">
-            <tr><td colspan="5" class="loading">Loading...</td></tr>
+
+            <tr>
+              <td colspan="5" class="loading">
+                Loading...
+              </td>
+            </tr>
+
           </tbody>
+
         </table>
+
       </div>
+
     </div>
 
+
     <!-- WITHDRAWALS -->
+
     <div id="withdrawals" class="panel">
-      <div class="section-title">💸 Withdrawal Requests</div>
-      <div style="margin-bottom:12px">
-        <button class="btn blue" onclick="loadWithdrawals()">🔄 Refresh Withdrawals</button>
+
+      <div class="section-title">
+        💸 Withdrawal Requests
       </div>
+
+      <div style="margin-bottom:12px">
+
+        <button
+          class="btn blue"
+          onclick="loadWithdrawals()"
+        >
+          🔄 Refresh Withdrawals
+        </button>
+
+      </div>
+
       <div class="table-wrapper">
+
         <table>
+
           <thead>
+
             <tr>
+
               <th>Amount</th>
               <th>Method</th>
               <th>Account</th>
               <th>Status</th>
               <th>Date</th>
               <th>Action</th>
+
             </tr>
+
           </thead>
+
           <tbody id="withdrawalsTable">
-            <tr><td colspan="6" class="loading">Loading...</td></tr>
+
+            <tr>
+              <td colspan="6" class="loading">
+                Loading...
+              </td>
+            </tr>
+
           </tbody>
+
         </table>
+
       </div>
+
     </div>
 
+
     <!-- SETTINGS -->
+
     <div id="settings" class="panel">
-      <div class="section-title">⚙️ Website & Monetag Settings</div>
+
+      <div class="section-title">
+        ⚙️ Website & Monetag Settings
+      </div>
+
 
       <div class="settings-grid">
 
-        <div class="setting-card">
-          <h3>🔗 Monetag Direct Link</h3>
-          <input class="input" id="monetag_direct_link" type="url" placeholder="https://...">
-          <div class="help">Short Link unlock করার সময় Direct Link ব্যবহার হবে।</div>
-        </div>
 
         <div class="setting-card">
-          <h3>🔓 Unlock Pages</h3>
-          <select class="select" id="unlock_pages">
-            <option value="1">1 Page</option>
-            <option value="2">2 Pages</option>
-            <option value="3">3 Pages</option>
-            <option value="4">4 Pages</option>
-            <option value="5">5 Pages</option>
+
+          <h3>
+            🔗 Monetag Direct Link
+          </h3>
+
+          <input
+            class="input"
+            id="monetag_direct_link"
+            type="url"
+            placeholder="https://..."
+          >
+
+          <div class="help">
+            Short Link unlock করার সময় Direct Link ব্যবহার হবে।
+          </div>
+
+        </div>
+
+
+        <div class="setting-card">
+
+          <h3>
+            🔓 Unlock Pages
+          </h3>
+
+          <select
+            class="select"
+            id="unlock_pages"
+          >
+
+            <option value="1">
+              1 Page
+            </option>
+
+            <option value="2">
+              2 Pages
+            </option>
+
+            <option value="3">
+              3 Pages
+            </option>
+
+            <option value="4">
+              4 Pages
+            </option>
+
+            <option value="5">
+              5 Pages
+            </option>
+
           </select>
-          <div class="help">একটি Short Link unlock করতে মোট কয়টি page/step লাগবে।</div>
+
+          <div class="help">
+            একটি Short Link unlock করতে মোট কয়টি page/step লাগবে।
+          </div>
+
         </div>
 
-        <div class="setting-card">
-          <h3>⏱️ Unlock Timer</h3>
-          <input class="input" id="unlock_timer" type="number" min="0" placeholder="5">
-          <div class="help">প্রতি Unlock step-এর timer কত সেকেন্ড হবে।</div>
-        </div>
 
         <div class="setting-card">
-          <h3>🔘 Unlock Button Text</h3>
-          <input class="input" id="unlock_button_text" type="text" placeholder="Unlock Link">
+
+          <h3>
+            ⏱️ Unlock Timer
+          </h3>
+
+          <input
+            class="input"
+            id="unlock_timer"
+            type="number"
+            min="0"
+            placeholder="5"
+          >
+
+          <div class="help">
+            প্রতি Unlock step-এর timer কত সেকেন্ড হবে।
+          </div>
+
         </div>
 
+
         <div class="setting-card">
-          <h3>📢 Direct Link Ads</h3>
-          <select class="select" id="ads_enabled">
-            <option value="true">Enabled</option>
-            <option value="false">Disabled</option>
+
+          <h3>
+            🔘 Unlock Button Text
+          </h3>
+
+          <input
+            class="input"
+            id="unlock_button_text"
+            type="text"
+            placeholder="Unlock Link"
+          >
+
+        </div>
+
+
+        <div class="setting-card">
+
+          <h3>
+            📢 Direct Link Ads
+          </h3>
+
+          <select
+            class="select"
+            id="ads_enabled"
+          >
+
+            <option value="true">
+              Enabled
+            </option>
+
+            <option value="false">
+              Disabled
+            </option>
+
           </select>
-          <div class="help">Unlock button চাপলে Monetag Direct Link open হবে কি না।</div>
+
+          <div class="help">
+            Unlock button চাপলে Monetag Direct Link open হবে কি না।
+          </div>
+
         </div>
 
+
         <div class="setting-card">
-          <h3>📢 Unlock Page Ad</h3>
-          <select class="select" id="unlock_ad_enabled">
-            <option value="true">Enabled</option>
-            <option value="false">Disabled</option>
+
+          <h3>
+            📢 Unlock Page Ad
+          </h3>
+
+          <select
+            class="select"
+            id="unlock_ad_enabled"
+          >
+
+            <option value="true">
+              Enabled
+            </option>
+
+            <option value="false">
+              Disabled
+            </option>
+
           </select>
-          <div class="help">Unlock page-এর ভিতরে Monetag Ad Code দেখাবেন কি না।</div>
+
+          <div class="help">
+            Unlock page-এর ভিতরে Monetag Ad Code দেখাবেন কি না।
+          </div>
+
         </div>
+
 
         <div class="setting-card full">
-          <h3>💻 Monetag Ad Code / Ad Tag</h3>
+
+          <h3>
+            💻 Monetag Ad Code / Ad Tag
+          </h3>
+
           <textarea
             class="input"
             id="unlock_ad_code"
             rows="8"
             placeholder="এখানে Monetag-এর সম্পূর্ণ Ad Code / Ad Tag paste করুন..."
           ></textarea>
+
           <div class="help">
             Monetag থেকে পাওয়া সম্পূর্ণ Ad Tag এখানে paste করুন।
             এটি Unlock Button-এর নিচে দেখানো হবে।
           </div>
+
         </div>
 
-        <div class="setting-card">
-          <h3>💰 Click Earning</h3>
-          <input class="input" id="click_earning" type="number" step="0.001" min="0" placeholder="0.01">
-          <div class="help">প্রতি valid click-এর earning amount।</div>
-        </div>
 
         <div class="setting-card">
-          <h3>💸 Minimum Withdrawal</h3>
-          <input class="input" id="minimum_withdrawal" type="number" min="0" placeholder="100">
-          <div class="help">Withdrawal করার সর্বনিম্ন balance।</div>
+
+          <h3>
+            💰 Click Earning
+          </h3>
+
+          <input
+            class="input"
+            id="click_earning"
+            type="number"
+            step="0.001"
+            min="0"
+            placeholder="0.01"
+          >
+
+          <div class="help">
+            প্রতি valid click-এর earning amount।
+          </div>
+
         </div>
 
+
         <div class="setting-card">
-          <h3>👥 Referral Earning</h3>
-          <input class="input" id="referral_earning" type="number" step="0.01" min="0" placeholder="0">
-          <div class="help">Referral থেকে earning amount।</div>
+
+          <h3>
+            💸 Minimum Withdrawal
+          </h3>
+
+          <input
+            class="input"
+            id="minimum_withdrawal"
+            type="number"
+            min="0"
+            placeholder="100"
+          >
+
+          <div class="help">
+            Withdrawal করার সর্বনিম্ন balance।
+          </div>
+
         </div>
+
+
+        <div class="setting-card">
+
+          <h3>
+            👥 Referral Earning
+          </h3>
+
+          <input
+            class="input"
+            id="referral_earning"
+            type="number"
+            step="0.01"
+            min="0"
+            placeholder="0"
+          >
+
+          <div class="help">
+            Referral থেকে earning amount।
+          </div>
+
+        </div>
+
 
       </div>
+
 
       <div class="save-row">
-        <button class="btn green" onclick="saveSettings()">💾 Save All Settings</button>
-        <button class="btn gray" onclick="loadSettings()">🔄 Reload Settings</button>
+
+        <button
+          class="btn green"
+          onclick="saveSettings()"
+        >
+          💾 Save All Settings
+        </button>
+
+        <button
+          class="btn gray"
+          onclick="loadSettings()"
+        >
+          🔄 Reload Settings
+        </button>
+
       </div>
+
     </div>
 
   </div>
+
 </main>
 
-<footer>© 2026 BDTxEarning Admin Panel</footer>
+
+<footer>
+  © 2026 BDTxEarning Admin Panel
+</footer>
+
 
 <script>
-const SUPABASE_URL = "https://hmshjrqrogczsvxtwkqi.supabase.co";
-const SUPABASE_KEY = "sb_publishable_tLNKwPxwoceKvJG2DpR6jw_VE9KaExr";
 
-const supabaseClient = window.supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_KEY
-);
+/* =========================
+   SUPABASE
+========================= */
+
+const SUPABASE_URL =
+  "https://hmshjrqrogczsvxtwkqi.supabase.co";
+
+const SUPABASE_KEY =
+  "sb_publishable_tLNKwPxwoceKvJG2DpR6jw_VE9KaExr";
+
+
+const supabaseClient =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
+
+
+/* =========================
+   HELPERS
+========================= */
 
 function el(id){
   return document.getElementById(id);
 }
 
+
 function escapeHtml(value){
+
   return String(value ?? "")
     .replace(/&/g,"&amp;")
     .replace(/</g,"&lt;")
     .replace(/>/g,"&gt;")
     .replace(/"/g,"&quot;")
     .replace(/'/g,"&#039;");
+
 }
 
+
 function showMessage(text,type){
+
   const box = el("message");
+
   if(!box) return;
 
   box.textContent = text;
-  box.className = "message " + type;
+
+  box.className =
+    "message " + type;
 
   setTimeout(() => {
-    if(box) box.className = "message";
+
+    if(box){
+      box.className = "message";
+    }
+
   },5000);
+
 }
 
+
 function showFatalError(error){
+
   document.body.innerHTML = `
+
     <div class="error-screen">
+
       <div class="error-card">
-        <h2>⚠️ Admin Panel Error</h2>
-        <div class="error-text">${escapeHtml(error?.message || error)}</div>
+
+        <h2>
+          ⚠️ Admin Panel Error
+        </h2>
+
+        <div class="error-text">
+          ${escapeHtml(error?.message || error)}
+        </div>
+
         <button
           class="btn dark"
           style="margin-top:15px"
           onclick="location.reload()"
-        >Reload</button>
+        >
+          Reload
+        </button>
+
       </div>
+
     </div>
+
   `;
+
 }
 
-function showPanel(panelId,button){
-  document.querySelectorAll(".panel").forEach(p => p.classList.remove("active"));
-  document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
-
-  const panel = el(panelId);
-  if(panel) panel.classList.add("active");
-  if(button) button.classList.add("active");
-}
-
-async function logout(){
-  await supabaseClient.auth.signOut();
-  window.location.href = "login.html";
-}
 
 /* =========================
-   DASHBOARD
+   PANEL
 ========================= */
+
+function showPanel(panelId,button){
+
+  document
+    .querySelectorAll(".panel")
+    .forEach(p =>
+      p.classList.remove("active")
+    );
+
+  document
+    .querySelectorAll(".tab")
+    .forEach(t =>
+      t.classList.remove("active")
+    );
+
+  const panel = el(panelId);
+
+  if(panel){
+    panel.classList.add("active");
+  }
+
+  if(button){
+    button.classList.add("active");
+  }
+
+}
+
+
+/* =========================
+   LOGOUT
+========================= */
+
+async function logout(){
+
+  await supabaseClient.auth.signOut();
+
+  window.location.href =
+    "login.html";
+
+}
+
+
+/* =========================
+   DASHBOARD STATISTICS
+========================= */
+
 async function loadDashboard(){
-  const {data,error} = await supabaseClient.rpc("admin_dashboard_stats");
+
+  const {data,error} =
+    await supabaseClient.rpc(
+      "admin_dashboard_stats"
+    );
 
   if(error){
-    console.error("Dashboard:",error);
+
+    console.error(
+      "Dashboard:",
+      error
+    );
+
     return;
   }
 
+
   const d = data || {};
 
-  if(el("statUsers")) el("statUsers").textContent = d.users ?? 0;
-  if(el("statLinks")) el("statLinks").textContent = d.links ?? 0;
-  if(el("statClicks")) el("statClicks").textContent = d.clicks ?? 0;
+
+  /* USERS */
+
+  if(el("statUsers")){
+
+    el("statUsers").textContent =
+      Number(
+        d.users || 0
+      ).toLocaleString("en-US");
+
+  }
+
+
+  /* LINKS */
+
+  if(el("statLinks")){
+
+    el("statLinks").textContent =
+      Number(
+        d.links || 0
+      ).toLocaleString("en-US");
+
+  }
+
+
+  /* CLICKS */
+
+  if(el("statClicks")){
+
+    el("statClicks").textContent =
+      Number(
+        d.clicks || 0
+      ).toLocaleString("en-US");
+
+  }
+
+
+  /* CURRENT BALANCE */
 
   if(el("statBalance")){
+
     el("statBalance").textContent =
-      "৳" + Number(d.balance || 0).toFixed(2);
+      "৳" +
+      Number(
+        d.balance || 0
+      ).toFixed(2);
+
   }
 
-  if(el("statWithdraw")){
-    el("statWithdraw").textContent =
-      d.pending_withdrawals ?? 0;
+
+  /* TOTAL EARNING */
+
+  if(el("statEarning")){
+
+    el("statEarning").textContent =
+      "৳" +
+      Number(
+        d.total_earning || 0
+      ).toFixed(2);
+
   }
+
+
+  /* TOTAL WITHDRAW */
+
+  if(el("statWithdrawAmount")){
+
+    el("statWithdrawAmount").textContent =
+      "৳" +
+      Number(
+        d.withdraw_amount || 0
+      ).toFixed(2);
+
+  }
+
+
+  /* PENDING WITHDRAW */
+
+  if(el("statWithdraw")){
+
+    el("statWithdraw").textContent =
+      Number(
+        d.pending_withdrawals || 0
+      ).toLocaleString("en-US");
+
+  }
+
+
+  /* APPROVED WITHDRAW */
+
+  if(el("statApprovedWithdraw")){
+
+    el("statApprovedWithdraw").textContent =
+      "৳" +
+      Number(
+        d.approved_withdraw_amount || 0
+      ).toFixed(2);
+
+  }
+
 }
+
 
 /* =========================
    USERS
 ========================= */
-async function loadUsers(){
-  const table = el("usersTable");
-  if(table) table.innerHTML =
-    '<tr><td colspan="5" class="loading">Loading...</td></tr>';
 
-  const {data,error} = await supabaseClient.rpc("admin_get_users");
+async function loadUsers(){
+
+  const table =
+    el("usersTable");
+
+  if(table){
+
+    table.innerHTML =
+      `
+      <tr>
+        <td
+          colspan="5"
+          class="loading"
+        >
+          Loading...
+        </td>
+      </tr>
+      `;
+
+  }
+
+
+  const {data,error} =
+    await supabaseClient.rpc(
+      "admin_get_users"
+    );
+
 
   if(error){
-    console.error("Users:",error);
-    if(table) table.innerHTML =
-      `<tr><td colspan="5" class="empty">Users load করা যায়নি।<br>${escapeHtml(error.message)}</td></tr>`;
+
+    console.error(
+      "Users:",
+      error
+    );
+
+    if(table){
+
+      table.innerHTML =
+        `
+        <tr>
+          <td
+            colspan="5"
+            class="empty"
+          >
+            Users load করা যায়নি।
+            <br>
+            ${escapeHtml(error.message)}
+          </td>
+        </tr>
+        `;
+
+    }
+
     return;
   }
 
-  const users = data || [];
+
+  const users =
+    data || [];
+
 
   if(!users.length){
+
     table.innerHTML =
-      '<tr><td colspan="5" class="empty">কোনো User পাওয়া যায়নি।</td></tr>';
+      `
+      <tr>
+        <td
+          colspan="5"
+          class="empty"
+        >
+          কোনো User পাওয়া যায়নি।
+        </td>
+      </tr>
+      `;
+
     return;
   }
+
 
   let html = "";
 
+
   users.forEach(user => {
+
     html += `
+
       <tr>
-        <td>${escapeHtml(user.full_name || "-")}</td>
-        <td>${escapeHtml(user.username || "-")}</td>
-        <td>৳${Number(user.balance || 0).toFixed(2)}</td>
-        <td>৳${Number(user.referral_balance || 0).toFixed(2)}</td>
+
         <td>
-          <button class="btn blue" onclick="changeBalance('${escapeHtml(user.id)}')">
+          ${escapeHtml(
+            user.full_name || "-"
+          )}
+        </td>
+
+        <td>
+          ${escapeHtml(
+            user.username || "-"
+          )}
+        </td>
+
+        <td>
+          ৳${Number(
+            user.balance || 0
+          ).toFixed(2)}
+        </td>
+
+        <td>
+          ৳${Number(
+            user.referral_balance || 0
+          ).toFixed(2)}
+        </td>
+
+        <td>
+
+          <button
+            class="btn blue"
+            onclick="changeBalance('${escapeHtml(user.id)}')"
+          >
             Balance
           </button>
+
         </td>
+
       </tr>
+
     `;
+
   });
 
-  table.innerHTML = html;
+
+  table.innerHTML =
+    html;
+
 }
+
+
+/* =========================
+   CHANGE BALANCE
+========================= */
 
 async function changeBalance(userId){
-  const amount = prompt(
-    "Balance পরিবর্তন করুন।\n\nযোগ করতে: 50\nকমাতে: -50"
-  );
 
-  if(amount === null || amount.trim() === "") return;
+  const amount =
+    prompt(
+      "Balance পরিবর্তন করুন।\n\nযোগ করতে: 50\nকমাতে: -50"
+    );
 
-  const value = Number(amount);
+
+  if(
+    amount === null ||
+    amount.trim() === ""
+  ){
+    return;
+  }
+
+
+  const value =
+    Number(amount);
+
 
   if(!Number.isFinite(value)){
-    alert("সঠিক Amount দিন।");
+
+    alert(
+      "সঠিক Amount দিন।"
+    );
+
     return;
   }
 
-  const {error} = await supabaseClient.rpc(
-    "admin_update_balance",
-    {
-      p_user_id:userId,
-      p_amount:value
-    }
-  );
+
+  const {error} =
+    await supabaseClient.rpc(
+      "admin_update_balance",
+      {
+        p_user_id:userId,
+        p_amount:value
+      }
+    );
+
 
   if(error){
-    showMessage(error.message,"error");
+
+    showMessage(
+      error.message,
+      "error"
+    );
+
     return;
   }
 
-  showMessage("Balance সফলভাবে পরিবর্তন হয়েছে।","success");
+
+  showMessage(
+    "Balance সফলভাবে পরিবর্তন হয়েছে।",
+    "success"
+  );
+
 
   await loadUsers();
+
   await loadDashboard();
+
 }
+
 
 /* =========================
    LINKS
 ========================= */
-async function loadLinks(){
-  const table = el("linksTable");
-  if(table) table.innerHTML =
-    '<tr><td colspan="5" class="loading">Loading...</td></tr>';
 
-  const {data,error} = await supabaseClient.rpc("admin_get_links");
+async function loadLinks(){
+
+  const table =
+    el("linksTable");
+
+
+  if(table){
+
+    table.innerHTML =
+      `
+      <tr>
+        <td
+          colspan="5"
+          class="loading"
+        >
+          Loading...
+        </td>
+      </tr>
+      `;
+
+  }
+
+
+  const {data,error} =
+    await supabaseClient.rpc(
+      "admin_get_links"
+    );
+
 
   if(error){
-    console.error("Links:",error);
-    if(table) table.innerHTML =
-      `<tr><td colspan="5" class="empty">Links load করা যায়নি।<br>${escapeHtml(error.message)}</td></tr>`;
+
+    console.error(
+      "Links:",
+      error
+    );
+
+
+    if(table){
+
+      table.innerHTML =
+        `
+        <tr>
+          <td
+            colspan="5"
+            class="empty"
+          >
+            Links load করা যায়নি।
+            <br>
+            ${escapeHtml(error.message)}
+          </td>
+        </tr>
+        `;
+
+    }
+
     return;
   }
 
-  const links = data || [];
+
+  const links =
+    data || [];
+
 
   if(!links.length){
+
     table.innerHTML =
-      '<tr><td colspan="5" class="empty">কোনো Link পাওয়া যায়নি।</td></tr>';
+      `
+      <tr>
+        <td
+          colspan="5"
+          class="empty"
+        >
+          কোনো Link পাওয়া যায়নি।
+        </td>
+      </tr>
+      `;
+
     return;
   }
+
 
   let html = "";
 
+
   links.forEach(link => {
+
     html += `
+
       <tr>
-        <td><strong>${escapeHtml(link.short_code || "-")}</strong></td>
-        <td class="url">${escapeHtml(link.original_url || "-")}</td>
-        <td>${Number(link.clicks || 0)}</td>
-        <td>${escapeHtml(link.user_id || "-")}</td>
+
         <td>
-          <button class="btn red" onclick="deleteLink(${Number(link.id)})">
+          <strong>
+            ${escapeHtml(
+              link.short_code || "-"
+            )}
+          </strong>
+        </td>
+
+        <td class="url">
+          ${escapeHtml(
+            link.original_url || "-"
+          )}
+        </td>
+
+        <td>
+          ${Number(
+            link.clicks || 0
+          )}
+        </td>
+
+        <td>
+          ${escapeHtml(
+            link.user_id || "-"
+          )}
+        </td>
+
+        <td>
+
+          <button
+            class="btn red"
+            onclick="deleteLink(${Number(link.id)})"
+          >
             Delete
           </button>
+
         </td>
+
       </tr>
+
     `;
+
   });
 
-  table.innerHTML = html;
+
+  table.innerHTML =
+    html;
+
 }
 
+
+/* =========================
+   DELETE LINK
+========================= */
+
 async function deleteLink(id){
-  if(!confirm("এই Short Link Delete করতে চান?")) return;
 
-  const {error} = await supabaseClient.rpc(
-    "admin_delete_link",
-    {p_link_id:id}
-  );
-
-  if(error){
-    showMessage(error.message,"error");
+  if(
+    !confirm(
+      "এই Short Link Delete করতে চান?"
+    )
+  ){
     return;
   }
 
-  showMessage("Short Link Delete হয়েছে।","success");
+
+  const {error} =
+    await supabaseClient.rpc(
+      "admin_delete_link",
+      {
+        p_link_id:id
+      }
+    );
+
+
+  if(error){
+
+    showMessage(
+      error.message,
+      "error"
+    );
+
+    return;
+  }
+
+
+  showMessage(
+    "Short Link Delete হয়েছে।",
+    "success"
+  );
+
 
   await loadLinks();
+
   await loadDashboard();
+
 }
+
 
 /* =========================
    WITHDRAWALS
 ========================= */
-async function loadWithdrawals(){
-  const table = el("withdrawalsTable");
-  if(table) table.innerHTML =
-    '<tr><td colspan="6" class="loading">Loading...</td></tr>';
 
-  const {data,error} = await supabaseClient.rpc("admin_get_withdrawals");
+async function loadWithdrawals(){
+
+  const table =
+    el("withdrawalsTable");
+
+
+  if(table){
+
+    table.innerHTML =
+      `
+      <tr>
+        <td
+          colspan="6"
+          class="loading"
+        >
+          Loading...
+        </td>
+      </tr>
+      `;
+
+  }
+
+
+  const {data,error} =
+    await supabaseClient.rpc(
+      "admin_get_withdrawals"
+    );
+
 
   if(error){
-    console.error("Withdrawals:",error);
-    if(table) table.innerHTML =
-      `<tr><td colspan="6" class="empty">Withdrawals load করা যায়নি।<br>${escapeHtml(error.message)}</td></tr>`;
+
+    console.error(
+      "Withdrawals:",
+      error
+    );
+
+
+    if(table){
+
+      table.innerHTML =
+        `
+        <tr>
+          <td
+            colspan="6"
+            class="empty"
+          >
+            Withdrawals load করা যায়নি।
+            <br>
+            ${escapeHtml(error.message)}
+          </td>
+        </tr>
+        `;
+
+    }
+
     return;
   }
 
-  const withdrawals = data || [];
+
+  const withdrawals =
+    data || [];
+
 
   if(!withdrawals.length){
+
     table.innerHTML =
-      '<tr><td colspan="6" class="empty">কোনো Withdrawal Request নেই।</td></tr>';
+      `
+      <tr>
+        <td
+          colspan="6"
+          class="empty"
+        >
+          কোনো Withdrawal Request নেই।
+        </td>
+      </tr>
+      `;
+
     return;
   }
+
 
   let html = "";
 
+
   withdrawals.forEach(w => {
-    const status = String(w.status || "").toLowerCase();
 
-    let statusClass = "pending";
-    if(status === "approved") statusClass = "approved";
-    if(status === "rejected") statusClass = "rejected";
+    const status =
+      String(
+        w.status || ""
+      ).toLowerCase();
 
-    const date = w.created_at
-      ? new Date(w.created_at).toLocaleString("bn-BD")
-      : "-";
+
+    let statusClass =
+      "pending";
+
+
+    if(
+      status === "approved"
+    ){
+      statusClass =
+        "approved";
+    }
+
+
+    if(
+      status === "rejected"
+    ){
+      statusClass =
+        "rejected";
+    }
+
+
+    const date =
+      w.created_at
+        ? new Date(
+            w.created_at
+          ).toLocaleString(
+            "bn-BD"
+          )
+        : "-";
+
 
     let actions = "-";
 
-    if(status === "pending"){
+
+    if(
+      status === "pending"
+    ){
+
       actions = `
-        <button class="btn green" onclick="approveWithdrawal(${Number(w.id)})">
+
+        <button
+          class="btn green"
+          onclick="approveWithdrawal(${Number(w.id)})"
+        >
           Approve
         </button>
-        <button class="btn red" onclick="rejectWithdrawal(${Number(w.id)})">
+
+        <button
+          class="btn red"
+          onclick="rejectWithdrawal(${Number(w.id)})"
+        >
           Reject
         </button>
+
       `;
+
     }
+
 
     html += `
+
       <tr>
-        <td>৳${Number(w.amount || 0).toFixed(2)}</td>
-        <td>${escapeHtml(w.payment_method || "-")}</td>
-        <td>${escapeHtml(w.account_number || "-")}</td>
+
         <td>
-          <span class="status ${statusClass}">
-            ${escapeHtml(status || "-")}
-          </span>
+          ৳${Number(
+            w.amount || 0
+          ).toFixed(2)}
         </td>
-        <td>${escapeHtml(date)}</td>
-        <td>${actions}</td>
+
+        <td>
+          ${escapeHtml(
+            w.payment_method || "-"
+          )}
+        </td>
+
+        <td>
+          ${escapeHtml(
+            w.account_number || "-"
+          )}
+        </td>
+
+        <td>
+
+          <span
+            class="status ${statusClass}"
+          >
+            ${escapeHtml(
+              status || "-"
+            )}
+          </span>
+
+        </td>
+
+        <td>
+          ${escapeHtml(date)}
+        </td>
+
+        <td>
+          ${actions}
+        </td>
+
       </tr>
+
     `;
+
   });
 
-  table.innerHTML = html;
+
+  table.innerHTML =
+    html;
+
 }
+
+
+/* =========================
+   APPROVE WITHDRAWAL
+========================= */
 
 async function approveWithdrawal(id){
-  if(!confirm("এই Withdrawal Approve করতে চান?")) return;
 
-  const {error} = await supabaseClient.rpc(
-    "admin_approve_withdrawal",
-    {p_withdraw_id:id}
-  );
-
-  if(error){
-    showMessage(error.message,"error");
+  if(
+    !confirm(
+      "এই Withdrawal Approve করতে চান?"
+    )
+  ){
     return;
   }
 
-  showMessage("Withdrawal Approved হয়েছে।","success");
+
+  const {error} =
+    await supabaseClient.rpc(
+      "admin_approve_withdrawal",
+      {
+        p_withdraw_id:id
+      }
+    );
+
+
+  if(error){
+
+    showMessage(
+      error.message,
+      "error"
+    );
+
+    return;
+  }
+
+
+  showMessage(
+    "Withdrawal Approved হয়েছে।",
+    "success"
+  );
+
 
   await loadWithdrawals();
+
   await loadDashboard();
+
 }
 
+
+/* =========================
+   REJECT WITHDRAWAL
+========================= */
+
 async function rejectWithdrawal(id){
-  const note = prompt("Reject করার কারণ লিখুন:");
 
-  if(note === null) return;
+  const note =
+    prompt(
+      "Reject করার কারণ লিখুন:"
+    );
 
-  const {error} = await supabaseClient.rpc(
-    "admin_reject_withdrawal",
-    {
-      p_withdraw_id:id,
-      p_admin_note:note
-    }
-  );
 
-  if(error){
-    showMessage(error.message,"error");
+  if(note === null){
     return;
   }
+
+
+  const {error} =
+    await supabaseClient.rpc(
+      "admin_reject_withdrawal",
+      {
+        p_withdraw_id:id,
+        p_admin_note:note
+      }
+    );
+
+
+  if(error){
+
+    showMessage(
+      error.message,
+      "error"
+    );
+
+    return;
+  }
+
 
   showMessage(
     "Withdrawal Reject হয়েছে এবং Balance ফেরত দেওয়া হয়েছে।",
     "success"
   );
 
+
   await loadWithdrawals();
+
   await loadUsers();
+
   await loadDashboard();
+
 }
+
 
 /* =========================
    SETTINGS
 ========================= */
+
 const unlockFields = [
+
   "monetag_direct_link",
   "unlock_pages",
   "unlock_timer",
@@ -727,159 +2115,362 @@ const unlockFields = [
   "ads_enabled",
   "unlock_ad_enabled",
   "unlock_ad_code"
+
 ];
 
+
 const normalFields = [
+
   "click_earning",
   "minimum_withdrawal",
   "referral_earning"
+
 ];
 
+
+/* =========================
+   LOAD SETTINGS
+========================= */
+
 async function loadSettings(){
+
   const [
     normalResult,
     unlockResult
   ] = await Promise.all([
-    supabaseClient.rpc("admin_get_settings"),
-    supabaseClient.rpc("admin_get_unlock_settings")
+
+    supabaseClient.rpc(
+      "admin_get_settings"
+    ),
+
+    supabaseClient.rpc(
+      "admin_get_unlock_settings"
+    )
+
   ]);
 
+
   if(normalResult.error){
-    console.error("Normal Settings:",normalResult.error);
+
+    console.error(
+      "Normal Settings:",
+      normalResult.error
+    );
+
   }
+
 
   if(unlockResult.error){
-    console.error("Unlock Settings:",unlockResult.error);
+
+    console.error(
+      "Unlock Settings:",
+      unlockResult.error
+    );
+
   }
 
-  const normal = normalResult.data || {};
-  const unlock = unlockResult.data || {};
+
+  const normal =
+    normalResult.data || {};
+
+
+  const unlock =
+    unlockResult.data || {};
+
 
   normalFields.forEach(key => {
-    const input = el(key);
-    if(input && normal[key] !== undefined && normal[key] !== null){
-      input.value = normal[key];
+
+    const input =
+      el(key);
+
+
+    if(
+      input &&
+      normal[key] !== undefined &&
+      normal[key] !== null
+    ){
+
+      input.value =
+        normal[key];
+
     }
+
   });
+
 
   unlockFields.forEach(key => {
-    const input = el(key);
-    if(input && unlock[key] !== undefined && unlock[key] !== null){
-      input.value = unlock[key];
+
+    const input =
+      el(key);
+
+
+    if(
+      input &&
+      unlock[key] !== undefined &&
+      unlock[key] !== null
+    ){
+
+      input.value =
+        unlock[key];
+
     }
+
   });
+
 }
+
+
+/* =========================
+   SAVE SETTINGS
+========================= */
 
 async function saveSettings(){
-  const saveButton = document.querySelector(
-    'button[onclick="saveSettings()"]'
-  );
+
+  const saveButton =
+    document.querySelector(
+      'button[onclick="saveSettings()"]'
+    );
+
 
   if(saveButton){
-    saveButton.disabled = true;
-    saveButton.textContent = "⏳ Saving...";
+
+    saveButton.disabled =
+      true;
+
+    saveButton.textContent =
+      "⏳ Saving...";
+
   }
+
 
   try{
-    for(const key of unlockFields){
-      const input = el(key);
-      if(!input) continue;
 
-      const value = input.value;
+    /* UNLOCK SETTINGS */
 
-      const {error} = await supabaseClient.rpc(
-        "admin_update_unlock_setting",
-        {
-          p_key:key,
-          p_value:value
-        }
-      );
+    for(
+      const key of unlockFields
+    ){
+
+      const input =
+        el(key);
+
+
+      if(!input){
+        continue;
+      }
+
+
+      const value =
+        input.value;
+
+
+      const {error} =
+        await supabaseClient.rpc(
+          "admin_update_unlock_setting",
+          {
+            p_key:key,
+            p_value:value
+          }
+        );
+
 
       if(error){
+
         throw new Error(
-          "Unlock Setting [" + key + "]: " + error.message
+          "Unlock Setting [" +
+          key +
+          "]: " +
+          error.message
         );
+
       }
+
     }
 
-    for(const key of normalFields){
-      const input = el(key);
-      if(!input) continue;
 
-      const value = input.value;
+    /* NORMAL SETTINGS */
 
-      const {error} = await supabaseClient.rpc(
-        "admin_update_setting",
-        {
-          p_key:key,
-          p_value:value
-        }
-      );
+    for(
+      const key of normalFields
+    ){
+
+      const input =
+        el(key);
+
+
+      if(!input){
+        continue;
+      }
+
+
+      const value =
+        input.value;
+
+
+      const {error} =
+        await supabaseClient.rpc(
+          "admin_update_setting",
+          {
+            p_key:key,
+            p_value:value
+          }
+        );
+
 
       if(error){
+
         throw new Error(
-          "Website Setting [" + key + "]: " + error.message
+          "Website Setting [" +
+          key +
+          "]: " +
+          error.message
         );
+
       }
+
     }
 
-    showMessage("✅ সব Settings সফলভাবে Save হয়েছে।","success");
+
+    showMessage(
+      "✅ সব Settings সফলভাবে Save হয়েছে।",
+      "success"
+    );
+
+
     await loadSettings();
 
+
   }catch(error){
-    console.error("Save Settings:",error);
-    showMessage(error.message || "Settings save করা যায়নি।","error");
+
+    console.error(
+      "Save Settings:",
+      error
+    );
+
+
+    showMessage(
+      error.message ||
+      "Settings save করা যায়নি।",
+      "error"
+    );
+
 
   }finally{
+
     if(saveButton){
-      saveButton.disabled = false;
-      saveButton.textContent = "💾 Save All Settings";
+
+      saveButton.disabled =
+        false;
+
+      saveButton.textContent =
+        "💾 Save All Settings";
+
     }
+
   }
+
 }
+
 
 /* =========================
    START ADMIN
 ========================= */
+
 async function startAdmin(){
+
   try{
-    const {data,error} = await supabaseClient.auth.getUser();
 
-    if(error) throw error;
+    /* CURRENT USER */
 
-    const user = data?.user;
+    const {
+      data,
+      error
+    } =
+      await supabaseClient.auth.getUser();
+
+
+    if(error){
+      throw error;
+    }
+
+
+    const user =
+      data?.user;
+
 
     if(!user){
-      window.location.href = "login.html";
+
+      window.location.href =
+        "login.html";
+
       return;
     }
 
-    const {data:isAdmin,error:adminError} =
-      await supabaseClient.rpc("admin_check");
 
-    if(adminError) throw adminError;
+    /* ADMIN CHECK */
+
+    const {
+      data:isAdmin,
+      error:adminError
+    } =
+      await supabaseClient.rpc(
+        "admin_check"
+      );
+
+
+    if(adminError){
+      throw adminError;
+    }
+
 
     if(isAdmin !== true){
-      alert("আপনার Admin access নেই।");
-      window.location.href = "dashboard.html";
+
+      alert(
+        "আপনার Admin access নেই।"
+      );
+
+      window.location.href =
+        "dashboard.html";
+
       return;
     }
 
+
+    /* LOAD EVERYTHING */
+
     await Promise.all([
+
       loadDashboard(),
+
       loadUsers(),
+
       loadLinks(),
+
       loadWithdrawals(),
+
       loadSettings()
+
     ]);
 
+
   }catch(error){
-    console.error("ADMIN ERROR:",error);
+
+    console.error(
+      "ADMIN ERROR:",
+      error
+    );
+
     showFatalError(error);
+
   }
+
 }
 
+
+/* START */
+
 startAdmin();
+
 </script>
 
 </body>
