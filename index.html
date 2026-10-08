@@ -1,1059 +1,784 @@
+```html
 <!DOCTYPE html>
 <html lang="bn">
+
 <head>
-  <meta charset="UTF-8">
-
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  >
-
-  <title>BDTxEarning</title>
-
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      font-family:
-        Arial,
-        Helvetica,
-        sans-serif;
-
-      background:
-        linear-gradient(
-          135deg,
-          #f8fafc,
-          #eef2ff
-        );
-
-      min-height: 100vh;
-      color: #111827;
-    }
-
-    button,
-    input {
-      font-family: inherit;
-    }
-
-    .hidden {
-      display: none !important;
-    }
-
-    /* =========================
-       HEADER
-    ========================= */
-
-    #mainHeader {
-      width: 100%;
-      background: #ffffff;
-      border-bottom: 1px solid #e5e7eb;
-
-      box-shadow:
-        0 2px 10px rgba(0, 0, 0, 0.05);
-    }
-
-    .header-inner {
-      max-width: 1100px;
-      margin: auto;
-      padding: 15px 20px;
-
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-
-      gap: 15px;
-    }
-
-    .logo {
-      font-size: 24px;
-      font-weight: 800;
-      color: #2563eb;
-    }
-
-    .nav-buttons {
-      display: flex;
-      gap: 8px;
-    }
-
-    .nav-btn {
-      border: none;
-      padding: 9px 15px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: 700;
-    }
-
-    .login-btn {
-      background: #2563eb;
-      color: #ffffff;
-    }
-
-    .register-btn {
-      background: #16a34a;
-      color: #ffffff;
-    }
-
-    .logout-btn {
-      background: #dc2626;
-      color: #ffffff;
-    }
-
-    /* =========================
-       MAIN
-    ========================= */
-
-    main {
-      width: 100%;
-    }
-
-    .container {
-      max-width: 900px;
-      margin: auto;
-      padding: 30px 15px;
-    }
-
-    .card {
-      background: #ffffff;
-      border-radius: 16px;
-      padding: 25px;
-
-      box-shadow:
-        0 8px 30px rgba(0, 0, 0, 0.08);
-
-      margin-bottom: 20px;
-    }
-
-    .hero {
-      text-align: center;
-    }
-
-    .hero h1 {
-      font-size: 32px;
-      margin-bottom: 10px;
-      color: #111827;
-    }
-
-    .hero p {
-      color: #6b7280;
-      margin-bottom: 25px;
-    }
-
-    /* =========================
-       INPUT
-    ========================= */
-
-    .input-group {
-      display: flex;
-      gap: 10px;
-    }
-
-    .input {
-      width: 100%;
-      border: 1px solid #d1d5db;
-      border-radius: 9px;
-      padding: 13px 14px;
-      outline: none;
-      font-size: 15px;
-    }
-
-    .input:focus {
-      border-color: #2563eb;
-
-      box-shadow:
-        0 0 0 3px rgba(37, 99, 235, 0.10);
-    }
-
-    /* =========================
-       BUTTON
-    ========================= */
-
-    .primary-btn {
-      border: none;
-      background: #2563eb;
-      color: #ffffff;
-
-      padding: 13px 20px;
-      border-radius: 9px;
-
-      font-weight: 700;
-      cursor: pointer;
-
-      transition: 0.2s;
-    }
-
-    .primary-btn:hover {
-      background: #1d4ed8;
-      transform: translateY(-1px);
-    }
-
-    .primary-btn:disabled {
-      background: #9ca3af;
-      cursor: not-allowed;
-      transform: none;
-    }
-
-    /* =========================
-       AUTH
-    ========================= */
-
-    .auth-card {
-      max-width: 450px;
-      margin: 40px auto;
-    }
-
-    .auth-card h2 {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-
-    .form-group {
-      margin-bottom: 15px;
-    }
-
-    .form-group label {
-      display: block;
-      margin-bottom: 7px;
-      font-weight: 700;
-      font-size: 14px;
-    }
-
-    .auth-switch {
-      text-align: center;
-      margin-top: 15px;
-      color: #6b7280;
-    }
-
-    .auth-switch button {
-      border: none;
-      background: none;
-      color: #2563eb;
-      font-weight: 700;
-      cursor: pointer;
-    }
-
-    /* =========================
-       SHORT LINK RESULT
-    ========================= */
-
-    .result-box {
-      margin-top: 20px;
-      padding: 18px;
-
-      background: #eff6ff;
-      border: 1px solid #bfdbfe;
-
-      border-radius: 10px;
-    }
-
-    .result-link {
-      word-break: break-all;
-      color: #1d4ed8;
-      font-weight: 700;
-    }
 
-    /* =========================
-       REDIRECT PAGE
-    ========================= */
+<meta charset="UTF-8">
+
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0"
+>
+
+<title>BDTxEarning</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+body{
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+
+  background:
+    linear-gradient(
+      135deg,
+      #f8fafc,
+      #eef2ff
+    );
+
+  min-height:100vh;
+  color:#111827;
+}
+
+button,
+input{
+  font-family:inherit;
+}
+
+.hidden{
+  display:none !important;
+}
+
+
+/* =========================
+   HEADER
+========================= */
+
+#mainHeader{
+  width:100%;
+  background:#ffffff;
+  border-bottom:1px solid #e5e7eb;
+
+  box-shadow:
+    0 2px 10px rgba(0,0,0,0.05);
+}
+
+.header-inner{
+  max-width:1100px;
+  margin:auto;
+  padding:15px 20px;
+
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+
+  gap:15px;
+}
+
+.logo{
+  font-size:24px;
+  font-weight:800;
+  color:#2563eb;
+}
+
+.nav-buttons{
+  display:flex;
+  gap:8px;
+}
+
+.nav-btn{
+  border:none;
+  padding:9px 15px;
+  border-radius:8px;
+  cursor:pointer;
+  font-weight:700;
+}
+
+.login-btn{
+  background:#2563eb;
+  color:#ffffff;
+}
+
+.register-btn{
+  background:#16a34a;
+  color:#ffffff;
+}
+
+.logout-btn{
+  background:#dc2626;
+  color:#ffffff;
+}
 
-    #redirectMessage {
-      min-height: 100vh;
 
-      display: none;
+/* =========================
+   MAIN
+========================= */
 
-      align-items: center;
-      justify-content: center;
+main{
+  width:100%;
+}
 
-      padding: 20px;
+.container{
+  max-width:900px;
+  margin:auto;
+  padding:30px 15px;
+}
 
-      background:
-        linear-gradient(
-          135deg,
-          #eef2ff,
-          #f8fafc
-        );
-    }
+.card{
+  background:#ffffff;
+  border-radius:16px;
+  padding:25px;
+
+  box-shadow:
+    0 8px 30px rgba(0,0,0,0.08);
+
+  margin-bottom:20px;
+}
+
+.hero{
+  text-align:center;
+}
+
+.hero h1{
+  font-size:32px;
+  margin-bottom:10px;
+  color:#111827;
+}
+
+.hero p{
+  color:#6b7280;
+  margin-bottom:25px;
+}
+
+
+/* =========================
+   INPUT
+========================= */
+
+.input-group{
+  display:flex;
+  gap:10px;
+}
+
+.input{
+  width:100%;
+  border:1px solid #d1d5db;
+  border-radius:9px;
+  padding:13px 14px;
+  outline:none;
+  font-size:15px;
+}
+
+.input:focus{
+  border-color:#2563eb;
+
+  box-shadow:
+    0 0 0 3px rgba(37,99,235,0.10);
+}
+
+
+/* =========================
+   BUTTON
+========================= */
+
+.primary-btn{
+  border:none;
+  background:#2563eb;
+  color:#ffffff;
+
+  padding:13px 20px;
+  border-radius:9px;
+
+  font-weight:700;
+  cursor:pointer;
 
-    .unlock-card {
-      width: 100%;
-      max-width: 500px;
+  transition:0.2s;
+}
 
-      background: #ffffff;
+.primary-btn:hover{
+  background:#1d4ed8;
+  transform:translateY(-1px);
+}
 
-      border-radius: 20px;
+.primary-btn:disabled{
+  background:#9ca3af;
+  cursor:not-allowed;
+  transform:none;
+}
 
-      padding: 30px 20px;
 
-      text-align: center;
+/* =========================
+   AUTH
+========================= */
 
-      box-shadow:
-        0 15px 45px rgba(0, 0, 0, 0.10);
-    }
+.auth-card{
+  max-width:450px;
+  margin:40px auto;
+}
 
-    .unlock-icon {
-      width: 70px;
-      height: 70px;
+.auth-card h2{
+  text-align:center;
+  margin-bottom:20px;
+}
 
-      margin: 0 auto 15px;
+.form-group{
+  margin-bottom:15px;
+}
 
-      display: flex;
-      align-items: center;
-      justify-content: center;
+.form-group label{
+  display:block;
+  margin-bottom:7px;
+  font-weight:700;
+  font-size:14px;
+}
 
-      background: #eff6ff;
+.auth-switch{
+  text-align:center;
+  margin-top:15px;
+  color:#6b7280;
+}
 
-      border-radius: 50%;
+.auth-switch button{
+  border:none;
+  background:none;
+  color:#2563eb;
+  font-weight:700;
+  cursor:pointer;
+}
 
-      font-size: 34px;
-    }
 
-    .unlock-card h2 {
-      font-size: 25px;
-      margin-bottom: 8px;
-    }
+/* =========================
+   SHORT LINK RESULT
+========================= */
 
-    .unlock-card p {
-      color: #6b7280;
-      margin-bottom: 20px;
-    }
+.result-box{
+  margin-top:20px;
+  padding:18px;
 
-    .step-text {
-      font-size: 14px;
-      color: #6b7280;
-      margin-bottom: 10px;
-    }
+  background:#eff6ff;
+  border:1px solid #bfdbfe;
 
-    .timer-box {
-      margin: 15px auto;
+  border-radius:10px;
+}
 
-      width: 100px;
-      height: 100px;
+.result-link{
+  word-break:break-all;
+  color:#1d4ed8;
+  font-weight:700;
+}
 
-      border-radius: 50%;
 
-      background: #eff6ff;
+/* =========================
+   PROFILE
+========================= */
 
-      display: flex;
-      align-items: center;
-      justify-content: center;
+.profile-card{
+  max-width:700px;
+  margin:30px auto;
+}
 
-      font-size: 30px;
-      font-weight: 800;
+.profile-row{
+  display:flex;
+  justify-content:space-between;
 
-      color: #2563eb;
-    }
+  padding:12px 0;
 
-    .unlock-button {
-      width: 100%;
-      max-width: 350px;
+  border-bottom:1px solid #e5e7eb;
+}
 
-      border: none;
+.profile-row:last-child{
+  border-bottom:none;
+}
 
-      background: #2563eb;
-      color: #ffffff;
+.profile-label{
+  color:#6b7280;
+}
 
-      padding: 14px 20px;
+.profile-value{
+  font-weight:700;
+}
 
-      border-radius: 10px;
 
-      font-size: 16px;
-      font-weight: 800;
+/* =========================
+   LOADING
+========================= */
 
-      cursor: pointer;
+.loading{
+  text-align:center;
+  padding:30px;
+  color:#6b7280;
+}
 
-      margin-top: 10px;
 
-      transition: 0.2s;
-    }
+/* =========================
+   MOBILE
+========================= */
 
-    .unlock-button:hover {
-      background: #1d4ed8;
-    }
+@media (max-width:600px){
 
-    .unlock-button:disabled {
-      background: #9ca3af;
-      cursor: not-allowed;
-    }
+  .header-inner{
+    padding:12px 14px;
+  }
 
-    /* =========================
-       UNLOCK AD
-    ========================= */
+  .logo{
+    font-size:20px;
+  }
 
-    #unlockAdContainer {
-      width: 100%;
-      max-width: 400px;
+  .nav-buttons{
+    gap:5px;
+  }
 
-      margin: 22px auto 0;
+  .nav-btn{
+    padding:8px 10px;
+    font-size:12px;
+  }
 
-      min-height: 0;
+  .hero h1{
+    font-size:26px;
+  }
 
-      display: flex;
+  .input-group{
+    flex-direction:column;
+  }
 
-      align-items: center;
-      justify-content: center;
+  .card{
+    padding:20px;
+  }
 
-      overflow: hidden;
-    }
+}
 
-    #unlockAdContainer:empty {
-      display: none;
-    }
+</style>
 
-    .ad-label {
-      width: 100%;
-      text-align: center;
-
-      font-size: 11px;
-      color: #9ca3af;
-
-      margin-bottom: 5px;
-    }
-
-    .ad-content {
-      width: 100%;
-      text-align: center;
-
-      overflow: hidden;
-    }
-
-    /* =========================
-       ERROR
-    ========================= */
-
-    .error-box {
-      text-align: center;
-    }
-
-    .error-box h2 {
-      color: #dc2626;
-      margin-bottom: 10px;
-    }
-
-    .error-box p {
-      color: #6b7280;
-      margin-bottom: 20px;
-    }
-
-    /* =========================
-       PROFILE
-    ========================= */
-
-    .profile-card {
-      max-width: 700px;
-      margin: 30px auto;
-    }
-
-    .profile-row {
-      display: flex;
-      justify-content: space-between;
-
-      padding: 12px 0;
-
-      border-bottom: 1px solid #e5e7eb;
-    }
-
-    .profile-row:last-child {
-      border-bottom: none;
-    }
-
-    .profile-label {
-      color: #6b7280;
-    }
-
-    .profile-value {
-      font-weight: 700;
-    }
-
-    /* =========================
-       LOADING
-    ========================= */
-
-    .loading {
-      text-align: center;
-      padding: 30px;
-      color: #6b7280;
-    }
-
-    /* =========================
-       MOBILE
-    ========================= */
-
-    @media (max-width: 600px) {
-
-      .header-inner {
-        padding: 12px 14px;
-      }
-
-      .logo {
-        font-size: 20px;
-      }
-
-      .nav-buttons {
-        gap: 5px;
-      }
-
-      .nav-btn {
-        padding: 8px 10px;
-        font-size: 12px;
-      }
-
-      .hero h1 {
-        font-size: 26px;
-      }
-
-      .input-group {
-        flex-direction: column;
-      }
-
-      .card {
-        padding: 20px;
-      }
-
-      .unlock-card {
-        padding: 25px 15px;
-      }
-
-      .unlock-card h2 {
-        font-size: 23px;
-      }
-    }
-  </style>
 </head>
+
 
 <body>
 
-  <!-- =====================================================
-       MAIN HEADER
-  ====================================================== -->
 
-  <header id="mainHeader">
+<!-- =====================================================
+     MAIN HEADER
+====================================================== -->
 
-    <div class="header-inner">
+<header id="mainHeader">
 
-      <div class="logo">
-        BDTxEarning
+  <div class="header-inner">
+
+    <div class="logo">
+      BDTxEarning
+    </div>
+
+    <div class="nav-buttons">
+
+      <button
+        class="nav-btn login-btn"
+        id="loginNavBtn"
+        onclick="showLogin()"
+      >
+        Login
+      </button>
+
+      <button
+        class="nav-btn register-btn"
+        id="registerNavBtn"
+        onclick="showRegister()"
+      >
+        Register
+      </button>
+
+      <button
+        class="nav-btn logout-btn hidden"
+        id="logoutNavBtn"
+        onclick="logoutUser()"
+      >
+        Logout
+      </button>
+
+    </div>
+
+  </div>
+
+</header>
+
+
+
+<!-- =====================================================
+     HOME PAGE
+====================================================== -->
+
+<div id="homePage">
+
+  <main>
+
+    <div class="container">
+
+
+      <!-- HERO -->
+
+      <div class="card hero">
+
+        <h1>
+          BDTxEarning
+        </h1>
+
+        <p>
+          Link Short করুন এবং অনলাইনে ছোট আয় শুরু করুন।
+        </p>
+
+        <div class="input-group">
+
+          <input
+            type="url"
+            id="longUrl"
+            class="input"
+            placeholder="আপনার Long URL এখানে দিন"
+          >
+
+          <button
+            class="primary-btn"
+            id="shortenBtn"
+            onclick="shortenLink()"
+          >
+            Shorten
+          </button>
+
+        </div>
+
+
+        <div
+          id="shortResult"
+          class="result-box hidden"
+        >
+
+          <div style="margin-bottom:8px;">
+            আপনার Short Link:
+          </div>
+
+          <div
+            id="shortLinkText"
+            class="result-link"
+          ></div>
+
+          <button
+            class="primary-btn"
+            style="margin-top:15px;"
+            onclick="copyShortLink()"
+          >
+            Copy Link
+          </button>
+
+        </div>
+
       </div>
 
-      <div class="nav-buttons">
+
+
+      <!-- AUTH LOGIN -->
+
+      <div
+        id="loginCard"
+        class="card auth-card hidden"
+      >
+
+        <h2>
+          Login
+        </h2>
+
+
+        <div class="form-group">
+
+          <label>
+            Email
+          </label>
+
+          <input
+            type="email"
+            id="loginEmail"
+            class="input"
+            placeholder="আপনার Email"
+          >
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label>
+            Password
+          </label>
+
+          <input
+            type="password"
+            id="loginPassword"
+            class="input"
+            placeholder="Password"
+          >
+
+        </div>
+
 
         <button
-          class="nav-btn login-btn"
-          id="loginNavBtn"
-          onclick="showLogin()"
+          class="primary-btn"
+          style="width:100%;"
+          onclick="loginUser()"
         >
           Login
         </button>
 
+
+        <div class="auth-switch">
+
+          Account নেই?
+
+          <button onclick="showRegister()">
+            Register করুন
+          </button>
+
+        </div>
+
+      </div>
+
+
+
+      <!-- REGISTER -->
+
+      <div
+        id="registerCard"
+        class="card auth-card hidden"
+      >
+
+        <h2>
+          Register
+        </h2>
+
+
+        <div class="form-group">
+
+          <label>
+            Full Name
+          </label>
+
+          <input
+            type="text"
+            id="registerName"
+            class="input"
+            placeholder="আপনার নাম"
+          >
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label>
+            Username
+          </label>
+
+          <input
+            type="text"
+            id="registerUsername"
+            class="input"
+            placeholder="Username"
+          >
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label>
+            Email
+          </label>
+
+          <input
+            type="email"
+            id="registerEmail"
+            class="input"
+            placeholder="Email"
+          >
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label>
+            Password
+          </label>
+
+          <input
+            type="password"
+            id="registerPassword"
+            class="input"
+            placeholder="Password"
+          >
+
+        </div>
+
+
         <button
-          class="nav-btn register-btn"
-          id="registerNavBtn"
-          onclick="showRegister()"
+          class="primary-btn"
+          style="width:100%;"
+          onclick="registerUser()"
         >
           Register
         </button>
 
-        <button
-          class="nav-btn logout-btn hidden"
-          id="logoutNavBtn"
-          onclick="logoutUser()"
-        >
-          Logout
-        </button>
 
-      </div>
+        <div class="auth-switch">
 
-    </div>
+          আগে থেকেই Account আছে?
 
-  </header>
-
-
-  <!-- =====================================================
-       HOME PAGE
-  ====================================================== -->
-
-  <div id="homePage">
-
-    <main>
-
-      <div class="container">
-
-        <!-- HERO -->
-
-        <div class="card hero">
-
-          <h1>
-            BDTxEarning
-          </h1>
-
-          <p>
-            Link Short করুন এবং অনলাইনে ছোট আয় শুরু করুন।
-          </p>
-
-          <div class="input-group">
-
-            <input
-              type="url"
-              id="longUrl"
-              class="input"
-              placeholder="আপনার Long URL এখানে দিন"
-            >
-
-            <button
-              class="primary-btn"
-              id="shortenBtn"
-              onclick="shortenLink()"
-            >
-              Shorten
-            </button>
-
-          </div>
-
-          <div
-            id="shortResult"
-            class="result-box hidden"
-          >
-
-            <div style="margin-bottom:8px;">
-              আপনার Short Link:
-            </div>
-
-            <div
-              id="shortLinkText"
-              class="result-link"
-            ></div>
-
-            <button
-              class="primary-btn"
-              style="margin-top:15px;"
-              onclick="copyShortLink()"
-            >
-              Copy Link
-            </button>
-
-          </div>
-
-        </div>
-
-
-        <!-- AUTH LOGIN -->
-
-        <div
-          id="loginCard"
-          class="card auth-card hidden"
-        >
-
-          <h2>
-            Login
-          </h2>
-
-          <div class="form-group">
-
-            <label>
-              Email
-            </label>
-
-            <input
-              type="email"
-              id="loginEmail"
-              class="input"
-              placeholder="আপনার Email"
-            >
-
-          </div>
-
-          <div class="form-group">
-
-            <label>
-              Password
-            </label>
-
-            <input
-              type="password"
-              id="loginPassword"
-              class="input"
-              placeholder="Password"
-            >
-
-          </div>
-
-          <button
-            class="primary-btn"
-            style="width:100%;"
-            onclick="loginUser()"
-          >
-            Login
+          <button onclick="showLogin()">
+            Login করুন
           </button>
 
-          <div class="auth-switch">
-
-            Account নেই?
-
-            <button onclick="showRegister()">
-              Register করুন
-            </button>
-
-          </div>
-
         </div>
 
+      </div>
 
-        <!-- REGISTER -->
 
-        <div
-          id="registerCard"
-          class="card auth-card hidden"
-        >
 
-          <h2>
-            Register
-          </h2>
+      <!-- PROFILE -->
 
-          <div class="form-group">
+      <div
+        id="profileCard"
+        class="card profile-card hidden"
+      >
 
-            <label>
-              Full Name
-            </label>
+        <h2 style="margin-bottom:20px;">
+          Profile
+        </h2>
 
-            <input
-              type="text"
-              id="registerName"
-              class="input"
-              placeholder="আপনার নাম"
-            >
 
-          </div>
+        <div class="profile-row">
 
-          <div class="form-group">
+          <span class="profile-label">
+            Name
+          </span>
 
-            <label>
-              Username
-            </label>
-
-            <input
-              type="text"
-              id="registerUsername"
-              class="input"
-              placeholder="Username"
-            >
-
-          </div>
-
-          <div class="form-group">
-
-            <label>
-              Email
-            </label>
-
-            <input
-              type="email"
-              id="registerEmail"
-              class="input"
-              placeholder="Email"
-            >
-
-          </div>
-
-          <div class="form-group">
-
-            <label>
-              Password
-            </label>
-
-            <input
-              type="password"
-              id="registerPassword"
-              class="input"
-              placeholder="Password"
-            >
-
-          </div>
-
-          <button
-            class="primary-btn"
-            style="width:100%;"
-            onclick="registerUser()"
+          <span
+            id="profileName"
+            class="profile-value"
           >
-            Register
-          </button>
-
-          <div class="auth-switch">
-
-            আগে থেকেই Account আছে?
-
-            <button onclick="showLogin()">
-              Login করুন
-            </button>
-
-          </div>
+            -
+          </span>
 
         </div>
 
 
-        <!-- PROFILE -->
+        <div class="profile-row">
 
-        <div
-          id="profileCard"
-          class="card profile-card hidden"
-        >
+          <span class="profile-label">
+            Username
+          </span>
 
-          <h2 style="margin-bottom:20px;">
-            Profile
-          </h2>
+          <span
+            id="profileUsername"
+            class="profile-value"
+          >
+            -
+          </span>
 
-          <div class="profile-row">
+        </div>
 
-            <span class="profile-label">
-              Name
-            </span>
 
-            <span
-              id="profileName"
-              class="profile-value"
-            >
-              -
-            </span>
+        <div class="profile-row">
 
-          </div>
+          <span class="profile-label">
+            Email
+          </span>
 
-          <div class="profile-row">
+          <span
+            id="profileEmail"
+            class="profile-value"
+          >
+            -
+          </span>
 
-            <span class="profile-label">
-              Username
-            </span>
+        </div>
 
-            <span
-              id="profileUsername"
-              class="profile-value"
-            >
-              -
-            </span>
 
-          </div>
+        <div class="profile-row">
 
-          <div class="profile-row">
+          <span class="profile-label">
+            Balance
+          </span>
 
-            <span class="profile-label">
-              Email
-            </span>
-
-            <span
-              id="profileEmail"
-              class="profile-value"
-            >
-              -
-            </span>
-
-          </div>
-
-          <div class="profile-row">
-
-            <span class="profile-label">
-              Balance
-            </span>
-
-            <span
-              id="profileBalance"
-              class="profile-value"
-            >
-              ৳0.00
-            </span>
-
-          </div>
+          <span
+            id="profileBalance"
+            class="profile-value"
+          >
+            ৳0.00
+          </span>
 
         </div>
 
       </div>
 
-    </main>
-
-  </div>
-
-
-  <!-- =====================================================
-       REDIRECT / SHORT LINK PAGE
-  ====================================================== -->
-
-  <section id="redirectMessage">
-
-    <div
-      id="unlockCard"
-      class="unlock-card"
-    >
-
-      <div class="unlock-icon">
-        🔓
-      </div>
-
-      <h2>
-        Link Unlock করুন
-      </h2>
-
-      <p id="unlockDescription">
-        নিচের Timer শেষ হলে Link Unlock করতে পারবেন।
-      </p>
-
-      <div
-        id="stepText"
-        class="step-text"
-      >
-        Step 1 / 1
-      </div>
-
-      <div
-        id="timerBox"
-        class="timer-box"
-      >
-        0
-      </div>
-
-      <button
-        id="unlockButton"
-        class="unlock-button"
-        disabled
-        onclick="handleUnlock()"
-      >
-        Unlock Link
-      </button>
-
-
-      <!-- =================================================
-           ADMIN CONTROLLED MONETAG AD
-      ================================================== -->
-
-      <div id="unlockAdContainer"></div>
 
     </div>
 
+  </main>
 
-    <!-- ERROR -->
-
-    <div
-      id="errorCard"
-      class="unlock-card error-box hidden"
-    >
-
-      <div class="unlock-icon">
-        ❌
-      </div>
-
-      <h2>
-        দুঃখিত!
-      </h2>
-
-      <p id="errorText">
-        এই Short Link এখন পাওয়া যাচ্ছে না।
-      </p>
-
-      <button
-        class="primary-btn"
-        onclick="goHome()"
-      >
-        Home এ ফিরে যান
-      </button>
-
-    </div>
-
-  </section>
+</div>
 
 
-  <script>
 
-    /* =====================================================
-       SUPABASE
-    ====================================================== */
+<script>
 
-    const SUPABASE_URL =
-      "https://hmshjrqrogczsvxtwkqi.supabase.co";
+/* =====================================================
+   SUPABASE
+===================================================== */
 
-    const SUPABASE_KEY =
-      "sb_publishable_tLNKwPxwoceKvJG2DpR6jw_VE9KaExr";
+const SUPABASE_URL =
+  "https://hmshjrqrogczsvxtwkqi.supabase.co";
 
-    const supabaseClient =
-      window.supabase.createClient(
-        SUPABASE_URL,
-        SUPABASE_KEY
+const SUPABASE_KEY =
+  "sb_publishable_tLNKwPxwoceKvJG2DpR6jw_VE9KaExr";
+
+
+const supabaseClient =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
+
+
+/* =====================================================
+   GLOBAL
+===================================================== */
+
+let currentUser = null;
+
+
+/* =====================================================
+   VISITOR ID
+===================================================== */
+
+function getVisitorId(){
+
+  let visitorId = null;
+
+  try{
+
+    visitorId =
+      localStorage.getItem(
+        "bdtx_visitor_id"
       );
 
 
-    /* =====================================================
-       GLOBAL VARIABLES
-    ====================================================== */
+    if(!visitorId){
 
-    let originalUrl = "";
-
-    let currentStep = 1;
-
-    let totalSteps = 1;
-
-    let timerSeconds = 0;
-
-    let timerInterval = null;
-
-    let settings = {};
-
-    let currentUser = null;
-
-    /* ================================
-       EARNING SYSTEM
-    ================================= */
-
-    let visitorId = null;
-
-
-    /* =====================================================
-       VISITOR ID
-    ====================================================== */
-
-    function getVisitorId() {
-
-      try {
+      if(
+        window.crypto &&
+        typeof window.crypto.randomUUID ===
+        "function"
+      ){
 
         visitorId =
-          localStorage.getItem(
-            "bdtx_visitor_id"
-          );
+          window.crypto.randomUUID();
 
-        if (!visitorId) {
-
-          if (
-            window.crypto &&
-            typeof window.crypto.randomUUID ===
-              "function"
-          ) {
-
-            visitorId =
-              window.crypto.randomUUID();
-
-          } else {
-
-            visitorId =
-              "v_" +
-              Date.now() +
-              "_" +
-              Math.random()
-                .toString(36)
-                .substring(2, 12);
-
-          }
-
-          localStorage.setItem(
-            "bdtx_visitor_id",
-            visitorId
-          );
-
-        }
-
-      } catch (error) {
-
-        console.warn(
-          "Visitor ID error:",
-          error
-        );
+      }else{
 
         visitorId =
           "v_" +
@@ -1061,1469 +786,995 @@
           "_" +
           Math.random()
             .toString(36)
-            .substring(2, 12);
+            .substring(2,12);
 
       }
 
-      return visitorId;
+
+      localStorage.setItem(
+        "bdtx_visitor_id",
+        visitorId
+      );
+
     }
 
+  }catch(error){
 
-    /* =====================================================
-       PAGE LOAD
-    ====================================================== */
-
-    document.addEventListener(
-      "DOMContentLoaded",
-      async function () {
-
-        try {
-
-          getVisitorId();
-
-          await checkAuth();
-
-          await handleShortLink();
-
-        } catch (error) {
-
-          console.error(
-            "Initial error:",
-            error
-          );
-
-        }
-
-      }
+    console.warn(
+      "Visitor ID error:",
+      error
     );
 
 
-    /* =====================================================
-       AUTH CHECK
-    ====================================================== */
+    visitorId =
+      "v_" +
+      Date.now() +
+      "_" +
+      Math.random()
+        .toString(36)
+        .substring(2,12);
 
-    async function checkAuth() {
+  }
 
-      const {
-        data,
+  return visitorId;
+}
+
+
+/* =====================================================
+   PAGE LOAD
+===================================================== */
+
+document.addEventListener(
+  "DOMContentLoaded",
+  async function(){
+
+    try{
+
+      /*
+        Visitor ID শুধুমাত্র normal site-এর জন্য
+        রাখা হচ্ছে।
+      */
+
+      getVisitorId();
+
+
+      await checkAuth();
+
+
+      /*
+        সবচেয়ে গুরুত্বপূর্ণ:
+
+        ?c= থাকলে BDTxEarning-এর
+        পুরোনো Unlock Page দেখাবে না।
+
+        সরাসরি Blogger Unlock Page-এ যাবে।
+      */
+
+      handleShortLink();
+
+    }catch(error){
+
+      console.error(
+        "Initial error:",
         error
-      } =
-        await supabaseClient.auth.getSession();
+      );
 
-      if (error) {
+    }
 
-        console.error(
-          "Auth error:",
-          error
-        );
+  }
+);
 
-        return;
 
-      }
+/* =====================================================
+   AUTH CHECK
+===================================================== */
+
+async function checkAuth(){
+
+  const {
+    data,
+    error
+  } =
+    await supabaseClient.auth.getSession();
+
+
+  if(error){
+
+    console.error(
+      "Auth error:",
+      error
+    );
+
+    return;
+  }
+
+
+  currentUser =
+    data?.session?.user || null;
+
+
+  updateAuthUI();
+
+
+  if(currentUser){
+
+    await loadProfile();
+
+  }
+
+}
+
+
+/* =====================================================
+   UPDATE AUTH UI
+===================================================== */
+
+function updateAuthUI(){
+
+  const loginBtn =
+    document.getElementById(
+      "loginNavBtn"
+    );
+
+  const registerBtn =
+    document.getElementById(
+      "registerNavBtn"
+    );
+
+  const logoutBtn =
+    document.getElementById(
+      "logoutNavBtn"
+    );
+
+
+  if(currentUser){
+
+    loginBtn.classList.add(
+      "hidden"
+    );
+
+    registerBtn.classList.add(
+      "hidden"
+    );
+
+    logoutBtn.classList.remove(
+      "hidden"
+    );
+
+  }else{
+
+    loginBtn.classList.remove(
+      "hidden"
+    );
+
+    registerBtn.classList.remove(
+      "hidden"
+    );
+
+    logoutBtn.classList.add(
+      "hidden"
+    );
+
+  }
+
+}
+
+
+/* =====================================================
+   LOGIN
+===================================================== */
+
+async function loginUser(){
+
+  const email =
+    document
+      .getElementById(
+        "loginEmail"
+      )
+      .value
+      .trim();
+
+
+  const password =
+    document
+      .getElementById(
+        "loginPassword"
+      )
+      .value;
+
+
+  if(!email || !password){
+
+    alert(
+      "Email এবং Password দিন।"
+    );
+
+    return;
+  }
+
+
+  try{
+
+    const {
+      data,
+      error
+    } =
+      await supabaseClient.auth.signInWithPassword({
+
+        email:
+          email,
+
+        password:
+          password
+
+      });
+
+
+    if(error){
+
+      throw error;
+
+    }
+
+
+    currentUser =
+      data.user;
+
+
+    updateAuthUI();
+
+
+    await loadProfile();
+
+
+    document
+      .getElementById(
+        "loginCard"
+      )
+      .classList.add(
+        "hidden"
+      );
+
+
+    alert(
+      "Login সফল হয়েছে।"
+    );
+
+
+  }catch(error){
+
+    console.error(
+      "Login error:",
+      error
+    );
+
+
+    alert(
+      error.message ||
+      "Login ব্যর্থ হয়েছে।"
+    );
+
+  }
+
+}
+
+
+/* =====================================================
+   REGISTER
+===================================================== */
+
+async function registerUser(){
+
+  const name =
+    document
+      .getElementById(
+        "registerName"
+      )
+      .value
+      .trim();
+
+
+  const username =
+    document
+      .getElementById(
+        "registerUsername"
+      )
+      .value
+      .trim();
+
+
+  const email =
+    document
+      .getElementById(
+        "registerEmail"
+      )
+      .value
+      .trim();
+
+
+  const password =
+    document
+      .getElementById(
+        "registerPassword"
+      )
+      .value;
+
+
+  if(
+    !name ||
+    !username ||
+    !email ||
+    !password
+  ){
+
+    alert(
+      "সব তথ্য পূরণ করুন।"
+    );
+
+    return;
+  }
+
+
+  if(password.length < 6){
+
+    alert(
+      "Password কমপক্ষে ৬ অক্ষরের হতে হবে।"
+    );
+
+    return;
+  }
+
+
+  try{
+
+    const {
+      data,
+      error
+    } =
+      await supabaseClient.auth.signUp({
+
+        email:
+          email,
+
+        password:
+          password,
+
+        options:{
+          data:{
+            full_name:
+              name,
+
+            username:
+              username
+          }
+        }
+
+      });
+
+
+    if(error){
+
+      throw error;
+
+    }
+
+
+    if(data.user){
 
       currentUser =
-        data?.session?.user || null;
+        data.user;
+
 
       updateAuthUI();
 
-      if (currentUser) {
 
-        await loadProfile();
-
-      }
+      await loadProfile();
 
     }
 
 
-    /* =====================================================
-       UPDATE AUTH UI
-    ====================================================== */
-
-    function updateAuthUI() {
-
-      const loginBtn =
-        document.getElementById(
-          "loginNavBtn"
-        );
-
-      const registerBtn =
-        document.getElementById(
-          "registerNavBtn"
-        );
-
-      const logoutBtn =
-        document.getElementById(
-          "logoutNavBtn"
-        );
-
-      if (currentUser) {
-
-        loginBtn.classList.add(
-          "hidden"
-        );
-
-        registerBtn.classList.add(
-          "hidden"
-        );
-
-        logoutBtn.classList.remove(
-          "hidden"
-        );
-
-      } else {
-
-        loginBtn.classList.remove(
-          "hidden"
-        );
-
-        registerBtn.classList.remove(
-          "hidden"
-        );
-
-        logoutBtn.classList.add(
-          "hidden"
-        );
-
-      }
-
-    }
-
-
-    /* =====================================================
-       LOGIN
-    ====================================================== */
-
-    async function loginUser() {
-
-      const email =
-        document
-          .getElementById("loginEmail")
-          .value
-          .trim();
-
-      const password =
-        document
-          .getElementById("loginPassword")
-          .value;
-
-      if (!email || !password) {
-
-        alert(
-          "Email এবং Password দিন।"
-        );
-
-        return;
-
-      }
-
-      try {
-
-        const {
-          data,
-          error
-        } =
-          await supabaseClient.auth.signInWithPassword({
-            email: email,
-            password: password
-          });
-
-        if (error) {
-
-          throw error;
-
-        }
-
-        currentUser =
-          data.user;
-
-        updateAuthUI();
-
-        await loadProfile();
-
-        document
-          .getElementById("loginCard")
-          .classList.add("hidden");
-
-        alert(
-          "Login সফল হয়েছে।"
-        );
-
-      } catch (error) {
-
-        console.error(
-          "Login error:",
-          error
-        );
-
-        alert(
-          error.message ||
-          "Login ব্যর্থ হয়েছে।"
-        );
-
-      }
-
-    }
-
-
-    /* =====================================================
-       REGISTER
-    ====================================================== */
-
-    async function registerUser() {
-
-      const name =
-        document
-          .getElementById("registerName")
-          .value
-          .trim();
-
-      const username =
-        document
-          .getElementById("registerUsername")
-          .value
-          .trim();
-
-      const email =
-        document
-          .getElementById("registerEmail")
-          .value
-          .trim();
-
-      const password =
-        document
-          .getElementById("registerPassword")
-          .value;
-
-      if (
-        !name ||
-        !username ||
-        !email ||
-        !password
-      ) {
-
-        alert(
-          "সব তথ্য পূরণ করুন।"
-        );
-
-        return;
-
-      }
-
-      if (password.length < 6) {
-
-        alert(
-          "Password কমপক্ষে ৬ অক্ষরের হতে হবে।"
-        );
-
-        return;
-
-      }
-
-      try {
-
-        const {
-          data,
-          error
-        } =
-          await supabaseClient.auth.signUp({
-            email: email,
-            password: password,
-
-            options: {
-              data: {
-                full_name: name,
-                username: username
-              }
-            }
-
-          });
-
-        if (error) {
-
-          throw error;
-
-        }
-
-        if (data.user) {
-
-          currentUser =
-            data.user;
-
-          updateAuthUI();
-
-          await loadProfile();
-
-        }
-
-        alert(
-          "Registration সফল হয়েছে।"
-        );
-
-        showLogin();
-
-      } catch (error) {
-
-        console.error(
-          "Register error:",
-          error
-        );
-
-        alert(
-          error.message ||
-          "Registration ব্যর্থ হয়েছে।"
-        );
-
-      }
-
-    }
-
-
-    /* =====================================================
-       LOGOUT
-    ====================================================== */
-
-    async function logoutUser() {
-
-      try {
-
-        await supabaseClient.auth.signOut();
-
-        currentUser = null;
-
-        updateAuthUI();
-
-        document
-          .getElementById("profileCard")
-          .classList.add("hidden");
-
-        alert(
-          "Logout সফল হয়েছে।"
-        );
-
-      } catch (error) {
-
-        console.error(
-          "Logout error:",
-          error
-        );
-
-      }
-
-    }
-
-
-    /* =====================================================
-       SHOW LOGIN
-    ====================================================== */
-
-    function showLogin() {
-
-      document
-        .getElementById("registerCard")
-        .classList.add("hidden");
-
-      document
-        .getElementById("profileCard")
-        .classList.add("hidden");
-
-      document
-        .getElementById("loginCard")
-        .classList.remove("hidden");
-
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-      });
-
-    }
-
-
-    /* =====================================================
-       SHOW REGISTER
-    ====================================================== */
-
-    function showRegister() {
-
-      document
-        .getElementById("loginCard")
-        .classList.add("hidden");
-
-      document
-        .getElementById("profileCard")
-        .classList.add("hidden");
-
-      document
-        .getElementById("registerCard")
-        .classList.remove("hidden");
-
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-      });
-
-    }
-
-
-    /* =====================================================
-       LOAD PROFILE
-    ====================================================== */
-
-    async function loadProfile() {
-
-      if (!currentUser) {
-        return;
-      }
-
-      try {
-
-        const {
-          data,
-          error
-        } =
-          await supabaseClient
-            .from("profiles")
-            .select(
-              "id,full_name,username,email,balance"
-            )
-            .eq(
-              "id",
-              currentUser.id
-            )
-            .maybeSingle();
-
-        if (error) {
-
-          console.error(
-            "Profile error:",
-            error
-          );
-
-          return;
-
-        }
-
-        if (!data) {
-          return;
-        }
-
-        document
-          .getElementById("profileName")
-          .textContent =
-            data.full_name ||
-            "-";
-
-        document
-          .getElementById("profileUsername")
-          .textContent =
-            data.username ||
-            "-";
-
-        document
-          .getElementById("profileEmail")
-          .textContent =
-            data.email ||
-            currentUser.email ||
-            "-";
-
-        document
-          .getElementById("profileBalance")
-          .textContent =
-            "৳" +
-            Number(
-              data.balance || 0
-            ).toFixed(2);
-
-        document
-          .getElementById("profileCard")
-          .classList.remove("hidden");
-
-      } catch (error) {
-
-        console.error(
-          "Load profile error:",
-          error
-        );
-
-      }
-
-    }
-
-
-    /* =====================================================
-       SHORTEN LINK
-    ====================================================== */
-
-    async function shortenLink() {
-
-      const input =
-        document
-          .getElementById("longUrl");
-
-      const button =
-        document
-          .getElementById("shortenBtn");
-
-      const url =
-        input.value.trim();
-
-      if (!url) {
-
-        alert(
-          "একটি URL দিন।"
-        );
-
-        return;
-
-      }
-
-      try {
-
-        new URL(url);
-
-      } catch {
-
-        alert(
-          "সঠিক URL দিন।"
-        );
-
-        return;
-
-      }
-
-      button.disabled = true;
-
-      button.textContent =
-        "Creating...";
-
-      try {
-
-        const {
-          data,
-          error
-        } =
-          await supabaseClient.rpc(
-            "create_short_link",
-            {
-              p_original_url: url
-            }
-          );
-
-        if (error) {
-
-          throw error;
-
-        }
-
-        let shortCode = "";
-
-        if (
-          typeof data ===
-          "string"
-        ) {
-
-          shortCode =
-            data;
-
-        } else if (
-          data &&
-          typeof data ===
-          "object"
-        ) {
-
-          shortCode =
-            data.short_code ||
-            data.code ||
-            data[0]?.short_code ||
-            data[0]?.code ||
-            "";
-
-        }
-
-        if (!shortCode) {
-
-          throw new Error(
-            "Short code পাওয়া যায়নি।"
-          );
-
-        }
-
-        const shortUrl =
-          window.location.origin +
-          window.location.pathname +
-          "?c=" +
-          encodeURIComponent(
-            shortCode
-          );
-
-        document
-          .getElementById(
-            "shortLinkText"
-          )
-          .textContent =
-            shortUrl;
-
-        document
-          .getElementById(
-            "shortResult"
-          )
-          .classList.remove(
-            "hidden"
-          );
-
-      } catch (error) {
-
-        console.error(
-          "Shorten error:",
-          error
-        );
-
-        alert(
-          error.message ||
-          "Short Link তৈরি করা যায়নি।"
-        );
-
-      } finally {
-
-        button.disabled = false;
-
-        button.textContent =
-          "Shorten";
-
-      }
-
-    }
-
-
-    /* =====================================================
-       COPY SHORT LINK
-    ====================================================== */
-
-    async function copyShortLink() {
-
-      const text =
-        document
-          .getElementById(
-            "shortLinkText"
-          )
-          .textContent;
-
-      if (!text) {
-        return;
-      }
-
-      try {
-
-        await navigator.clipboard.writeText(
-          text
-        );
-
-        alert(
-          "Short Link Copy হয়েছে।"
-        );
-
-      } catch {
-
-        const textarea =
-          document.createElement(
-            "textarea"
-          );
-
-        textarea.value =
-          text;
-
-        document.body.appendChild(
-          textarea
-        );
-
-        textarea.select();
-
-        document.execCommand(
-          "copy"
-        );
-
-        textarea.remove();
-
-        alert(
-          "Short Link Copy হয়েছে।"
-        );
-
-      }
-
-    }
-
-
-    /* =====================================================
-       HANDLE SHORT LINK
-    ====================================================== */
-
-    async function handleShortLink() {
-
-      const params =
-        new URLSearchParams(
-          window.location.search
-        );
-
-      const code =
-        params.get("c");
-
-      /* ==========================================
-         Normal Home Page
-      ========================================== */
-
-      if (!code) {
-
-        return;
-
-      }
-
-
-      /* ==========================================
-         SHORT LINK PAGE
-      ========================================== */
-
-      document
-        .getElementById(
-          "mainHeader"
-        )
-        .classList.add(
-          "hidden"
-        );
-
-      document
-        .getElementById(
-          "homePage"
-        )
-        .style.display =
-          "none";
-
-      document
-        .getElementById(
-          "redirectMessage"
-        )
-        .style.display =
-          "flex";
-
-
-      try {
-
-        /* ======================================
-           Get Original URL
-        ====================================== */
-
-        const {
-          data,
-          error
-        } =
-          await supabaseClient.rpc(
-            "open_short_link",
-            {
-              code: code
-            }
-          );
-
-        if (error) {
-
-          throw error;
-
-        }
-
-        if (!data) {
-
-          showError(
-            "Link পাওয়া যায়নি।"
-          );
-
-          return;
-
-        }
-
-        originalUrl =
-          data;
-
-
-        /* ======================================
-           Get Unlock Settings
-        ====================================== */
-
-        const {
-          data: unlockSettings,
-          error: settingsError
-        } =
-          await supabaseClient.rpc(
-            "get_unlock_settings"
-          );
-
-        if (settingsError) {
-
-          throw settingsError;
-
-        }
-
-        settings =
-          unlockSettings || {};
-
-
-        /* ======================================
-           TOTAL UNLOCK PAGES
-        ====================================== */
-
-        totalSteps =
-          parseInt(
-            settings.unlock_pages ||
-            1,
-            10
-          );
-
-        if (
-          !Number.isFinite(
-            totalSteps
-          ) ||
-          totalSteps < 1
-        ) {
-
-          totalSteps = 1;
-
-        }
-
-        totalSteps =
-          Math.min(
-            totalSteps,
-            5
-          );
-
-
-        /* ======================================
-           TIMER
-        ====================================== */
-
-        timerSeconds =
-          parseInt(
-            settings.unlock_timer ||
-            5,
-            10
-          );
-
-        if (
-          !Number.isFinite(
-            timerSeconds
-          ) ||
-          timerSeconds < 0
-        ) {
-
-          timerSeconds = 0;
-
-        }
-
-
-        /* ======================================
-           SHOW FIRST STEP
-        ====================================== */
-
-        currentStep = 1;
-
-        showUnlockStep();
-
-      } catch (error) {
-
-        console.error(
-          "Short link error:",
-          error
-        );
-
-        showError(
-          "এই Short Link এখন পাওয়া যাচ্ছে না।"
-        );
-
-      }
-
-    }
-
-
-    /* =====================================================
-       SHOW UNLOCK STEP
-    ====================================================== */
-
-    function showUnlockStep() {
-
-      clearInterval(
-        timerInterval
-      );
-
-      document
-        .getElementById(
-          "errorCard"
-        )
-        .classList.add(
-          "hidden"
-        );
-
-      document
-        .getElementById(
-          "unlockCard"
-        )
-        .classList.remove(
-          "hidden"
-        );
-
-
-      /* ======================================
-         STEP TEXT
-      ====================================== */
-
-      document
-        .getElementById(
-          "stepText"
-        )
-        .textContent =
-          "Step " +
-          currentStep +
-          " / " +
-          totalSteps;
-
-
-      /* ======================================
-         BUTTON TEXT
-      ====================================== */
-
-      const button =
-        document.getElementById(
-          "unlockButton"
-        );
-
-      button.textContent =
-        settings.unlock_button_text ||
-        "Unlock Link";
-
-      button.disabled = true;
-
-
-      /* ======================================
-         LOAD AD
-      ====================================== */
-
-      loadUnlockAd();
-
-
-      /* ======================================
-         TIMER
-      ====================================== */
-
-      startTimer();
-
-    }
-
-
-    /* =====================================================
-       START TIMER
-    ====================================================== */
-
-    function startTimer() {
-
-      clearInterval(
-        timerInterval
-      );
-
-      const timerBox =
-        document.getElementById(
-          "timerBox"
-        );
-
-      const button =
-        document.getElementById(
-          "unlockButton"
-        );
-
-      let remaining =
-        Number(
-          timerSeconds
-        ) || 0;
-
-      timerBox.textContent =
-        remaining;
-
-
-      if (remaining <= 0) {
-
-        timerBox.textContent =
-          "✓";
-
-        button.disabled =
-          false;
-
-        return;
-
-      }
-
-
-      timerInterval =
-        setInterval(
-          function () {
-
-            remaining--;
-
-            if (remaining <= 0) {
-
-              clearInterval(
-                timerInterval
-              );
-
-              timerBox.textContent =
-                "✓";
-
-              button.disabled =
-                false;
-
-              return;
-
-            }
-
-            timerBox.textContent =
-              remaining;
-
-          },
-          1000
-        );
-
-    }
-
-
-    /* =====================================================
-       HANDLE UNLOCK
-    ====================================================== */
-
-    async function handleUnlock() {
-
-      const button =
-        document.getElementById(
-          "unlockButton"
-        );
-
-      if (
-        button.disabled
-      ) {
-
-        return;
-
-      }
-
-      button.disabled = true;
-
-
-      try {
-
-        /* ======================================
-           DIRECT LINK AD
-        ====================================== */
-
-        const adsEnabled =
-          String(
-            settings.ads_enabled ||
-            "false"
-          ).toLowerCase() ===
-          "true";
-
-        const directLink =
-          (
-            settings.monetag_direct_link ||
-            ""
-          ).trim();
-
-
-        if (
-          adsEnabled &&
-          directLink
-        ) {
-
-          try {
-
-            window.open(
-              directLink,
-              "_blank",
-              "noopener,noreferrer"
-            );
-
-          } catch (
-            adError
-          ) {
-
-            console.warn(
-              "Direct link open failed:",
-              adError
-            );
-
-          }
-
-        }
-
-
-        /* ======================================
-           NEXT STEP
-        ====================================== */
-
-        if (
-          currentStep <
-          totalSteps
-        ) {
-
-          currentStep++;
-
-          showUnlockStep();
-
-          return;
-
-        }
-
-
-        /* ======================================
-           FINAL EARNING
-        ====================================== */
-
-        const shortCode =
-          new URLSearchParams(
-            window.location.search
-          ).get("c");
-
-        const visitor =
-          getVisitorId();
-
-
-        if (
-          shortCode &&
-          visitor
-        ) {
-
-          try {
-
-            const {
-              data: earningData,
-              error: earningError
-            } =
-              await supabaseClient.rpc(
-                "record_link_earning",
-                {
-                  p_short_code:
-                    shortCode,
-
-                  p_visitor_id:
-                    visitor
-                }
-              );
-
-
-            if (earningError) {
-
-              console.warn(
-                "Earning error:",
-                earningError
-              );
-
-            } else {
-
-              console.log(
-                "Earning result:",
-                earningData
-              );
-
-            }
-
-          } catch (
-            earningError
-          ) {
-
-            console.warn(
-              "Earning system error:",
-              earningError
-            );
-
-          }
-
-        }
-
-
-        /* ======================================
-           FINAL REDIRECT
-        ====================================== */
-
-        goToOriginalUrl();
-
-      } catch (error) {
-
-        console.error(
-          "Unlock error:",
-          error
-        );
-
-        button.disabled =
-          false;
-
-      }
-
-    }
-
-
-    /* =====================================================
-       LOAD ADMIN CONTROLLED MONETAG AD
-    ====================================================== */
-
-    function loadUnlockAd() {
-
-      const container =
-        document.getElementById(
-          "unlockAdContainer"
-        );
-
-      if (!container) {
-        return;
-      }
-
-      /* আগের Ad পরিষ্কার */
-
-      container.innerHTML = "";
-
-
-      /* ======================================
-         Check Enabled
-      ====================================== */
-
-      const adEnabled =
-        String(
-          settings.unlock_ad_enabled ||
-          "false"
-        ).toLowerCase() ===
-        "true";
-
-      const adCode =
-        (
-          settings.unlock_ad_code ||
-          ""
-        ).trim();
-
-
-      if (
-        !adEnabled ||
-        !adCode
-      ) {
-
-        return;
-
-      }
-
-
-      /* ======================================
-         AD WRAPPER
-      ====================================== */
-
-      const wrapper =
-        document.createElement(
-          "div"
-        );
-
-      wrapper.className =
-        "ad-content";
-
-      container.appendChild(
-        wrapper
-      );
-
-
-      /* ======================================
-         LOAD MONETAG CODE
-      ====================================== */
-
-      try {
-
-        const template =
-          document.createElement(
-            "template"
-          );
-
-        template.innerHTML =
-          adCode;
-
-
-        Array.from(
-          template.content.childNodes
-        ).forEach(
-          function (node) {
-
-            /* ==================================
-               SCRIPT
-            ================================== */
-
-            if (
-              node.nodeType ===
-                Node.ELEMENT_NODE &&
-              node.tagName.toLowerCase() ===
-                "script"
-            ) {
-
-              const oldScript =
-                node;
-
-              const newScript =
-                document.createElement(
-                  "script"
-                );
-
-
-              /* attributes copy */
-
-              Array.from(
-                oldScript.attributes
-              ).forEach(
-                function (attribute) {
-
-                  newScript.setAttribute(
-                    attribute.name,
-                    attribute.value
-                  );
-
-                }
-              );
-
-
-              /* inline script */
-
-              if (
-                oldScript.textContent
-              ) {
-
-                newScript.textContent =
-                  oldScript.textContent;
-
-              }
-
-
-              wrapper.appendChild(
-                newScript
-              );
-
-            } else {
-
-              /* ==================================
-                 অন্যান্য HTML
-              ================================== */
-
-              wrapper.appendChild(
-                node.cloneNode(true)
-              );
-
-            }
-
-          }
-        );
-
-      } catch (error) {
-
-        console.error(
-          "Ad loading error:",
-          error
-        );
-
-        wrapper.innerHTML =
-          "";
-
-      }
-
-    }
-
-
-    /* =====================================================
-       GO TO ORIGINAL URL
-    ====================================================== */
-
-    function goToOriginalUrl() {
-
-      clearInterval(
-        timerInterval
-      );
-
-      if (!originalUrl) {
-
-        showError(
-          "Original Link পাওয়া যায়নি।"
-        );
-
-        return;
-
-      }
-
-      window.location.href =
-        originalUrl;
-
-    }
-
-
-    /* =====================================================
-       ERROR
-    ====================================================== */
-
-    function showError(
-      message
-    ) {
-
-      clearInterval(
-        timerInterval
-      );
-
-      document
-        .getElementById(
-          "unlockCard"
-        )
-        .classList.add(
-          "hidden"
-        );
-
-      document
-        .getElementById(
-          "errorCard"
-        )
-        .classList.remove(
-          "hidden"
-        );
-
-      document
-        .getElementById(
-          "errorText"
-        )
-        .textContent =
-          message;
-
-    }
-
-
-    /* =====================================================
-       HOME
-    ====================================================== */
-
-    function goHome() {
-
-      window.location.href =
-        window.location.origin +
-        window.location.pathname;
-
-    }
-
-
-    /* =====================================================
-       AUTH STATE CHANGE
-    ====================================================== */
-
-    supabaseClient.auth.onAuthStateChange(
-      function (
-        event,
-        session
-      ) {
-
-        currentUser =
-          session?.user || null;
-
-        updateAuthUI();
-
-      }
+    alert(
+      "Registration সফল হয়েছে।"
     );
 
-  </script>
+
+    showLogin();
+
+
+  }catch(error){
+
+    console.error(
+      "Register error:",
+      error
+    );
+
+
+    alert(
+      error.message ||
+      "Registration ব্যর্থ হয়েছে।"
+    );
+
+  }
+
+}
+
+
+/* =====================================================
+   LOGOUT
+===================================================== */
+
+async function logoutUser(){
+
+  try{
+
+    await supabaseClient.auth.signOut();
+
+
+    currentUser =
+      null;
+
+
+    updateAuthUI();
+
+
+    document
+      .getElementById(
+        "profileCard"
+      )
+      .classList.add(
+        "hidden"
+      );
+
+
+    alert(
+      "Logout সফল হয়েছে।"
+    );
+
+
+  }catch(error){
+
+    console.error(
+      "Logout error:",
+      error
+    );
+
+  }
+
+}
+
+
+/* =====================================================
+   SHOW LOGIN
+===================================================== */
+
+function showLogin(){
+
+  document
+    .getElementById(
+      "registerCard"
+    )
+    .classList.add(
+      "hidden"
+    );
+
+
+  document
+    .getElementById(
+      "profileCard"
+    )
+    .classList.add(
+      "hidden"
+    );
+
+
+  document
+    .getElementById(
+      "loginCard"
+    )
+    .classList.remove(
+      "hidden"
+    );
+
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+
+}
+
+
+/* =====================================================
+   SHOW REGISTER
+===================================================== */
+
+function showRegister(){
+
+  document
+    .getElementById(
+      "loginCard"
+    )
+    .classList.add(
+      "hidden"
+    );
+
+
+  document
+    .getElementById(
+      "profileCard"
+    )
+    .classList.add(
+      "hidden"
+    );
+
+
+  document
+    .getElementById(
+      "registerCard"
+    )
+    .classList.remove(
+      "hidden"
+    );
+
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+
+}
+
+
+/* =====================================================
+   LOAD PROFILE
+===================================================== */
+
+async function loadProfile(){
+
+  if(!currentUser){
+
+    return;
+
+  }
+
+
+  try{
+
+    const {
+      data,
+      error
+    } =
+      await supabaseClient
+        .from("profiles")
+        .select(
+          "id,full_name,username,email,balance"
+        )
+        .eq(
+          "id",
+          currentUser.id
+        )
+        .maybeSingle();
+
+
+    if(error){
+
+      console.error(
+        "Profile error:",
+        error
+      );
+
+      return;
+
+    }
+
+
+    if(!data){
+
+      return;
+
+    }
+
+
+    document
+      .getElementById(
+        "profileName"
+      )
+      .textContent =
+        data.full_name ||
+        "-";
+
+
+    document
+      .getElementById(
+        "profileUsername"
+      )
+      .textContent =
+        data.username ||
+        "-";
+
+
+    document
+      .getElementById(
+        "profileEmail"
+      )
+      .textContent =
+        data.email ||
+        currentUser.email ||
+        "-";
+
+
+    document
+      .getElementById(
+        "profileBalance"
+      )
+      .textContent =
+        "৳" +
+        Number(
+          data.balance || 0
+        ).toFixed(2);
+
+
+    document
+      .getElementById(
+        "profileCard"
+      )
+      .classList.remove(
+        "hidden"
+      );
+
+
+  }catch(error){
+
+    console.error(
+      "Load profile error:",
+      error
+    );
+
+  }
+
+}
+
+
+/* =====================================================
+   SHORTEN LINK
+===================================================== */
+
+async function shortenLink(){
+
+  const input =
+    document.getElementById(
+      "longUrl"
+    );
+
+
+  const button =
+    document.getElementById(
+      "shortenBtn"
+    );
+
+
+  const url =
+    input.value.trim();
+
+
+  if(!url){
+
+    alert(
+      "একটি URL দিন।"
+    );
+
+    return;
+
+  }
+
+
+  try{
+
+    new URL(url);
+
+  }catch{
+
+    alert(
+      "সঠিক URL দিন।"
+    );
+
+    return;
+
+  }
+
+
+  button.disabled =
+    true;
+
+
+  button.textContent =
+    "Creating...";
+
+
+  try{
+
+    const {
+      data,
+      error
+    } =
+      await supabaseClient.rpc(
+        "create_short_link",
+        {
+          p_original_url:
+            url
+        }
+      );
+
+
+    if(error){
+
+      throw error;
+
+    }
+
+
+    let shortCode = "";
+
+
+    if(
+      typeof data ===
+      "string"
+    ){
+
+      shortCode =
+        data;
+
+    }else if(
+      data &&
+      typeof data ===
+      "object"
+    ){
+
+      shortCode =
+        data.short_code ||
+        data.code ||
+        data[0]?.short_code ||
+        data[0]?.code ||
+        "";
+
+    }
+
+
+    if(!shortCode){
+
+      throw new Error(
+        "Short code পাওয়া যায়নি।"
+      );
+
+    }
+
+
+    /*
+      Short Link সবসময় BDTxEarning
+      domain-এই থাকবে।
+
+      User ক্লিক করলে handleShortLink()
+      Blogger-এ পাঠাবে।
+    */
+
+    const shortUrl =
+      window.location.origin +
+      window.location.pathname +
+      "?c=" +
+      encodeURIComponent(
+        shortCode
+      );
+
+
+    document
+      .getElementById(
+        "shortLinkText"
+      )
+      .textContent =
+        shortUrl;
+
+
+    document
+      .getElementById(
+        "shortResult"
+      )
+      .classList.remove(
+        "hidden"
+      );
+
+
+  }catch(error){
+
+    console.error(
+      "Shorten error:",
+      error
+    );
+
+
+    alert(
+      error.message ||
+      "Short Link তৈরি করা যায়নি।"
+    );
+
+
+  }finally{
+
+    button.disabled =
+      false;
+
+
+    button.textContent =
+      "Shorten";
+
+  }
+
+}
+
+
+/* =====================================================
+   COPY SHORT LINK
+===================================================== */
+
+async function copyShortLink(){
+
+  const text =
+    document
+      .getElementById(
+        "shortLinkText"
+      )
+      .textContent;
+
+
+  if(!text){
+
+    return;
+
+  }
+
+
+  try{
+
+    await navigator.clipboard.writeText(
+      text
+    );
+
+
+    alert(
+      "Short Link Copy হয়েছে।"
+    );
+
+
+  }catch{
+
+    const textarea =
+      document.createElement(
+        "textarea"
+      );
+
+
+    textarea.value =
+      text;
+
+
+    document.body.appendChild(
+      textarea
+    );
+
+
+    textarea.select();
+
+
+    document.execCommand(
+      "copy"
+    );
+
+
+    textarea.remove();
+
+
+    alert(
+      "Short Link Copy হয়েছে।"
+    );
+
+  }
+
+}
+
+
+/* =====================================================
+   HANDLE SHORT LINK
+===================================================== */
+
+/*
+  =====================================================
+  IMPORTANT
+
+  BDTxEarning-এ আর কোনো Unlock UI নেই।
+
+  Short Link:
+
+  https://bdtx-earning.vercel.app/?c=ABC123
+
+  সরাসরি যাবে:
+
+  https://videoshibjjygjiyf.blogspot.com/
+  2026/10/new-earning-tricks-tips-2027.html?c=ABC123
+
+  Blogger Page-ই Unlock + Timer + Ad +
+  record_link_earning + Final Redirect করবে।
+  =====================================================
+*/
+
+function handleShortLink(){
+
+  const params =
+    new URLSearchParams(
+      window.location.search
+    );
+
+
+  const code =
+    params.get("c");
+
+
+  /*
+    Normal Home Page
+  */
+
+  if(!code){
+
+    return;
+
+  }
+
+
+  /*
+    তোমার Blogger Unlock Page
+  */
+
+  const BLOGGER_UNLOCK_URL =
+    "https://videoshibjjygjiyf.blogspot.com/2026/10/new-earning-tricks-tips-2027.html";
+
+
+  /*
+    Short Code Blogger-এ পাঠানো
+  */
+
+  window.location.replace(
+
+    BLOGGER_UNLOCK_URL +
+    "?c=" +
+    encodeURIComponent(
+      code
+    )
+
+  );
+
+}
+
+
+/* =====================================================
+   AUTH STATE CHANGE
+===================================================== */
+
+supabaseClient.auth.onAuthStateChange(
+  function(
+    event,
+    session
+  ){
+
+    currentUser =
+      session?.user || null;
+
+
+    updateAuthUI();
+
+  }
+);
+
+</script>
 
 </body>
-  </html>
+
+</html>
+```
