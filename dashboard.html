@@ -21,7 +21,6 @@
       color: #1f2937;
     }
 
-    /* Navbar */
     .navbar {
       background: #111827;
       color: white;
@@ -76,14 +75,12 @@
       background: #dc2626;
     }
 
-    /* Main */
     .container {
       width: 95%;
       max-width: 1200px;
       margin: 25px auto;
     }
 
-    /* Welcome */
     .welcome {
       background: linear-gradient(135deg, #111827, #1f2937);
       color: white;
@@ -107,7 +104,6 @@
       font-weight: bold;
     }
 
-    /* Stats */
     .stats {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
@@ -152,7 +148,6 @@
       color: #111827;
     }
 
-    /* Section */
     .section {
       background: white;
       border-radius: 14px;
@@ -167,7 +162,6 @@
       margin-bottom: 20px;
     }
 
-    /* Shortener */
     .shortener-box {
       display: flex;
       gap: 10px;
@@ -201,7 +195,6 @@
       background: #16a34a;
     }
 
-    /* Result */
     .result-box {
       display: none;
       margin-top: 18px;
@@ -239,7 +232,6 @@
       cursor: pointer;
     }
 
-    /* Links */
     .table-wrapper {
       overflow-x: auto;
     }
@@ -247,7 +239,7 @@
     table {
       width: 100%;
       border-collapse: collapse;
-      min-width: 650px;
+      min-width: 700px;
     }
 
     th,
@@ -271,6 +263,7 @@
       color: #16a34a;
       font-weight: bold;
       text-decoration: none;
+      word-break: break-all;
     }
 
     .short-link:hover {
@@ -287,20 +280,33 @@
       font-size: 12px;
     }
 
+    .earning-badge {
+      display: inline-block;
+      background: #dcfce7;
+      color: #15803d;
+      padding: 6px 10px;
+      border-radius: 20px;
+      font-weight: bold;
+      font-size: 13px;
+    }
+
+    .date-text {
+      color: #6b7280;
+      white-space: nowrap;
+    }
+
     .empty {
       text-align: center;
       padding: 30px;
       color: #6b7280;
     }
 
-    /* Loading */
     .loading {
       text-align: center;
       padding: 40px;
       color: #6b7280;
     }
 
-    /* Message */
     .message {
       margin-top: 15px;
       padding: 12px;
@@ -318,7 +324,32 @@
       color: #991b1b;
     }
 
-    /* Footer */
+    .history-summary {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    .history-box {
+      background: #f8fafc;
+      border: 1px solid #e5e7eb;
+      padding: 16px;
+      border-radius: 10px;
+    }
+
+    .history-box-title {
+      color: #6b7280;
+      font-size: 13px;
+      margin-bottom: 6px;
+    }
+
+    .history-box-value {
+      font-size: 21px;
+      font-weight: bold;
+      color: #111827;
+    }
+
     footer {
       text-align: center;
       padding: 25px;
@@ -326,7 +357,6 @@
       font-size: 13px;
     }
 
-    /* Mobile */
     @media (max-width: 900px) {
       .stats {
         grid-template-columns: repeat(2, 1fr);
@@ -334,7 +364,6 @@
     }
 
     @media (max-width: 600px) {
-
       .navbar {
         padding: 13px 15px;
       }
@@ -398,166 +427,256 @@
       .copy-btn {
         padding: 12px;
       }
+
+      .history-summary {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
 
 <body>
 
-  <!-- Navbar -->
-  <nav class="navbar">
+<nav class="navbar">
 
-    <div class="logo">
-      BDTxEarning
+  <div class="logo">
+    BDTxEarning
+  </div>
+
+  <div class="nav-right">
+
+    <a href="profile.html" class="profile-btn">
+      👤 Profile
+    </a>
+
+    <button class="logout-btn" onclick="logout()">
+      Logout
+    </button>
+
+  </div>
+
+</nav>
+
+
+<main class="container">
+
+  <div class="welcome">
+
+    <h1>
+      স্বাগতম, <span id="welcomeName">User</span> 👋
+    </h1>
+
+    <p>
+      আপনার BDTxEarning Dashboard থেকে
+      Link Shorten, Click এবং আপনার
+      Earning পরিচালনা করুন।
+    </p>
+
+  </div>
+
+
+  <!-- Statistics -->
+
+  <div class="stats">
+
+    <div class="stat-card">
+
+      <div class="stat-icon">💰</div>
+
+      <div class="stat-title">
+        Balance
+      </div>
+
+      <div class="stat-value" id="balance">
+        ৳0
+      </div>
+
     </div>
 
-    <div class="nav-right">
 
-      <a href="profile.html" class="profile-btn">
-        👤 Profile
-      </a>
+    <div class="stat-card">
 
-      <button class="logout-btn" onclick="logout()">
-        Logout
+      <div class="stat-icon">👥</div>
+
+      <div class="stat-title">
+        Referral Balance
+      </div>
+
+      <div class="stat-value" id="referralBalance">
+        ৳0
+      </div>
+
+    </div>
+
+
+    <div class="stat-card">
+
+      <div class="stat-icon">🔗</div>
+
+      <div class="stat-title">
+        Total Links
+      </div>
+
+      <div class="stat-value" id="totalLinks">
+        0
+      </div>
+
+    </div>
+
+
+    <div class="stat-card">
+
+      <div class="stat-icon">👆</div>
+
+      <div class="stat-title">
+        Total Clicks
+      </div>
+
+      <div class="stat-value" id="totalClicks">
+        0
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- Link Shortener -->
+
+  <div class="section">
+
+    <div class="section-title">
+      🔗 Shorten Your Link
+    </div>
+
+    <div class="shortener-box">
+
+      <input
+        type="url"
+        id="originalUrl"
+        class="url-input"
+        placeholder="https://example.com"
+      >
+
+      <button
+        class="shorten-btn"
+        onclick="shortenLink()"
+      >
+        Shorten Link
       </button>
 
     </div>
 
-  </nav>
+
+    <div id="message" class="message"></div>
 
 
-  <main class="container">
+    <div id="resultBox" class="result-box">
 
-    <!-- Welcome -->
-    <div class="welcome">
-
-      <h1>
-        স্বাগতম, <span id="welcomeName">User</span> 👋
-      </h1>
-
-      <p>
-        আপনার BDTxEarning Dashboard থেকে
-        Link Shorten, Click এবং আপনার
-        Earning পরিচালনা করুন।
-      </p>
-
-    </div>
-
-
-    <!-- Statistics -->
-    <div class="stats">
-
-      <div class="stat-card">
-
-        <div class="stat-icon">💰</div>
-
-        <div class="stat-title">
-          Balance
-        </div>
-
-        <div class="stat-value" id="balance">
-          ৳0
-        </div>
-
+      <div class="result-title">
+        ✅ আপনার Short Link তৈরি হয়েছে
       </div>
 
+      <div class="result-row">
 
-      <div class="stat-card">
-
-        <div class="stat-icon">👥</div>
-
-        <div class="stat-title">
-          Referral Balance
-        </div>
-
-        <div class="stat-value" id="referralBalance">
-          ৳0
-        </div>
-
-      </div>
-
-
-      <div class="stat-card">
-
-        <div class="stat-icon">🔗</div>
-
-        <div class="stat-title">
-          Total Links
-        </div>
-
-        <div class="stat-value" id="totalLinks">
-          0
-        </div>
-
-      </div>
-
-
-      <div class="stat-card">
-
-        <div class="stat-icon">👆</div>
-
-        <div class="stat-title">
-          Total Clicks
-        </div>
-
-        <div class="stat-value" id="totalClicks">
-          0
-        </div>
-
-      </div>
-
-    </div>
-
-
-    <!-- Link Shortener -->
-    <div class="section">
-
-      <div class="section-title">
-        🔗 Shorten Your Link
-      </div>
-
-      <div class="shortener-box">
-
-        <input
-          type="url"
-          id="originalUrl"
-          class="url-input"
-          placeholder="https://example.com"
-        >
+        <div
+          id="resultUrl"
+          class="result-url"
+        ></div>
 
         <button
-          class="shorten-btn"
-          onclick="shortenLink()"
+          class="copy-btn"
+          onclick="copyLink()"
         >
-          Shorten Link
+          Copy
         </button>
 
       </div>
 
+    </div>
 
-      <div id="message" class="message"></div>
+  </div>
 
 
-      <div id="resultBox" class="result-box">
+  <!-- My Links -->
 
-        <div class="result-title">
-          ✅ আপনার Short Link তৈরি হয়েছে
+  <div class="section">
+
+    <div class="section-title">
+      📊 My Short Links
+    </div>
+
+    <div class="table-wrapper">
+
+      <table>
+
+        <thead>
+
+          <tr>
+            <th>Short Link</th>
+            <th>Original URL</th>
+            <th>Clicks</th>
+            <th>Created</th>
+          </tr>
+
+        </thead>
+
+        <tbody id="linksTable">
+
+          <tr>
+
+            <td colspan="4" class="loading">
+              Loading...
+            </td>
+
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+
+
+  <!-- Earning History -->
+
+  <div class="section">
+
+    <div class="section-title">
+      💰 Earning History
+    </div>
+
+    <div class="history-summary">
+
+      <div class="history-box">
+
+        <div class="history-box-title">
+          মোট Earning Records
         </div>
 
-        <div class="result-row">
+        <div
+          class="history-box-value"
+          id="historyCount"
+        >
+          0
+        </div>
 
-          <div
-            id="resultUrl"
-            class="result-url"
-          ></div>
+      </div>
 
-          <button
-            class="copy-btn"
-            onclick="copyLink()"
-          >
-            Copy
-          </button>
 
+      <div class="history-box">
+
+        <div class="history-box-title">
+          মোট Link Earning
+        </div>
+
+        <div
+          class="history-box-value"
+          id="historyTotal"
+        >
+          ৳0.00
         </div>
 
       </div>
@@ -565,567 +684,988 @@
     </div>
 
 
-    <!-- Links -->
-    <div class="section">
+    <div class="table-wrapper">
 
-      <div class="section-title">
-        📊 My Short Links
-      </div>
+      <table>
 
-      <div class="table-wrapper">
+        <thead>
 
-        <table>
+          <tr>
+            <th>Short Link</th>
+            <th>Clicks</th>
+            <th>Earning</th>
+            <th>Date</th>
+          </tr>
 
-          <thead>
+        </thead>
 
-            <tr>
-              <th>Short Link</th>
-              <th>Original URL</th>
-              <th>Clicks</th>
-              <th>Created</th>
-            </tr>
+        <tbody id="earningHistoryTable">
 
-          </thead>
+          <tr>
 
-          <tbody id="linksTable">
+            <td colspan="4" class="loading">
+              Earning History Loading...
+            </td>
 
-            <tr>
+          </tr>
 
-              <td colspan="4" class="loading">
-                Loading...
-              </td>
+        </tbody>
 
-            </tr>
-
-          </tbody>
-
-        </table>
-
-      </div>
+      </table>
 
     </div>
 
-  </main>
+  </div>
+
+</main>
 
 
-  <footer>
-    © 2026 BDTxEarning. All Rights Reserved.
-  </footer>
+<footer>
+  © 2026 BDTxEarning. All Rights Reserved.
+</footer>
 
 
-  <script>
+<script>
 
-    /* Supabase */
+  /* Supabase */
 
-    const SUPABASE_URL =
-      "https://hmshjrqrogczsvxtwkqi.supabase.co";
+  const SUPABASE_URL =
+    "https://hmshjrqrogczsvxtwkqi.supabase.co";
 
-    const SUPABASE_KEY =
-      "sb_publishable_tLNKwPxwoceKvJG2DpR6jw_VE9KaExr";
+  const SUPABASE_KEY =
+    "sb_publishable_tLNKwPxwoceKvJG2DpR6jw_VE9KaExr";
 
-    const supabaseClient =
-      window.supabase.createClient(
-        SUPABASE_URL,
-        SUPABASE_KEY
+  const supabaseClient =
+    window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_KEY
+    );
+
+
+  let currentUser = null;
+
+
+  /* Start */
+
+  async function startDashboard() {
+
+    const {
+      data: {
+        user
+      },
+      error
+    } = await supabaseClient.auth.getUser();
+
+
+    if (error || !user) {
+
+      window.location.href =
+        "login.html";
+
+      return;
+    }
+
+
+    currentUser = user;
+
+
+    await loadProfile();
+
+    await loadLinks();
+
+    await loadEarningHistory();
+
+  }
+
+
+  /* Profile */
+
+  async function loadProfile() {
+
+    const {
+      data,
+      error
+    } = await supabaseClient
+      .from("profiles")
+      .select("*")
+      .eq("id", currentUser.id)
+      .maybeSingle();
+
+
+    if (error) {
+
+      console.error(error);
+
+      showMessage(
+        "Profile load error: " +
+        error.message,
+        "error"
       );
 
-
-    let currentUser = null;
-
-
-    /* Start */
-
-    async function startDashboard() {
-
-      const {
-        data: {
-          user
-        },
-        error
-      } = await supabaseClient.auth.getUser();
-
-
-      if (error || !user) {
-
-        window.location.href =
-          "login.html";
-
-        return;
-      }
-
-
-      currentUser = user;
-
-      await loadProfile();
-
-      await loadLinks();
-
+      return;
     }
 
 
-    /* Profile Data */
+    if (!data) {
 
-    async function loadProfile() {
+      showMessage(
+        "Profile পাওয়া যায়নি।",
+        "error"
+      );
 
-      const {
-        data,
-        error
-      } = await supabaseClient
-        .from("profiles")
-        .select("*")
-        .eq("id", currentUser.id)
-        .maybeSingle();
-
-
-      if (error) {
-
-        console.error(error);
-
-        showMessage(
-          "Profile load error: " +
-          error.message,
-          "error"
-        );
-
-        return;
-      }
-
-
-      if (!data) {
-
-        showMessage(
-          "Profile পাওয়া যায়নি।",
-          "error"
-        );
-
-        return;
-      }
-
-
-      document.getElementById("balance").textContent =
-        "৳" +
-        Number(data.balance || 0).toFixed(2);
-
-
-      document.getElementById("referralBalance").textContent =
-        "৳" +
-        Number(data.referral_balance || 0).toFixed(2);
-
-
-      document.getElementById("welcomeName").textContent =
-        data.full_name ||
-        data.username ||
-        "User";
-
+      return;
     }
 
 
-    /* Load Links */
-
-    async function loadLinks() {
-
-      const {
-        data,
-        error
-      } = await supabaseClient
-        .from("links")
-        .select("*")
-        .eq("user_id", currentUser.id)
-        .order("created_at", {
-          ascending: false
-        });
+    document.getElementById("balance").textContent =
+      "৳" +
+      Number(data.balance || 0).toFixed(2);
 
 
-      if (error) {
-
-        console.error(error);
-
-        document.getElementById("linksTable").innerHTML = `
-          <tr>
-            <td colspan="4" class="empty">
-              Links load করা যায়নি।
-            </td>
-          </tr>
-        `;
-
-        return;
-      }
+    document.getElementById("referralBalance").textContent =
+      "৳" +
+      Number(data.referral_balance || 0).toFixed(2);
 
 
-      const links = data || [];
+    document.getElementById("welcomeName").textContent =
+      data.full_name ||
+      data.username ||
+      "User";
+
+  }
 
 
-      document.getElementById("totalLinks").textContent =
-        links.length;
+  /* Load Links */
 
+  async function loadLinks() {
 
-      const totalClicks =
-        links.reduce(
-          (sum, link) =>
-            sum + Number(link.clicks || 0),
-          0
-        );
-
-
-      document.getElementById("totalClicks").textContent =
-        totalClicks;
-
-
-      if (links.length === 0) {
-
-        document.getElementById("linksTable").innerHTML = `
-          <tr>
-            <td colspan="4" class="empty">
-              এখনো কোনো Short Link তৈরি করা হয়নি।
-            </td>
-          </tr>
-        `;
-
-        return;
-      }
-
-
-      let html = "";
-
-
-      links.forEach(link => {
-
-        const shortUrl =
-          window.location.origin +
-          "/?c=" +
-          encodeURIComponent(
-            link.short_code
-          );
-
-
-        const originalUrl =
-          link.original_url || "-";
-
-
-        const created =
-          link.created_at
-            ? new Date(
-                link.created_at
-              ).toLocaleDateString("bn-BD")
-            : "-";
-
-
-        html += `
-          <tr>
-
-            <td>
-              <a
-                class="short-link"
-                href="${shortUrl}"
-                target="_blank"
-              >
-                ${shortUrl}
-              </a>
-            </td>
-
-            <td>
-              ${escapeHtml(originalUrl)}
-            </td>
-
-            <td>
-              <span class="click-badge">
-                ${Number(link.clicks || 0)}
-                Clicks
-              </span>
-            </td>
-
-            <td>
-              ${created}
-            </td>
-
-          </tr>
-        `;
-
+    const {
+      data,
+      error
+    } = await supabaseClient
+      .from("links")
+      .select("*")
+      .eq("user_id", currentUser.id)
+      .order("created_at", {
+        ascending: false
       });
 
 
-      document.getElementById("linksTable").innerHTML =
-        html;
+    if (error) {
 
+      console.error(error);
+
+      document.getElementById("linksTable").innerHTML = `
+        <tr>
+          <td colspan="4" class="empty">
+            Links load করা যায়নি।
+          </td>
+        </tr>
+      `;
+
+      return;
     }
 
 
-    /* Shorten Link */
-
-    async function shortenLink() {
-
-      const input =
-        document.getElementById(
-          "originalUrl"
-        );
-
-      const url =
-        input.value.trim();
+    const links = data || [];
 
 
-      if (!url) {
-
-        showMessage(
-          "দয়া করে একটি URL দিন।",
-          "error"
-        );
-
-        return;
-      }
+    document.getElementById("totalLinks").textContent =
+      links.length;
 
 
-      let validUrl;
+    const totalClicks =
+      links.reduce(
+        (sum, link) =>
+          sum + Number(link.clicks || 0),
+        0
+      );
 
 
-      try {
-
-        validUrl =
-          new URL(url);
-
-      } catch {
-
-        showMessage(
-          "সঠিক URL দিন। উদাহরণ: https://google.com",
-          "error"
-        );
-
-        return;
-      }
+    document.getElementById("totalClicks").textContent =
+      totalClicks;
 
 
-      if (
-        validUrl.protocol !== "http:" &&
-        validUrl.protocol !== "https:"
-      ) {
+    if (links.length === 0) {
 
-        showMessage(
-          "শুধুমাত্র HTTP অথবা HTTPS URL ব্যবহার করুন।",
-          "error"
-        );
+      document.getElementById("linksTable").innerHTML = `
+        <tr>
+          <td colspan="4" class="empty">
+            এখনো কোনো Short Link তৈরি করা হয়নি।
+          </td>
+        </tr>
+      `;
 
-        return;
-      }
-
-
-      const shortCode =
-        generateShortCode(6);
+      return;
+    }
 
 
-      const {
-        data,
-        error
-      } = await supabaseClient
-        .from("links")
-        .insert({
-          user_id: currentUser.id,
-          short_code: shortCode,
-          original_url: url,
-          clicks: 0
-        })
-        .select()
-        .single();
+    let html = "";
 
 
-      if (error) {
-
-        console.error(error);
-
-        showMessage(
-          "Link তৈরি করা যায়নি: " +
-          error.message,
-          "error"
-        );
-
-        return;
-      }
-
+    links.forEach(link => {
 
       const shortUrl =
         window.location.origin +
         "/?c=" +
         encodeURIComponent(
-          data.short_code
+          link.short_code
         );
 
 
+      const originalUrl =
+        link.original_url || "-";
+
+
+      const created =
+        link.created_at
+          ? new Date(
+              link.created_at
+            ).toLocaleDateString("bn-BD")
+          : "-";
+
+
+      html += `
+        <tr>
+
+          <td>
+            <a
+              class="short-link"
+              href="${shortUrl}"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              ${escapeHtml(shortUrl)}
+            </a>
+          </td>
+
+          <td>
+            ${escapeHtml(originalUrl)}
+          </td>
+
+          <td>
+            <span class="click-badge">
+              ${Number(link.clicks || 0)}
+              Clicks
+            </span>
+          </td>
+
+          <td>
+            ${created}
+          </td>
+
+        </tr>
+      `;
+
+    });
+
+
+    document.getElementById("linksTable").innerHTML =
+      html;
+
+  }
+
+
+  /* Earning History */
+
+  async function loadEarningHistory() {
+
+    const table =
       document.getElementById(
-        "resultUrl"
-      ).textContent =
-        shortUrl;
-
-
-      document.getElementById(
-        "resultBox"
-      ).style.display =
-        "block";
-
-
-      input.value = "";
-
-
-      showMessage(
-        "Short Link সফলভাবে তৈরি হয়েছে।",
-        "success"
+        "earningHistoryTable"
       );
 
 
-      await loadLinks();
+    table.innerHTML = `
+      <tr>
+        <td colspan="4" class="loading">
+          Earning History Loading...
+        </td>
+      </tr>
+    `;
+
+
+    /*
+      link_earnings table থেকে
+      current user's records নেওয়া হচ্ছে।
+    */
+
+    const {
+      data: earnings,
+      error
+    } = await supabaseClient
+      .from("link_earnings")
+      .select("*")
+      .eq("user_id", currentUser.id);
+
+
+    if (error) {
+
+      console.error(
+        "Earning history error:",
+        error
+      );
+
+
+      table.innerHTML = `
+        <tr>
+          <td colspan="4" class="empty">
+            Earning History এখনো পাওয়া যাচ্ছে না।
+          </td>
+        </tr>
+      `;
+
+      document.getElementById(
+        "historyCount"
+      ).textContent = "0";
+
+
+      document.getElementById(
+        "historyTotal"
+      ).textContent = "৳0.00";
+
+
+      return;
+    }
+
+
+    const records =
+      earnings || [];
+
+
+    /*
+      নিজের links load করা
+      link_id থেকে short_code বের করার জন্য।
+    */
+
+    const {
+      data: links
+    } = await supabaseClient
+      .from("links")
+      .select("*")
+      .eq("user_id", currentUser.id);
+
+
+    const linkList =
+      links || [];
+
+
+    /*
+      Link ID map
+    */
+
+    const linkMap =
+      new Map();
+
+
+    linkList.forEach(link => {
+
+      if (link.id !== undefined) {
+
+        linkMap.set(
+          String(link.id),
+          link
+        );
+
+      }
+
+    });
+
+
+    /*
+      Earning amount detect
+    */
+
+    function getEarningAmount(record) {
+
+      const possibleFields = [
+        "amount",
+        "earning",
+        "earnings",
+        "value"
+      ];
+
+
+      for (
+        const field of possibleFields
+      ) {
+
+        if (
+          record[field] !== undefined &&
+          record[field] !== null
+        ) {
+
+          const value =
+            Number(record[field]);
+
+
+          if (Number.isFinite(value)) {
+            return value;
+          }
+
+        }
+
+      }
+
+
+      return 0;
 
     }
 
 
-    /* Generate Short Code */
+    /*
+      Link ID detect
+    */
 
-    function generateShortCode(length) {
+    function getLinkId(record) {
 
-      const chars =
-        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-
-
-      let result = "";
+      const possibleFields = [
+        "link_id",
+        "short_link_id"
+      ];
 
 
       for (
-        let i = 0;
-        i < length;
-        i++
+        const field of possibleFields
       ) {
 
-        result +=
-          chars.charAt(
-            Math.floor(
-              Math.random() *
-              chars.length
+        if (
+          record[field] !== undefined &&
+          record[field] !== null
+        ) {
+
+          return String(
+            record[field]
+          );
+
+        }
+
+      }
+
+
+      return "";
+
+    }
+
+
+    /*
+      Date detect
+    */
+
+    function getRecordDate(record) {
+
+      const possibleFields = [
+        "created_at",
+        "earned_at",
+        "date",
+        "timestamp"
+      ];
+
+
+      for (
+        const field of possibleFields
+      ) {
+
+        if (
+          record[field] !== undefined &&
+          record[field] !== null
+        ) {
+
+          const date =
+            new Date(
+              record[field]
+            );
+
+
+          if (
+            !Number.isNaN(
+              date.getTime()
             )
+          ) {
+
+            return date;
+
+          }
+
+        }
+
+      }
+
+
+      return null;
+
+    }
+
+
+    /*
+      নতুন earning আগে
+    */
+
+    records.sort(
+      (a, b) => {
+
+        const da =
+          getRecordDate(a);
+
+        const db =
+          getRecordDate(b);
+
+
+        if (!da && !db) {
+          return 0;
+        }
+
+        if (!da) {
+          return 1;
+        }
+
+        if (!db) {
+          return -1;
+        }
+
+
+        return db - da;
+
+      }
+    );
+
+
+    let totalEarning = 0;
+
+
+    records.forEach(record => {
+
+      totalEarning +=
+        getEarningAmount(record);
+
+    });
+
+
+    document.getElementById(
+      "historyCount"
+    ).textContent =
+      records.length;
+
+
+    document.getElementById(
+      "historyTotal"
+    ).textContent =
+      "৳" +
+      totalEarning.toFixed(2);
+
+
+    if (records.length === 0) {
+
+      table.innerHTML = `
+        <tr>
+          <td colspan="4" class="empty">
+            এখনো কোনো Earning পাওয়া যায়নি।
+          </td>
+        </tr>
+      `;
+
+      return;
+    }
+
+
+    let html = "";
+
+
+    records.forEach(record => {
+
+      const amount =
+        getEarningAmount(record);
+
+
+      const linkId =
+        getLinkId(record);
+
+
+      const link =
+        linkMap.get(linkId);
+
+
+      let shortText =
+        "Link";
+
+
+      let clicks =
+        "-";
+
+
+      if (link) {
+
+        shortText =
+          link.short_code ||
+          "Link";
+
+
+        clicks =
+          Number(
+            link.clicks || 0
           );
 
       }
 
 
-      return result;
+      const date =
+        getRecordDate(record);
 
+
+      const formattedDate =
+        date
+          ? date.toLocaleString(
+              "bn-BD",
+              {
+                year: "numeric",
+                month: "short",
+                day: "numeric",
+                hour: "2-digit",
+                minute: "2-digit"
+              }
+            )
+          : "-";
+
+
+      html += `
+        <tr>
+
+          <td>
+
+            ${
+              link
+                ? `
+                  <a
+                    class="short-link"
+                    href="${window.location.origin}/?c=${encodeURIComponent(link.short_code)}"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    ${escapeHtml(shortText)}
+                  </a>
+                `
+                : escapeHtml(shortText)
+            }
+
+          </td>
+
+
+          <td>
+
+            <span class="click-badge">
+              ${clicks}
+            </span>
+
+          </td>
+
+
+          <td>
+
+            <span class="earning-badge">
+              +৳${amount.toFixed(2)}
+            </span>
+
+          </td>
+
+
+          <td>
+
+            <span class="date-text">
+              ${escapeHtml(formattedDate)}
+            </span>
+
+          </td>
+
+        </tr>
+      `;
+
+    });
+
+
+    table.innerHTML =
+      html;
+
+  }
+
+
+  /* Shorten Link */
+
+  async function shortenLink() {
+
+    const input =
+      document.getElementById(
+        "originalUrl"
+      );
+
+
+    const url =
+      input.value.trim();
+
+
+    if (!url) {
+
+      showMessage(
+        "দয়া করে একটি URL দিন।",
+        "error"
+      );
+
+      return;
     }
 
 
-    /* Copy */
-
-    async function copyLink() {
-
-      const url =
-        document.getElementById(
-          "resultUrl"
-        ).textContent;
+    let validUrl;
 
 
-      if (!url) {
-        return;
-      }
+    try {
 
+      validUrl =
+        new URL(url);
 
-      try {
+    } catch {
 
-        await navigator.clipboard.writeText(
-          url
-        );
+      showMessage(
+        "সঠিক URL দিন। উদাহরণ: https://google.com",
+        "error"
+      );
 
-        showMessage(
-          "Short Link Copy হয়েছে! ✅",
-          "success"
-        );
-
-      } catch {
-
-        showMessage(
-          "Copy করা যায়নি।",
-          "error"
-        );
-
-      }
-
+      return;
     }
 
 
-    /* Logout */
-
-    async function logout() {
-
-      const {
-        error
-      } =
-        await supabaseClient.auth.signOut();
-
-
-      if (error) {
-
-        alert(
-          "Logout করা যায়নি: " +
-          error.message
-        );
-
-        return;
-      }
-
-
-      window.location.href =
-        "login.html";
-
-    }
-
-
-    /* Message */
-
-    function showMessage(
-      text,
-      type
+    if (
+      validUrl.protocol !== "http:" &&
+      validUrl.protocol !== "https:"
     ) {
 
-      const message =
-        document.getElementById(
-          "message"
+      showMessage(
+        "শুধুমাত্র HTTP অথবা HTTPS URL ব্যবহার করুন।",
+        "error"
+      );
+
+      return;
+    }
+
+
+    const shortCode =
+      generateShortCode(6);
+
+
+    const {
+      data,
+      error
+    } = await supabaseClient
+      .from("links")
+      .insert({
+        user_id: currentUser.id,
+        short_code: shortCode,
+        original_url: url,
+        clicks: 0
+      })
+      .select()
+      .single();
+
+
+    if (error) {
+
+      console.error(error);
+
+      showMessage(
+        "Link তৈরি করা যায়নি: " +
+        error.message,
+        "error"
+      );
+
+      return;
+    }
+
+
+    const shortUrl =
+      window.location.origin +
+      "/?c=" +
+      encodeURIComponent(
+        data.short_code
+      );
+
+
+    document.getElementById(
+      "resultUrl"
+    ).textContent =
+      shortUrl;
+
+
+    document.getElementById(
+      "resultBox"
+    ).style.display =
+      "block";
+
+
+    input.value = "";
+
+
+    showMessage(
+      "Short Link সফলভাবে তৈরি হয়েছে।",
+      "success"
+    );
+
+
+    await loadLinks();
+
+  }
+
+
+  /* Generate Short Code */
+
+  function generateShortCode(length) {
+
+    const chars =
+      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+
+    let result = "";
+
+
+    for (
+      let i = 0;
+      i < length;
+      i++
+    ) {
+
+      result +=
+        chars.charAt(
+          Math.floor(
+            Math.random() *
+            chars.length
+          )
         );
 
-
-      message.textContent =
-        text;
+    }
 
 
-      message.className =
-        "message " + type;
+    return result;
 
+  }
+
+
+  /* Copy */
+
+  async function copyLink() {
+
+    const url =
+      document.getElementById(
+        "resultUrl"
+      ).textContent;
+
+
+    if (!url) {
+      return;
+    }
+
+
+    try {
+
+      await navigator.clipboard.writeText(
+        url
+      );
+
+
+      showMessage(
+        "Short Link Copy হয়েছে! ✅",
+        "success"
+      );
+
+    } catch {
+
+      showMessage(
+        "Copy করা যায়নি।",
+        "error"
+      );
+
+    }
+
+  }
+
+
+  /* Logout */
+
+  async function logout() {
+
+    const {
+      error
+    } =
+      await supabaseClient.auth.signOut();
+
+
+    if (error) {
+
+      alert(
+        "Logout করা যায়নি: " +
+        error.message
+      );
+
+      return;
+    }
+
+
+    window.location.href =
+      "login.html";
+
+  }
+
+
+  /* Message */
+
+  function showMessage(
+    text,
+    type
+  ) {
+
+    const message =
+      document.getElementById(
+        "message"
+      );
+
+
+    message.textContent =
+      text;
+
+
+    message.className =
+      "message " + type;
+
+
+    message.style.display =
+      "block";
+
+
+    setTimeout(() => {
 
       message.style.display =
-        "block";
+        "none";
+
+    }, 4000);
+
+  }
 
 
-      setTimeout(() => {
+  /* Security */
 
-        message.style.display =
-          "none";
+  function escapeHtml(value) {
 
-      }, 4000);
+    return String(value)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
 
-    }
-
-
-    /* Security */
-
-    function escapeHtml(value) {
-
-      return String(value)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
-
-    }
+  }
 
 
-    /* Run */
+  /* Run */
 
-    startDashboard();
+  startDashboard();
 
-  </script>
+</script>
 
 </body>
 </html>
