@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="bn">
 <head>
@@ -584,6 +583,8 @@ footer{
       <div class="settings-grid">
 
 
+        <!-- Monetag -->
+
         <div class="setting-card">
 
           <h3>🔗 Monetag Direct Link</h3>
@@ -597,6 +598,8 @@ footer{
 
         </div>
 
+
+        <!-- Unlock Pages -->
 
         <div class="setting-card">
 
@@ -618,6 +621,8 @@ footer{
         </div>
 
 
+        <!-- Timer -->
+
         <div class="setting-card">
 
           <h3>⏱️ Unlock Timer</h3>
@@ -633,6 +638,8 @@ footer{
         </div>
 
 
+        <!-- Button -->
+
         <div class="setting-card">
 
           <h3>🔓 Button Text</h3>
@@ -646,6 +653,8 @@ footer{
 
         </div>
 
+
+        <!-- Ads -->
 
         <div class="setting-card">
 
@@ -664,6 +673,8 @@ footer{
         </div>
 
 
+        <!-- Click Earning -->
+
         <div class="setting-card">
 
           <h3>💰 Click Earning</h3>
@@ -680,6 +691,8 @@ footer{
         </div>
 
 
+        <!-- Minimum Withdrawal -->
+
         <div class="setting-card">
 
           <h3>💸 Minimum Withdrawal</h3>
@@ -694,6 +707,8 @@ footer{
 
         </div>
 
+
+        <!-- Referral -->
 
         <div class="setting-card">
 
@@ -848,9 +863,7 @@ async function startAdmin(){
 
 
     if(error){
-
       throw error;
-
     }
 
 
@@ -868,9 +881,7 @@ async function startAdmin(){
     }
 
 
-    /*
-      Admin check
-    */
+    /* Admin check */
 
     const {
       data:isAdmin,
@@ -882,9 +893,7 @@ async function startAdmin(){
 
 
     if(adminError){
-
       throw adminError;
-
     }
 
 
@@ -1134,9 +1143,7 @@ async function changeBalance(userId){
     amount === null ||
     amount.trim() === ""
   ){
-
     return;
-
   }
 
 
@@ -1336,9 +1343,7 @@ async function deleteLink(id){
       "এই Short Link Delete করতে চান?"
     )
   ){
-
     return;
-
   }
 
 
@@ -1464,20 +1469,16 @@ async function loadWithdrawals(){
     if(
       status === "approved"
     ){
-
       statusClass =
         "approved";
-
     }
 
 
     if(
       status === "rejected"
     ){
-
       statusClass =
         "rejected";
-
     }
 
 
@@ -1585,9 +1586,7 @@ async function approveWithdrawal(id){
       "এই Withdrawal Approve করতে চান?"
     )
   ){
-
     return;
-
   }
 
 
@@ -1640,9 +1639,7 @@ async function rejectWithdrawal(id){
 
 
   if(note === null){
-
     return;
-
   }
 
 
@@ -1691,42 +1688,66 @@ async function rejectWithdrawal(id){
 
 async function loadSettings(){
 
+  /*
+    প্রথমে পুরোনো Website Settings
+    load করা হচ্ছে
+  */
+
   const {
-    data,
-    error
+    data:normalSettings,
+    error:normalError
   } =
     await supabaseClient.rpc(
       "admin_get_settings"
     );
 
 
-  if(error){
+  if(normalError){
 
     console.error(
-      "Settings:",
-      error
+      "Normal Settings:",
+      normalError
     );
-
-    return;
 
   }
 
 
-  const settings =
-    data || {};
+  /*
+    নতুন Unlock Settings
+  */
+
+  const {
+    data:unlockSettings,
+    error:unlockError
+  } =
+    await supabaseClient.rpc(
+      "admin_get_unlock_settings"
+    );
 
 
-  const fields = [
+  if(unlockError){
 
-    "monetag_direct_link",
+    console.error(
+      "Unlock Settings:",
+      unlockError
+    );
 
-    "unlock_pages",
+  }
 
-    "unlock_timer",
 
-    "unlock_button_text",
+  const normal =
+    normalSettings || {};
 
-    "ads_enabled",
+
+  const unlock =
+    unlockSettings || {};
+
+
+  /*
+    Normal Website Settings
+  */
+
+  const normalFields = [
 
     "click_earning",
 
@@ -1737,7 +1758,7 @@ async function loadSettings(){
   ];
 
 
-  fields.forEach(key => {
+  normalFields.forEach(key => {
 
     const element =
       el(key);
@@ -1745,11 +1766,49 @@ async function loadSettings(){
 
     if(
       element &&
-      settings[key] !== undefined
+      normal[key] !== undefined
     ){
 
       element.value =
-        settings[key];
+        normal[key];
+
+    }
+
+  });
+
+
+  /*
+    Unlock Settings
+  */
+
+  const unlockFields = [
+
+    "monetag_direct_link",
+
+    "unlock_pages",
+
+    "unlock_timer",
+
+    "unlock_button_text",
+
+    "ads_enabled"
+
+  ];
+
+
+  unlockFields.forEach(key => {
+
+    const element =
+      el(key);
+
+
+    if(
+      element &&
+      unlock[key] !== undefined
+    ){
+
+      element.value =
+        unlock[key];
 
     }
 
@@ -1764,7 +1823,13 @@ async function loadSettings(){
 
 async function saveSettings(){
 
-  const fields = [
+  /*
+    =========================
+    UNLOCK SETTINGS
+    =========================
+  */
+
+  const unlockFields = [
 
     "monetag_direct_link",
 
@@ -1774,7 +1839,69 @@ async function saveSettings(){
 
     "unlock_button_text",
 
-    "ads_enabled",
+    "ads_enabled"
+
+  ];
+
+
+  for(
+    const key of unlockFields
+  ){
+
+    const element =
+      el(key);
+
+
+    if(!element){
+      continue;
+    }
+
+
+    const value =
+      element.value;
+
+
+    const {
+      error
+    } =
+      await supabaseClient.rpc(
+        "admin_update_unlock_setting",
+        {
+          p_key:key,
+          p_value:value
+        }
+      );
+
+
+    if(error){
+
+      console.error(
+        "Unlock setting error:",
+        error
+      );
+
+
+      showMessage(
+        "Unlock Setting save error: " +
+        error.message,
+        "error"
+      );
+
+
+      return;
+
+    }
+
+  }
+
+
+  /*
+    =========================
+    NORMAL WEBSITE SETTINGS
+    =========================
+  */
+
+  const normalFields = [
 
     "click_earning",
 
@@ -1786,7 +1913,7 @@ async function saveSettings(){
 
 
   for(
-    const key of fields
+    const key of normalFields
   ){
 
     const element =
@@ -1794,10 +1921,12 @@ async function saveSettings(){
 
 
     if(!element){
-
       continue;
-
     }
+
+
+    const value =
+      element.value;
 
 
     const {
@@ -1807,18 +1936,25 @@ async function saveSettings(){
         "admin_update_setting",
         {
           p_key:key,
-          p_value:element.value
+          p_value:value
         }
       );
 
 
     if(error){
 
+      console.error(
+        "Normal setting error:",
+        error
+      );
+
+
       showMessage(
-        "Setting save error: " +
+        "Website Setting save error: " +
         error.message,
         "error"
       );
+
 
       return;
 
@@ -1827,10 +1963,24 @@ async function saveSettings(){
   }
 
 
+  /*
+    =========================
+    SUCCESS
+    =========================
+  */
+
   showMessage(
     "সব Settings সফলভাবে Save হয়েছে।",
     "success"
   );
+
+
+  /*
+    Save হওয়ার পর database
+    থেকে আবার settings load
+  */
+
+  await loadSettings();
 
 }
 
@@ -1904,9 +2054,7 @@ function showMessage(
 
 
   if(!box){
-
     return;
-
   }
 
 
@@ -1992,4 +2140,3 @@ startAdmin();
 
 </body>
 </html>
-```
